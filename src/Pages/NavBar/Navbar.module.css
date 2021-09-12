@@ -1,0 +1,22 @@
+.nav{
+    display: flex;
+    justify-content: space-around;
+    background-color: rgba(18, 57, 139, 0.68);
+    padding: 50px;
+    padding-top: 30px;
+    align-items: baseline;
+}
+.item a{
+    color: white;
+    text-decoration: none;
+}
+.item a.active  {
+    color: red;
+}
+.item a:hover {
+    color: red;
+}
+
+.setting{
+    margin-top: 30px;
+}
