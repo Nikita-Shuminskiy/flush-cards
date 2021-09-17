@@ -1,0 +1,34 @@
+.superInput {
+    border: 5px solid darkorange;
+    padding:10px;
+    border-radius:10px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+.inputOK{
+    border: 2px solid blue;
+    padding:10px;
+    border-radius:10px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+.errorInput {
+    padding:10px;
+    border-radius:10px;
+    border: 3px solid #ff060d;
+    background: rgba(128, 11, 11, 0.18);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+
+}
+.inputStandart{
+    border: 1px solid rgba(124, 117, 105, 0.51);
+    padding:10px;
+    border-radius:10px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.error {
+    padding:10px;
+    border-radius:10px;
+    color: red;
+    font-weight: bold;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
