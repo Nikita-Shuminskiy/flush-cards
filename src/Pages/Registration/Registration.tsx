@@ -1,18 +1,19 @@
 import React, { ChangeEvent, useState } from 'react';
 import style from './Registration.module.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { registrationTS } from '../../Store/Reducers/RegistrationReducer';
+import { registrationTC } from '../../Store/Reducers/RegistrationReducer';
 import { AppRootStateType } from '../../Store/Store';
 import { Redirect } from 'react-router-dom';
 
-
+//type
 export type RegistrationFormType = {
     email: string
     password: string
     confirmPassword?: string
 }
-
 export type RegistrationType = {}
+
+
 export const Registration = (props: RegistrationType) => {
     const initUser = useSelector<AppRootStateType, boolean>(state => state.registration.initUser)
     const dispatch = useDispatch()
@@ -29,14 +30,12 @@ export const Registration = (props: RegistrationType) => {
 
     const onSubmit = () => {
         if (formData.password === formData.confirmPassword) {
-            dispatch(registrationTS(formData))
+            dispatch(registrationTC(formData))
             setInvalidPassword('')
         } else {
             setInvalidPassword(errMessage)
         }
     }
-
-
     const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => setFormData({
         ...formData,
         email: e.currentTarget.value
@@ -54,8 +53,7 @@ export const Registration = (props: RegistrationType) => {
         return <Redirect to={"/login"}/>
     }
 
-    return (
-        <div>
+    return <div>
             <div>
                 <label>Email: </label> <input onChange={handleChangeEmail} name={'email'} type="email"/>
             </div>
@@ -72,5 +70,4 @@ export const Registration = (props: RegistrationType) => {
                 <button>CANCEL</button>
             </div>
         </div>
-    );
 }
