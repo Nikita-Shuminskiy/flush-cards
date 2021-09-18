@@ -1,35 +1,38 @@
 import React, { ChangeEvent, useState } from 'react';
 import style from './Registration.module.css'
+import { registerApi } from '../../Dal/Api';
 
 
-type RegistrationFormType = {
+export type RegistrationFormType = {
     email: string
     password: string
-    confirmPassword: string
+    confirmPassword?: string
 }
 
 export type RegistrationType = {}
 export const Registration = (props: RegistrationType) => {
     const errMessage = 'Do not coincide with passwords'
-    let [formData, setFormData] = useState<RegistrationFormType>({
+
+    const initState = {
         email: '',
         password: '',
         confirmPassword: ''
-    })
+    }
+    let [formData, setFormData] = useState<RegistrationFormType>(initState)
+
     const [invalidPassword, setInvalidPassword] = useState<string>('')
 
     const onSubmit = () => {
         if (formData.password === formData.confirmPassword) {
-            console.log(formData)
             setInvalidPassword('')
         } else {
             setInvalidPassword(errMessage)
         }
     }
 
-    const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => formData.email = e.currentTarget.value
-    const handleChangePassword = (event: ChangeEvent<HTMLInputElement>) =>  formData.password = event.currentTarget.value
-    const handleConfirmPassword = (event: ChangeEvent<HTMLInputElement>) =>  formData.confirmPassword = event.currentTarget.value
+    const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => setFormData({...initState, email: e.currentTarget.value})
+    const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) =>  setFormData({...initState, password: e.currentTarget.value})
+    const handleConfirmPassword = (e: ChangeEvent<HTMLInputElement>) =>  setFormData({...initState, confirmPassword: e.currentTarget.value})
     return (
         <div>
             <div>
