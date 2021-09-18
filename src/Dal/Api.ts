@@ -7,7 +7,7 @@ const createInstance = axios.create({
     withCredentials: true
 })
 
-
+//123
 export const registerApi = {
     register(data: RegistrationFormType) {
         return createInstance.post<any>('auth/register', data)

@@ -37,7 +37,7 @@ export const registrationTC = (data: RegistrationFormType) => (dispatch: Dispatc
     }).catch((e: string) => {
         alert(e)
     })
-}
+}//123
 export const setNewPasswordTC = (password: string, resetPasswordToken: string) => (dispatch: Dispatch) => {
     registerApi.setNewPassword(password, resetPasswordToken)
         .then((res) => {
