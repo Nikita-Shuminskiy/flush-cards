@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { RegistrationFormType } from '../Pages/Registration/Registration';
 
+import axios from "axios";
 
 const createInstance = axios.create( {
   /*  url: "https://neko-back.herokuapp.com/2.0"*/
@@ -27,4 +28,14 @@ const registerApi2 = {
 
 
 
-export {}
+const instance = axios.create({
+    baseURL:  "http://localhost:7542/2.0/",
+    withCredentials: true,
+})
+
+export const api = {
+    inLogin(email: string, password: string, rememberMe: boolean) {
+        const promise = instance.post("auth/login",{email,password, rememberMe})
+        return promise
+    }
+}
