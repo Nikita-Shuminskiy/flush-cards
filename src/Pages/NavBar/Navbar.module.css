@@ -11,7 +11,7 @@
     text-decoration: none;
 }
 .item a.active  {
-    color: red; //12131
+    color: red;
 }
 .item a:hover {
     color: red;
