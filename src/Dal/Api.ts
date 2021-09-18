@@ -14,6 +14,9 @@ export const registerApi = {
     setNewPassword(password:string, resetPasswordToken:string) {
         return createInstance.post<ResponseSetNewPassword>(`auth/set-new-password`, {password, resetPasswordToken})
     },
+    passwordRecovery (email:string, from:string, message:string) {
+        return createInstance.post<ResponseSetNewPassword>(`auth/forgot`, {email, from, message})
+    },
 }
 
 
