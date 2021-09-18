@@ -1,0 +1,19 @@
+.login {
+    color: rgba(18, 57, 139, 0.8);
+}
+
+.error {
+    color:red;
+    font-weight: bolder;
+}
+.button {
+    appearance:none;
+    -webkit-appearance:none;
+    padding:10px;
+    border:none;
+    background-color:#3F51B5;
+    color:#fff;
+    font-weight:600;
+    border-radius:5px;
+    width:5%;
+}
