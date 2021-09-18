@@ -1,7 +1,9 @@
 import React, { ChangeEvent, useState } from 'react';
 import style from './Registration.module.css'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { registrationTS } from '../../Store/Reducers/RegistrationReducer';
+import { AppRootStateType } from '../../Store/Store';
+import { Redirect } from 'react-router-dom';
 
 
 export type RegistrationFormType = {
@@ -12,6 +14,7 @@ export type RegistrationFormType = {
 
 export type RegistrationType = {}
 export const Registration = (props: RegistrationType) => {
+    const initUser = useSelector<AppRootStateType, boolean>(state => state.registration.initUser)
     const dispatch = useDispatch()
 
     const errMessage = 'Do not coincide with passwords'
@@ -25,13 +28,14 @@ export const Registration = (props: RegistrationType) => {
     const [invalidPassword, setInvalidPassword] = useState<string>('')
 
     const onSubmit = () => {
-        if (formData.password == formData.confirmPassword) {
+        if (formData.password === formData.confirmPassword) {
             dispatch(registrationTS(formData))
             setInvalidPassword('')
         } else {
             setInvalidPassword(errMessage)
         }
     }
+
 
     const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => setFormData({
         ...formData,
@@ -45,6 +49,11 @@ export const Registration = (props: RegistrationType) => {
         ...formData,
         confirmPassword: e.currentTarget.value
     })
+
+    if (initUser){
+        return <Redirect to={"/login"}/>
+    }
+
     return (
         <div>
             <div>
