@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import style from './Registration.module.css'
-import { registerApi } from '../../Dal/Api';
+import { useDispatch } from 'react-redux';
+import { registrationTS } from '../../Store/Reducers/RegistrationReducer';
 
 
 export type RegistrationFormType = {
@@ -11,28 +12,39 @@ export type RegistrationFormType = {
 
 export type RegistrationType = {}
 export const Registration = (props: RegistrationType) => {
+    const dispatch = useDispatch()
+
     const errMessage = 'Do not coincide with passwords'
 
-    const initState = {
+    let [formData, setFormData] = useState<RegistrationFormType>({
         email: '',
         password: '',
         confirmPassword: ''
-    }
-    let [formData, setFormData] = useState<RegistrationFormType>(initState)
+    })
 
     const [invalidPassword, setInvalidPassword] = useState<string>('')
 
     const onSubmit = () => {
-        if (formData.password === formData.confirmPassword) {
+        if (formData.password == formData.confirmPassword) {
+            dispatch(registrationTS(formData))
             setInvalidPassword('')
         } else {
             setInvalidPassword(errMessage)
         }
     }
 
-    const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => setFormData({...initState, email: e.currentTarget.value})
-    const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) =>  setFormData({...initState, password: e.currentTarget.value})
-    const handleConfirmPassword = (e: ChangeEvent<HTMLInputElement>) =>  setFormData({...initState, confirmPassword: e.currentTarget.value})
+    const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => setFormData({
+        ...formData,
+        email: e.currentTarget.value
+    })
+    const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => setFormData({
+        ...formData,
+        password: e.currentTarget.value
+    })
+    const handleConfirmPassword = (e: ChangeEvent<HTMLInputElement>) => setFormData({
+        ...formData,
+        confirmPassword: e.currentTarget.value
+    })
     return (
         <div>
             <div>
