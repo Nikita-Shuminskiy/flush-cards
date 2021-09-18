@@ -1,4 +1,7 @@
 import React, {ChangeEvent, useState} from 'react';
+import { useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { AppRootStateType } from '../../Store/Store';
 import style from './Login.module.css'
 
 
@@ -9,6 +12,7 @@ type LoginParamsType = {
 }
 
 export const Login = () => {
+    const status = useSelector<AppRootStateType, boolean>(state=>state.login.isLoggedIn)
     let [login, setLogin] = useState<LoginParamsType>({
         email: '',
         password: '',
@@ -28,6 +32,9 @@ export const Login = () => {
     const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => login.email = e.currentTarget.value
     const handleChangePassword = (event: ChangeEvent<HTMLInputElement>) =>  login.password = event.currentTarget.value
     const handleChangeRememberMe = (event: ChangeEvent<HTMLInputElement>) =>  login.rememberMe = event.currentTarget.checked
+   if(status) {
+       return <Redirect to={'/profile'}/>
+   }
     return (
         <div className={style.login} >
             <div className={style.title}>
@@ -45,7 +52,7 @@ export const Login = () => {
                 <label>Remember me</label><input type="checkbox" onChange={handleChangeRememberMe} name={'rememberMe'}/>
             </div>
             <div>
-                <a href="#/login"  title={'Forgot your password?'}>Forgot Password</a>
+                <a href="#/recoverypassword"  title={'Forgot your password?'}>Forgot Password</a>
             </div>
             <div>
                 <button className={style.button} onClick={onSubmit}> Sign In</button>
