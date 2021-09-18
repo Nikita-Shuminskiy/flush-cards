@@ -32,9 +32,9 @@ export const Login = () => {
         dispatch(isLoginTC(login.email, login.password, login.rememberMe))
     }
 
-    const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => login.email = e.currentTarget.value
-    const handleChangePassword = (event: ChangeEvent<HTMLInputElement>) =>  login.password = event.currentTarget.value
-    const handleChangeRememberMe = (event: ChangeEvent<HTMLInputElement>) =>  login.rememberMe = event.currentTarget.checked
+    const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => setLogin({...login, email: e.currentTarget.value})
+    const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => setLogin({...login, password: e.currentTarget.value})
+    const handleChangeRememberMe = (e: ChangeEvent<HTMLInputElement>) => setLogin({...login, rememberMe: e.currentTarget.checked})
    if(status) {
        return <Redirect to={'/profile'}/>
    }

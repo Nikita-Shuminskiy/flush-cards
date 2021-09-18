@@ -29,6 +29,12 @@ export const isLoginTC = (email:string, password:string,rememberMe:boolean) => (
     api.inLogin(email, password, rememberMe)
         .then((res)=>{
             dispatch(setIsLoggedInAC(true))
-            console.log('вы зарегистрированы')
-        })
+            console.log(res)
+            //диспач экшена профайла, для получения данных с сервера
+        }).catch((e) => {
+        const error = e.response
+            ? e.response.data.error
+            : (e.message + ', more details in the console');
+        console.log('Error: ',  e.response.data.error)
+    })
 }
