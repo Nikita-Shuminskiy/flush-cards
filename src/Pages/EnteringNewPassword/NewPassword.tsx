@@ -1,9 +1,16 @@
 import React, {ChangeEvent, useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {useParams} from 'react-router-dom';
+import {setNewPasswordTC} from '../../Store/Reducers/RegistrationReducer';
+
 
 export const NewPassword = () => {
     const [password, setPassword] = useState<string>('')
     const [confirmPassword, setConfirmPassword] = useState<string>('')
     const [error, setError] = useState<string>('')
+    const {token} = useParams<{ token: string }>()
+    const dispatch = useDispatch()
+
     const onSubmit = () => {
         if (!password) {
             setError('Required');
@@ -14,7 +21,7 @@ export const NewPassword = () => {
         }
         /** Бага почемуто нету очищения импута*/
         // email
-        console.log(password)
+        dispatch(setNewPasswordTC(password, token))
         setPassword('')
         setConfirmPassword('')
     }
@@ -25,14 +32,12 @@ export const NewPassword = () => {
         <div>
             <h2>Create new password</h2>
             <div>
-                <input name={'password'}
-                    // type={'password'}
+                <input name={'password'} type={'password'}
                        placeholder={'Password'} onChange={handleChangePassword}/>
                 {error && <div style={{color: 'red'}}>{error}</div>}
             </div>
             <div>
-                <input name={'password'}
-                    // type={'password'}
+                <input name={'password'} type={'password'}
                        placeholder={'Confirm password'}
                        onChange={handleChangeConfirmPassword}/>
                 {error && <div style={{color: 'red'}}>{error}</div>}
