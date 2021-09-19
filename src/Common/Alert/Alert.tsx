@@ -1,18 +1,11 @@
-import React, { useEffect } from 'react';
-import { AlertContentType } from '../../Store/Reducers/AppReducer';
+import React, {useEffect} from 'react';
+import {AlertContentType} from '../../Store/Reducers/AppReducer';
 import styles from './Alert.module.scss'
 
 type AlertComponentType = {
     alertList?: AlertContentType[]
-    onCloseAlert: (id: string) => void
+    onCloseAlert: (id: number) => void
 }
-
-
-
-
-
-
-
 
 
 export const Alert: React.FC<AlertComponentType> = ({alertList, onCloseAlert}) => {
@@ -30,18 +23,22 @@ export const Alert: React.FC<AlertComponentType> = ({alertList, onCloseAlert}) =
     }, [alertList?.length])
 
 
-
     return (
         <div className={styles.alert}>
             {alertList?.map(el => {
-
+                let type = el.type
                 return (
                     <div
-                        className={styles.alert__item}
+                        className={`${styles.alert__item} ${styles[type]}`}
                         onClick={() => onCloseAlert(el.id)}
                         key={el.id}
                     >
-                        <p>{el.title}</p>
+
+                        <div className={styles.alert__item_inner}>
+                            <p className={styles.alert__item_text}>{el.type.toUpperCase()}<span>{el.title}</span></p>
+                            <span className={styles.alert__item_cross}/>
+                        </div>
+
                     </div>
                 )
             })}

@@ -1,20 +1,26 @@
 //typs
+import {Dispatch} from "redux";
+import {api} from "../../Dal/Api";
+
+const INIT_APP = 'app/INIT'
 const SET_ALERT = 'app/SET_ALERT'
 const REMOVE_ALERT = 'app/REMOVE_ALERT'
+const AUTH_ME = 'app/AUTH_ME'
 
-type actionType = SetAlertListType | RemoveAlertType
+type actionType = SetAlertListType | RemoveAlertType | SetAuthType | InitApptype
 
 
 type initialStateType = {
     initialApp: boolean
     alertList: AlertContentType[]
+    auth: boolean
 }
 
 
 const initialState = {
     initialApp: false,
-    alertList: []
-
+    alertList: [],
+    auth: false,
 }
 
 
@@ -33,6 +39,16 @@ export const AppReducer = (state: initialStateType = initialState, action: actio
                 ...state,
                 alertList: state.alertList.filter(el => el.id !== action.payload)
             }
+        case AUTH_ME:
+            return {
+                ...state,
+                auth: action.payload
+            }
+        case INIT_APP:
+            return {
+                ...state,
+                initialApp: true
+            }
 
 
         default:
@@ -43,15 +59,14 @@ export const AppReducer = (state: initialStateType = initialState, action: actio
 // actions
 
 
-
 export type AlertContentType = {
-    id: any
+    id: number
     type: "error" | "success" | "info" | "warning"
     title: string
 }
 
 export const configAlert = (type: "error" | "success" | "info" | "warning", message: string) => ({
-    id: new Date(),
+    id: new Date().getTime(),
     type,
     title: message
 })
@@ -71,16 +86,52 @@ export const setAlertList = (alert: AlertContentType): SetAlertListType => ({
 
 type RemoveAlertType = {
     type: 'app/REMOVE_ALERT'
-    payload: string
+    payload: number
 }
-export const removeAlert = (id: string): RemoveAlertType => ({
+export const removeAlert = (id: number): RemoveAlertType => ({
     type: REMOVE_ALERT,
     payload: id
 })
 
+/////////
+
+
+type SetAuthType = {
+    type: 'app/AUTH_ME',
+    payload: boolean
+}
+
+const setAuth = (value: boolean): SetAuthType => ({
+    type: AUTH_ME,
+    payload: value
+})
+
+//////////
+
+
+type InitApptype = {
+    type: 'app/INIT'
+}
+
+const initialApp = (): InitApptype => ({type: INIT_APP})
 
 
 
 // thunks
 
+export const authMe = () => (dispatch: Dispatch) => {
 
+    api.authMe()
+        .then(res => {
+            console.log(res)
+            if (res.status === 200) {
+                dispatch(setAuth(true))
+                dispatch(initialApp())
+                dispatch(setAlertList(configAlert('success', `Пользователь: ${res.data.name}`)))
+            }
+        })
+        .catch(error => {
+            dispatch(initialApp())
+            dispatch(setAlertList(configAlert('error', `${error}`)))
+        })
+}
