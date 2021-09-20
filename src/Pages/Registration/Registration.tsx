@@ -15,7 +15,7 @@ export type RegistrationType = {}
 
 
 export const Registration = (props: RegistrationType) => {
-    const initUser = useSelector<AppRootStateType, boolean>(state => state.registration.initUser)
+    const  initUser  = useSelector<AppRootStateType, boolean>(state => state.registration.initUser)
     const dispatch = useDispatch()
 
     const errMessage = 'Do not coincide with passwords'
