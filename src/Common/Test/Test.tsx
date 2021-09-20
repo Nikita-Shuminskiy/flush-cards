@@ -4,7 +4,7 @@ import SuperCheckbox from './c3-SuperCheckbox/SuperCheckbox';
 import SuperButton from './c2-SuperButton/SuperButton';
 import {useDispatch, useSelector } from 'react-redux';
 import {AppRootStateType} from "../../Store/Store";
-import {AlertContentType, configAlert, setAlertList} from '../../Store/Reducers/AppReducer';
+import {AlertContentType, configAlert, removeAlert, setAlertList} from '../../Store/Reducers/AppReducer';
 import { Alert } from '../Alert/Alert';
 
 const Test = () => {
@@ -12,23 +12,26 @@ const Test = () => {
     const alertList = useSelector<AppRootStateType, AlertContentType[]>(state => state.app.alertList)
 
 
+    // test Alert hendler
     const errorHendler = () => {
         dispatch(setAlertList(configAlert('error', 'Error')))
     }
+
     const successHendler = () => {
-
+        dispatch(setAlertList(configAlert('success', 'success')))
     }
-    const warningHendler = () => {
 
+    const warningHendler = () => {
+        dispatch(setAlertList(configAlert('info', 'info')))
     }
 
     const infoHendler = () => {
-
+        dispatch(setAlertList(configAlert('warning', 'warning')))
     }
 
 
-    const onCloseAlert = (id: string) => {
-
+    const onCloseAlert = (id: number) => {
+        dispatch(removeAlert(id))
     }
 
     return (
@@ -40,9 +43,9 @@ const Test = () => {
 
             <>
                 <button onClick={errorHendler}>Error</button>
-                <button onClick={successHendler}>Error</button>
-                <button onClick={warningHendler}>Error</button>
-                <button onClick={infoHendler}>Error</button>
+                <button onClick={successHendler}>Success</button>
+                <button onClick={warningHendler}>Info</button>
+                <button onClick={infoHendler}>Warning</button>
 
                 <Alert onCloseAlert={onCloseAlert} alertList={alertList}/>
             </>
