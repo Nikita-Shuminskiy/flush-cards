@@ -11,7 +11,6 @@ const initialState = {
         isAdmin: false,
     },
     initUser: false,
-    //  setToken: '',
 }
 type InitStateType = typeof initialState
 
@@ -42,7 +41,6 @@ export const registrationTC = (data: RegistrationFormType) => (dispatch: Dispatc
     })
 }
 export const setNewPasswordTC = (password: string, resetPasswordToken: string) => (dispatch: Dispatch) => {
-   debugger
     registerApi.setNewPassword(password, resetPasswordToken)
         .then((res) => {
             console.log(res.data.info)
@@ -70,7 +68,6 @@ export const recoveryPasswordTC = (email: string) => (dispatch: Dispatch) => {
 export type ActionType =
     | ReturnType<typeof setNewPasswordAC>
     | ReturnType<typeof registrationAC>
-   // | ReturnType<typeof setNewTokenAC>
 
 /** оператор typeof  */
 // type InitStateType = {
