@@ -1,16 +1,18 @@
 import React, {ChangeEvent, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {setNewPasswordTC} from '../../Store/Reducers/RegistrationReducer';
+import {Redirect, useParams} from 'react-router-dom';
 import {AppRootStateType} from '../../Store/Store';
 
 
 export const NewPassword = () => {
+    const successedPassword = useSelector<AppRootStateType, boolean>(state => state.registration.successedPassword)
     const [password, setPassword] = useState<string>('')
     const [confirmPassword, setConfirmPassword] = useState<string>('')
     const [error, setError] = useState<string>('')
-    const token = useSelector<AppRootStateType,string>(state => state.registration.token)
+    const {token} = useParams<{ token: string }>()
     const dispatch = useDispatch()
-
+    console.log(token)
     const onSubmit = () => {
         if (!password) {
             setError('Required');
@@ -25,7 +27,9 @@ export const NewPassword = () => {
         setPassword('')
         setConfirmPassword('')
     }
-
+    if (successedPassword) {
+        return <Redirect to={'/login'}/>
+    }
     const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.currentTarget.value)
     const handleChangeConfirmPassword = (e: ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.currentTarget.value)
     return (
