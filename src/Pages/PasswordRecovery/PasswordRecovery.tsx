@@ -1,13 +1,15 @@
 import React, {ChangeEvent, useState} from 'react';
-import {NavLink} from 'react-router-dom';
+import {NavLink, Redirect} from 'react-router-dom';
 import s from './PasswordRecovery.module.css'
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {recoveryPasswordTC} from '../../Store/Reducers/RegistrationReducer';
+import {AppRootStateType} from '../../Store/Store';
 
 
 export const PasswordRecovery = () => {
-    const [email, setEmail] = useState<string>()
+    const [email, setEmail] = useState<string>('')
     const [error, setError] = useState<string>('')
+    const isEmail = useSelector<AppRootStateType, string>(state => state.registration.email)
     const dispatch = useDispatch()
     const onSubmit = () => {
 
@@ -20,6 +22,9 @@ export const PasswordRecovery = () => {
         email && dispatch(recoveryPasswordTC(email))
     }
 
+    if (isEmail !== '') {
+        return <Redirect to={'/check-email'}/>
+    }
     const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.currentTarget.value)
     return (
         <div>

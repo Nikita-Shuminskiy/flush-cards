@@ -11,6 +11,7 @@ const initialState = {
         isAdmin: false,
     },
     initUser: false,
+    email: '',
 }
 type InitStateType = typeof initialState
 
@@ -20,6 +21,8 @@ export const registrationReducer = (state = initialState, action: ActionType): I
             return {...state, addedUser: action.newUser, initUser: action.initUser}
         case '/REGISTRATION/SET-NEW-PASSWORD':
             return {...state}
+        case '/REGISTRATION/SET-EMAIL':
+            return  {...state, email: action.email}
         default:
             return state
     }
@@ -30,6 +33,7 @@ export const registrationReducer = (state = initialState, action: ActionType): I
 const registrationAC = (newUser: adedUserType, initUser: boolean) =>
     ({type: '/REGISTRATION/NEW-USER', newUser, initUser} as const)
 const setNewPasswordAC = () => ({type: '/REGISTRATION/SET-NEW-PASSWORD'} as const)
+const setEmailAC = (email:string) => ({type: '/REGISTRATION/SET-EMAIL', email} as const)
 
 
 //thunk
@@ -45,6 +49,7 @@ export const setNewPasswordTC = (password: string, resetPasswordToken: string) =
         .then((res) => {
             console.log(res.data.info)
             dispatch(setNewPasswordAC())
+
         })
         .catch((error: string) => {
             console.log(error)
@@ -54,10 +59,10 @@ export const recoveryPasswordTC = (email: string) => (dispatch: Dispatch) => {
     const from = 'IgorSvyrydovskyi@gmail.com'
     const message = `<div style="background-color: lime; padding: 15px"> password recovery 
     link: <a href='http://localhost:3000/#/set-new-password/$token$'>link</a></div>`;
-    debugger
     registerApi.passwordRecovery(email, from, message)
         .then((res) => {
             console.log(res.data.info)
+            dispatch(setEmailAC(email))
         })
         .catch((error: string) => {
             console.log(error)
@@ -68,12 +73,8 @@ export const recoveryPasswordTC = (email: string) => (dispatch: Dispatch) => {
 export type ActionType =
     | ReturnType<typeof setNewPasswordAC>
     | ReturnType<typeof registrationAC>
+    | ReturnType<typeof setEmailAC>
 
-/** оператор typeof  */
-// type InitStateType = {
-//     addedUser: adedUserType
-//     initUser: boolean
-// }
 
 type adedUserType = {
     _id: string
