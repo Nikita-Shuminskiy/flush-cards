@@ -1,16 +1,17 @@
 import React, {ChangeEvent, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {setNewPasswordTC} from '../../Store/Reducers/RegistrationReducer';
-import {AppRootStateType} from '../../Store/Store';
+import {useParams} from 'react-router-dom';
 
 
 export const NewPassword = () => {
+
     const [password, setPassword] = useState<string>('')
     const [confirmPassword, setConfirmPassword] = useState<string>('')
     const [error, setError] = useState<string>('')
-    const token = useSelector<AppRootStateType,string>(state => state.registration.token)
+    const {token} = useParams<{ token: string }>()
     const dispatch = useDispatch()
-
+    console.log(token)
     const onSubmit = () => {
         if (!password) {
             setError('Required');

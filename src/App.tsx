@@ -21,7 +21,7 @@ function App() {
         <Route path={'/profile'} render={() => <Profile/>}/>
         <Route path={'/404'} render={() => <GlobalError/>}/>
         <Route path={'/recoverypassword'} render={() => <PasswordRecovery/>}/>
-        <Route path={'/set-new-password'} render={() => <NewPassword />}/>
+        <Route path={'/set-new-password/:token'} render={() => <NewPassword />}/>
         <Route path={'/test'} render={() => <Test/>}/>
       </Switch>
     </div>

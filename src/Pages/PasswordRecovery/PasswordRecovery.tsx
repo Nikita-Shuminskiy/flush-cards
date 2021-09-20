@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useState} from 'react';
-import {NavLink, useParams} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import s from './PasswordRecovery.module.css'
 import {useDispatch} from 'react-redux';
 import {recoveryPasswordTC} from '../../Store/Reducers/RegistrationReducer';
@@ -8,7 +8,6 @@ import {recoveryPasswordTC} from '../../Store/Reducers/RegistrationReducer';
 export const PasswordRecovery = () => {
     const [email, setEmail] = useState<string>()
     const [error, setError] = useState<string>('')
-    const {token} = useParams<{ token: string }>()
     const dispatch = useDispatch()
     const onSubmit = () => {
 
@@ -18,7 +17,7 @@ export const PasswordRecovery = () => {
             setError('Invalid email address');
         }
         console.log(email)
-        email && dispatch(recoveryPasswordTC(email, token))
+        email && dispatch(recoveryPasswordTC(email))
     }
 
     const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.currentTarget.value)
