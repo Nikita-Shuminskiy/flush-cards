@@ -11,7 +11,10 @@ const initialState = {
         isAdmin: false,
     },
     initUser: false,
+    /** Change Password */
     email: '',
+    successedPassword: false,
+    /** */
 }
 type InitStateType = typeof initialState
 
@@ -20,7 +23,7 @@ export const registrationReducer = (state = initialState, action: ActionType): I
         case '/REGISTRATION/NEW-USER':
             return {...state, addedUser: action.newUser, initUser: action.initUser}
         case '/REGISTRATION/SET-NEW-PASSWORD':
-            return {...state}
+            return {...state, successedPassword: action.successedPassword}
         case '/REGISTRATION/SET-EMAIL':
             return  {...state, email: action.email}
         default:
@@ -32,7 +35,7 @@ export const registrationReducer = (state = initialState, action: ActionType): I
 //action
 const registrationAC = (newUser: adedUserType, initUser: boolean) =>
     ({type: '/REGISTRATION/NEW-USER', newUser, initUser} as const)
-const setNewPasswordAC = () => ({type: '/REGISTRATION/SET-NEW-PASSWORD'} as const)
+const setNewPasswordAC = (successedPassword:boolean) => ({type: '/REGISTRATION/SET-NEW-PASSWORD', successedPassword} as const)
 const setEmailAC = (email:string) => ({type: '/REGISTRATION/SET-EMAIL', email} as const)
 
 
@@ -48,7 +51,7 @@ export const setNewPasswordTC = (password: string, resetPasswordToken: string) =
     registerApi.setNewPassword(password, resetPasswordToken)
         .then((res) => {
             console.log(res.data.info)
-            dispatch(setNewPasswordAC())
+            dispatch(setNewPasswordAC(true))
 
         })
         .catch((error: string) => {
