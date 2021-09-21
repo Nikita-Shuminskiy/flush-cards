@@ -10,10 +10,11 @@ const AUTH_ME = 'app/AUTH_ME'
 type actionType = SetAlertListType | RemoveAlertType | SetAuthType | InitApptype
 
 
-type initialStateType = {
+export type initialStateType = {
     initialApp: boolean
     alertList: AlertContentType[]
     auth: boolean
+    userData: DataUserType | null
 }
 
 
@@ -21,6 +22,7 @@ const initialState = {
     initialApp: false,
     alertList: [],
     auth: false,
+    userData: null
 }
 
 
@@ -42,7 +44,8 @@ export const AppReducer = (state: initialStateType = initialState, action: actio
         case AUTH_ME:
             return {
                 ...state,
-                auth: action.payload
+                auth: action.payload.status,
+                userData: {...action.payload.userData}
             }
         case INIT_APP:
             return {
@@ -95,15 +98,22 @@ export const removeAlert = (id: number): RemoveAlertType => ({
 
 /////////
 
+export type DataUserType = {
+    email: string
+    avatar?: string
+}
 
 type SetAuthType = {
     type: 'app/AUTH_ME',
-    payload: boolean
+    payload: {
+        status: boolean,
+        userData: DataUserType
+    }
 }
 
-const setAuth = (value: boolean): SetAuthType => ({
+const setAuth = (value: boolean, userData: DataUserType): SetAuthType => ({
     type: AUTH_ME,
-    payload: value
+    payload: {status: value, userData}
 })
 
 //////////
@@ -123,9 +133,8 @@ export const authMe = () => (dispatch: Dispatch) => {
 
     api.authMe()
         .then(res => {
-            console.log(res)
             if (res.status === 200) {
-                dispatch(setAuth(true))
+                dispatch(setAuth(true, {email: res.data.email}))
                 dispatch(initialApp())
                 dispatch(setAlertList(configAlert('success', `Пользователь: ${res.data.name}`)))
             }
