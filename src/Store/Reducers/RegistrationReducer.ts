@@ -1,6 +1,7 @@
 import {RegistrationFormType} from '../../Pages/Registration/Registration';
 import {registerApi} from '../../Dal/Api';
 import {Dispatch} from 'redux';
+import {configAlert, setAlertList, SetAlertListType} from './AppReducer';
 
 
 const initialState = {
@@ -16,7 +17,7 @@ const initialState = {
     successedPassword: false,
     /** */
 }
-type InitStateType = typeof initialState
+export type InitStateType = typeof initialState
 
 export const registrationReducer = (state = initialState, action: ActionType): InitStateType => {
     switch (action.type) {
@@ -25,7 +26,7 @@ export const registrationReducer = (state = initialState, action: ActionType): I
         case '/REGISTRATION/SET-NEW-PASSWORD':
             return {...state, successedPassword: action.successedPassword}
         case '/REGISTRATION/SET-EMAIL':
-            return  {...state, email: action.email}
+            return {...state, email: action.email}
         default:
             return state
     }
@@ -35,8 +36,11 @@ export const registrationReducer = (state = initialState, action: ActionType): I
 //action
 const registrationAC = (newUser: adedUserType, initUser: boolean) =>
     ({type: '/REGISTRATION/NEW-USER', newUser, initUser} as const)
-const setNewPasswordAC = (successedPassword:boolean) => ({type: '/REGISTRATION/SET-NEW-PASSWORD', successedPassword} as const)
-const setEmailAC = (email:string) => ({type: '/REGISTRATION/SET-EMAIL', email} as const)
+export const setNewPasswordAC = (successedPassword: boolean) => ({
+    type: '/REGISTRATION/SET-NEW-PASSWORD',
+    successedPassword
+} as const)
+export const setEmailAC = (email: string) => ({type: '/REGISTRATION/SET-EMAIL', email} as const)
 
 
 //thunk
@@ -55,6 +59,7 @@ export const setNewPasswordTC = (password: string, resetPasswordToken: string) =
 
         })
         .catch((error: string) => {
+            dispatch(setAlertList(configAlert('error', `${error}`)))
             console.log(error)
         })
 }
@@ -68,6 +73,7 @@ export const recoveryPasswordTC = (email: string) => (dispatch: Dispatch) => {
             dispatch(setEmailAC(email))
         })
         .catch((error: string) => {
+            dispatch(setAlertList(configAlert('error', `${error}`)))
             console.log(error)
         })
 }
@@ -77,6 +83,7 @@ export type ActionType =
     | ReturnType<typeof setNewPasswordAC>
     | ReturnType<typeof registrationAC>
     | ReturnType<typeof setEmailAC>
+    | SetAlertListType
 
 
 type adedUserType = {

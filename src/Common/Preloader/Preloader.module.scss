@@ -1,0 +1,41 @@
+/** Есть желание сделать лутше, только рад*/
+.body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(45deg, #333333, #4c4a4a);
+  color: rgba(18, 57, 139, 0.8);
+}
+
+.loading {
+  font-family: 'Lato', sans-serif;
+  position: relative;
+  color: #212121;
+  font-size: 20px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  border-bottom: 18px solid #212121;
+
+  &:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: 'Loading...';
+    color: #00ffff;
+    border-bottom: 18px solid #00ffff;
+    //color: #99d4fa;
+    //border-bottom: 18px solid #99d4fa;
+    overflow: hidden;
+    animation: loading 8s infinite linear;
+  }
+}
+
+@keyframes loading {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
