@@ -17,7 +17,7 @@ const initialState = {
     successedPassword: false,
     /** */
 }
-type InitStateType = typeof initialState
+export type InitStateType = typeof initialState
 
 export const registrationReducer = (state = initialState, action: ActionType): InitStateType => {
     switch (action.type) {
@@ -36,11 +36,11 @@ export const registrationReducer = (state = initialState, action: ActionType): I
 //action
 const registrationAC = (newUser: adedUserType, initUser: boolean) =>
     ({type: '/REGISTRATION/NEW-USER', newUser, initUser} as const)
-const setNewPasswordAC = (successedPassword: boolean) => ({
+export const setNewPasswordAC = (successedPassword: boolean) => ({
     type: '/REGISTRATION/SET-NEW-PASSWORD',
     successedPassword
 } as const)
-const setEmailAC = (email: string) => ({type: '/REGISTRATION/SET-EMAIL', email} as const)
+export const setEmailAC = (email: string) => ({type: '/REGISTRATION/SET-EMAIL', email} as const)
 
 
 //thunk
