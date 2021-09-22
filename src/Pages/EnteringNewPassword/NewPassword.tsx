@@ -16,7 +16,7 @@ export const NewPassword = () => {
     const onSubmit = () => {
         if (!password) {
             setError('Required');
-        } else if (password.length < 3) {
+        } else if (password.length < 7) {
             setError('The password is too small');
         } else if (!(confirmPassword === password)) {
             setError('The passwords are different!')

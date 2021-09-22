@@ -75,7 +75,7 @@ export const configAlert = (type: "error" | "success" | "info" | "warning", mess
 })
 
 ////////
-type SetAlertListType = {
+export type SetAlertListType = {
     type: 'app/SET_ALERT',
     payload: AlertContentType
 }
