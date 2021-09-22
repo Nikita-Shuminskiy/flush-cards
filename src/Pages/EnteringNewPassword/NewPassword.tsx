@@ -3,6 +3,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setNewPasswordTC} from '../../Store/Reducers/RegistrationReducer';
 import {Redirect, useParams} from 'react-router-dom';
 import {AppRootStateType} from '../../Store/Store';
+import s from './NewPassword.module.css';
+import SuperInputText from '../../Common/Test/c1-SuperInputText/SuperInputText';
+import SuperButton from '../../Common/Test/c2-SuperButton/SuperButton';
 
 
 export const NewPassword = () => {
@@ -33,22 +36,21 @@ export const NewPassword = () => {
     const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.currentTarget.value)
     const handleChangeConfirmPassword = (e: ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.currentTarget.value)
     return (
-        <div>
-            <h2>Create new password</h2>
-            <div>
-                <input name={'password'} type={'password'}
-                       placeholder={'Password'} onChange={handleChangePassword}/>
+        <div className={s.wrapContainer}>
+            <div className={s.container}>
+                <h2>Create new password</h2>
+                <SuperInputText name={'password'} type={'password'}
+                                placeholder={'Password'} onChange={handleChangePassword}/>
                 {error && <div style={{color: 'red'}}>{error}</div>}
-            </div>
-            <div>
-                <input name={'password'} type={'password'}
-                       placeholder={'Confirm password'}
-                       onChange={handleChangeConfirmPassword}/>
+                <SuperInputText name={'password'} type={'password'}
+                                placeholder={'Confirm password'}
+                                onChange={handleChangeConfirmPassword}/>
                 {error && <div style={{color: 'red'}}>{error}</div>}
-            </div>
-            <p>Create new password and we will send you further instructions to email</p>
-            <button onClick={onSubmit}>Create new password</button>
 
+                <p>Create new password and we will send you further instructions to email</p>
+                <SuperButton onClick={onSubmit} value={'Create new password'}/>
+
+            </div>
         </div>
     );
 }
