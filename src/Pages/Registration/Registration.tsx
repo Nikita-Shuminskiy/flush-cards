@@ -3,7 +3,9 @@ import style from './Registration.module.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { registrationTC } from '../../Store/Reducers/RegistrationReducer';
 import { AppRootStateType } from '../../Store/Store';
-import { Redirect } from 'react-router-dom';
+import {NavLink, Redirect} from 'react-router-dom';
+import SuperInputText from "../../Common/Test/c1-SuperInputText/SuperInputText";
+import SuperButton from "../../Common/Test/c2-SuperButton/SuperButton";
 
 //type
 export type RegistrationFormType = {
@@ -53,21 +55,30 @@ export const Registration = (props: RegistrationType) => {
         return <Redirect to={"/login"}/>
     }
 
-    return <div>
+    return <div className={style.wrapContainer}>
+        <div className={style.container}>
+            <h1>Registration</h1>
             <div>
-                <label>Email: </label> <input onChange={handleChangeEmail} name={'email'} type="email"/>
+                <SuperInputText name={'email'} type={'email'} onChange={handleChangeEmail} placeholder={'Email'}/>
             </div>
             <div>
-                <label>Password: </label> <input onChange={handleChangePassword} name={'Password'} type={'password'}/>
+
+                <SuperInputText name={'password'} type={'password'} onChange={handleChangePassword}
+                                placeholder={'Password'}/>
             </div>
             <div>
-                <label>Confirm password:</label> <input onChange={handleConfirmPassword} name={'Confirm'}
-                                                       type={'password'}/>
+
+                <SuperInputText name={'confirm'} type={'password'} onChange={handleConfirmPassword}
+                                placeholder={'confirm'}/>
                 <div className={style.error}>{invalidPassword !== '' && invalidPassword}</div>
             </div>
-            <div>
-                <button onClick={onSubmit}>REGISTRATION</button>
-                <button>CANCEL</button>
+            <div className={style.button}>
+                <SuperButton onClick={onSubmit} value={'REGISTRATION'}/>
             </div>
+            <div>
+                <NavLink to={'/login'} className={style.link}>Login</NavLink>
+            </div>
+        </div>
+
         </div>
 }
