@@ -65,10 +65,10 @@ export const setNewPasswordTC = (password: string, resetPasswordToken: string) =
 }
 export const recoveryPasswordTC = (email: string) => (dispatch: Dispatch) => {
     const from = 'IgorSvyrydovskyi@gmail.com'
-    const forLocalServer = `http://localhost:3000/#/set-new-password/$token$`
-  //  const forServer = `https://neko-back.herokuapp.com/2.0`
+ //   const forLocalServer = `http://localhost:3000/#/set-new-password/$token$`
+    //  const forServer = `https://neko-back.herokuapp.com/2.0`
     const message = `<div style="background-color: lime; padding: 15px"> password recovery 
-    link: <a href= ${forLocalServer}>link</a></div>`;
+    link: <a href= http://localhost:3000/#/set-new-password/$token$>link</a></div>`;
     registerApi.passwordRecovery(email, from, message)
         .then((res) => {
             console.log(res.data.info)
