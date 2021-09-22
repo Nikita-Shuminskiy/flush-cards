@@ -1,6 +1,7 @@
 //typs
 import {Dispatch} from "redux";
 import {api} from "../../Dal/Api";
+import {setIsLoggedInAC} from "./LoginReducer";
 
 const INIT_APP = 'app/INIT'
 const SET_ALERT = 'app/SET_ALERT'
@@ -134,6 +135,7 @@ export const authMe = () => (dispatch: Dispatch) => {
     api.authMe()
         .then(res => {
             if (res.status === 200) {
+                dispatch(setIsLoggedInAC(true))
                 dispatch(setAuth(true, {email: res.data.email}))
                 dispatch(initialApp())
                 dispatch(setAlertList(configAlert('success', `Пользователь: ${res.data.name}`)))
