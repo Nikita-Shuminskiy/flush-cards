@@ -1,5 +1,6 @@
 import { Dispatch } from "redux";
 import { api } from "../../Dal/Api";
+import { setAlertList } from "./AppReducer";
 
 const initialState = {
     isLoggedIn: false
@@ -10,7 +11,7 @@ export const loginReducer = (state:initialState = initialState, action: ActionsT
         case 'login/SET-IS-LOGGED-IN':
             return {...state, isLoggedIn: action.status}
         case 'login/SET-IS-LOGOUT':
-            return {...state, isLoggedIn: action.logout}
+            return {...state, isLoggedIn: action.status}
         default:
             return state
     }
@@ -23,10 +24,10 @@ export const setIsLoggedInAC = (status: boolean) => {
         status
     } as const
 }
-export const setIsLogoutAC = (logout: boolean) => {
+export const setIsLogoutAC = (status: boolean) => {
     return {
         type: 'login/SET-IS-LOGOUT',
-        logout
+        status
     } as const
 }
 //type
@@ -40,13 +41,10 @@ export const isLoginTC = (email:string, password:string,rememberMe:boolean) => (
     api.inLogin(email, password, rememberMe)
         .then((res)=>{
             dispatch(setIsLoggedInAC(true))
-            console.log(res)
+
             //диспач экшена профайла, для получения данных с сервера
         }).catch((e) => {
-        const error = e.response
-            ? e.response.data.error
-            : (e.message + ', more details in the console');
-        console.log('Error: ',  e.response.data.error)
+            dispatch(setAlertList({id: 1, type: 'error', title:  e.response.data.error}))
     })
 }
 export const isLogoutTC = (logout:boolean) => (dispatch: Dispatch) => {
@@ -55,5 +53,6 @@ export const isLogoutTC = (logout:boolean) => (dispatch: Dispatch) => {
             dispatch(setIsLogoutAC(logout))
         }).catch((e) => {
         console.log('Error: ',  e.response.data.error)
+        dispatch(setAlertList({id: 1, type: 'error', title:  e.response.data.error}))
     })
 }

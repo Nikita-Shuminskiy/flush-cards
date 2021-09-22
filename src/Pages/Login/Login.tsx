@@ -20,15 +20,9 @@ export const Login = () => {
         password: '',
         rememberMe: false
     })
-    const [error, setError] = useState<string>('')
+
 
     const onSubmit = () => {
-        if (login.email !== '' && login.email.length > 7
-            && login.password !== '' && login.password.length > 7) {
-            setError('')
-        } else {
-            setError('Incorrect username or passwords')
-        }
         dispatch(isLoginTC(login.email, login.password, login.rememberMe))
     }
 
@@ -50,7 +44,6 @@ export const Login = () => {
             <div>
                 <label>Password:</label> <input onChange={handleChangePassword} title={'enter password'} type="password" name={'password'}/>
             </div>
-            <div className={style.error} >{error !== '' && error}</div>
             <div>
                 <label>Remember me</label><input type="checkbox" onChange={handleChangeRememberMe} name={'rememberMe'}/>
             </div>
