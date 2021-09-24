@@ -15,6 +15,8 @@ import { AppRootStateType } from './Store/Store';
 import { AlertContentType, authMe, removeAlert } from './Store/Reducers/AppReducer';
 import { Alert } from './Common/Alert/Alert';
 import { InitialLayout } from './Common/InitialLayout/InitialLayout';
+import {Cards} from './Pages/Cards/Cards';
+import {Deck} from './Pages/Deck/Deck';
 
 
 function App() {
@@ -43,6 +45,9 @@ function App() {
                           <Route path={'/set-new-password/:token'} render={() => <NewPassword/>}/>
                           <Route path={'/check-email'} render={() => <CheckEmail/>}/>
                           <Route path={'/test'} render={() => <Test/>}/>
+                          <Route path={'/cards'} render={() => <Cards/>}/>
+                          <Route path={'/deck'} render={() => <Deck/>}/>
+
                       </Switch>
 
                       <Alert alertList={alertList} onCloseAlert={closeAlet}/>

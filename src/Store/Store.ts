@@ -4,6 +4,8 @@ import {registrationReducer} from './Reducers/RegistrationReducer'
 import {profileReducer} from './Reducers/ProfileReducer'
 import thunk from 'redux-thunk';
 import {AppReducer} from "./Reducers/AppReducer";
+import {deckReducer} from './Reducers/deckReducer';
+import {cardsReducer} from './Reducers/CardsReducer';
 
 
 
@@ -11,7 +13,9 @@ const rootReducer = combineReducers({
     login: loginReducer,
     registration: registrationReducer,
     profile: profileReducer,
-    app: AppReducer
+    app: AppReducer,
+    deck: deckReducer,
+    cards:cardsReducer,
 })
 
 

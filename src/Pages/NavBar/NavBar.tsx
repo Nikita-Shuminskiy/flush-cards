@@ -41,6 +41,10 @@ const NavBar = () => {
                     Password Recovery</NavLink></div>
                 <div className={`${s.item}`}><NavLink activeClassName={s.active} to={'/set-new-password'}>Entry New
                     Password</NavLink></div>
+                <div className={s.item + ' ' + s.setting}><NavLink activeClassName={s.active}
+                                                                   to={'/deck'}>Deck</NavLink></div>
+                <div className={s.item + ' ' + s.setting}><NavLink activeClassName={s.active}
+                                                                   to={'/cards'}>Cards</NavLink></div>
                 {isLoggedIn && <button onClick={logoutHandler}>LOGOUT</button>}
             </div>
         </div>
