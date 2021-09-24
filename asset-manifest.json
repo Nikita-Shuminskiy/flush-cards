@@ -1,25 +1,24 @@
 {
   "files": {
-    "main.css": "/Cards-front-1-0/static/css/main.9fee997b.chunk.css",
-    "main.js": "/Cards-front-1-0/static/js/main.18ef463e.chunk.js",
-    "main.js.map": "/Cards-front-1-0/static/js/main.18ef463e.chunk.js.map",
-    "runtime-main.js": "/Cards-front-1-0/static/js/runtime-main.b2766efa.js",
-    "runtime-main.js.map": "/Cards-front-1-0/static/js/runtime-main.b2766efa.js.map",
-    "static/js/2.e2689584.chunk.js": "/Cards-front-1-0/static/js/2.e2689584.chunk.js",
-    "static/js/2.e2689584.chunk.js.map": "/Cards-front-1-0/static/js/2.e2689584.chunk.js.map",
-    "static/js/3.10e16a99.chunk.js": "/Cards-front-1-0/static/js/3.10e16a99.chunk.js",
-    "static/js/3.10e16a99.chunk.js.map": "/Cards-front-1-0/static/js/3.10e16a99.chunk.js.map",
+    "main.css": "/Cards-front-1-0/static/css/main.c42d3c44.chunk.css",
+    "main.js": "/Cards-front-1-0/static/js/main.98370ecc.chunk.js",
+    "main.js.map": "/Cards-front-1-0/static/js/main.98370ecc.chunk.js.map",
+    "runtime-main.js": "/Cards-front-1-0/static/js/runtime-main.199f8190.js",
+    "runtime-main.js.map": "/Cards-front-1-0/static/js/runtime-main.199f8190.js.map",
+    "static/js/2.553179c0.chunk.js": "/Cards-front-1-0/static/js/2.553179c0.chunk.js",
+    "static/js/2.553179c0.chunk.js.map": "/Cards-front-1-0/static/js/2.553179c0.chunk.js.map",
+    "static/js/3.b0ad7eab.chunk.js": "/Cards-front-1-0/static/js/3.b0ad7eab.chunk.js",
+    "static/js/3.b0ad7eab.chunk.js.map": "/Cards-front-1-0/static/js/3.b0ad7eab.chunk.js.map",
     "index.html": "/Cards-front-1-0/index.html",
-    "static/css/main.9fee997b.chunk.css.map": "/Cards-front-1-0/static/css/main.9fee997b.chunk.css.map",
-    "static/js/2.e2689584.chunk.js.LICENSE.txt": "/Cards-front-1-0/static/js/2.e2689584.chunk.js.LICENSE.txt",
+    "static/css/main.c42d3c44.chunk.css.map": "/Cards-front-1-0/static/css/main.c42d3c44.chunk.css.map",
+    "static/js/2.553179c0.chunk.js.LICENSE.txt": "/Cards-front-1-0/static/js/2.553179c0.chunk.js.LICENSE.txt",
     "static/media/1548761996_2019-01-29_141751.e49107d4.jpg": "/Cards-front-1-0/static/media/1548761996_2019-01-29_141751.e49107d4.jpg",
-    "static/media/loaging_layoutx.96bd3628.svg": "/Cards-front-1-0/static/media/loaging_layoutx.96bd3628.svg",
-    "static/media/user.6e4f8669.svg": "/Cards-front-1-0/static/media/user.6e4f8669.svg"
+    "static/media/loaging_layoutx.96bd3628.svg": "/Cards-front-1-0/static/media/loaging_layoutx.96bd3628.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.b2766efa.js",
-    "static/js/2.e2689584.chunk.js",
-    "static/css/main.9fee997b.chunk.css",
-    "static/js/main.18ef463e.chunk.js"
+    "static/js/runtime-main.199f8190.js",
+    "static/js/2.553179c0.chunk.js",
+    "static/css/main.c42d3c44.chunk.css",
+    "static/js/main.98370ecc.chunk.js"
   ]
 }
