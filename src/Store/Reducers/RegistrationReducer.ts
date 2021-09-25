@@ -1,7 +1,8 @@
-import {RegistrationFormType} from '../../Pages/Registration/Registration';
-import {registerApi} from '../../Dal/Api';
-import {Dispatch} from 'redux';
-import {configAlert, setAlertList, SetAlertListType} from './AppReducer';
+import { RegistrationFormType } from '../../Pages/Registration/Registration';
+import { registerApi } from '../../Dal/Api';
+import { Dispatch } from 'redux';
+import { configAlert, setAlertList, SetAlertListType } from './AppReducer';
+import { AppThunk } from '../Store';
 
 
 const initialState = {
@@ -17,9 +18,8 @@ const initialState = {
     successedPassword: false,
     /** */
 }
-export type InitStateType = typeof initialState
 
-export const registrationReducer = (state = initialState, action: ActionType): InitStateType => {
+export const registrationReducer = (state = initialState, action: RegistrationActionType): InitStateType => {
     switch (action.type) {
         case '/REGISTRATION/NEW-USER':
             return {...state, addedUser: action.newUser, initUser: action.initUser}
@@ -32,7 +32,6 @@ export const registrationReducer = (state = initialState, action: ActionType): I
     }
 };
 
-
 //action
 const registrationAC = (newUser: adedUserType, initUser: boolean) =>
     ({type: '/REGISTRATION/NEW-USER', newUser, initUser} as const)
@@ -42,30 +41,29 @@ export const setNewPasswordAC = (successedPassword: boolean) => ({
 } as const)
 export const setEmailAC = (email: string) => ({type: '/REGISTRATION/SET-EMAIL', email} as const)
 
-
 //thunk
-export const registrationTC = (data: RegistrationFormType) => (dispatch: Dispatch) => {
+export const registrationTC = (data: RegistrationFormType): AppThunk => (dispatch) => {
     registerApi.register(data).then(res => {
         dispatch(registrationAC(res.data.addedUser, true))
     }).catch((e: string) => {
         alert(e)
     })
 }
-export const setNewPasswordTC = (password: string, resetPasswordToken: string) => (dispatch: Dispatch) => {
+export const setNewPasswordTC = (password: string, resetPasswordToken: string): AppThunk =>
+    (dispatch) => {
     registerApi.setNewPassword(password, resetPasswordToken)
         .then((res) => {
             console.log(res.data.info)
             dispatch(setNewPasswordAC(true))
-
         })
         .catch((error: string) => {
             dispatch(setAlertList(configAlert('error', `${error}`)))
             console.log(error)
         })
 }
-export const recoveryPasswordTC = (email: string) => (dispatch: Dispatch) => {
+export const recoveryPasswordTC = (email: string): AppThunk => (dispatch) => {
     const from = 'IgorSvyrydovskyi@gmail.com'
- //   const forLocalServer = `http://localhost:3000/#/set-new-password/$token$`
+    //   const forLocalServer = `http://localhost:3000/#/set-new-password/$token$`
     //  const forServer = `https://neko-back.herokuapp.com/2.0`
     const message = `<div style="background-color: lime; padding: 15px"> password recovery 
     link: <a href= http://localhost:3000/#/set-new-password/$token$>link</a></div>`;
@@ -81,19 +79,16 @@ export const recoveryPasswordTC = (email: string) => (dispatch: Dispatch) => {
 }
 
 //type
-export type ActionType =
+export type InitStateType = typeof initialState
+export type RegistrationActionType =
     | ReturnType<typeof setNewPasswordAC>
     | ReturnType<typeof registrationAC>
     | ReturnType<typeof setEmailAC>
     | SetAlertListType
-
-
 type adedUserType = {
     _id: string
     email: string
     rememberMe: boolean
     isAdmin: boolean
 }
-
-
 /*    export type SetNewPasswordAT = ReturnType<typeof setNewPasswordAC>*/

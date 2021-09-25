@@ -1,12 +1,13 @@
 import { Dispatch } from "redux";
 import { api } from "../../Dal/Api";
 import { setAlertList } from "./AppReducer";
+import { AppThunk } from '../Store';
 
 const initialState = {
     isLoggedIn: false
 }
-type initialState = typeof initialState
-export const loginReducer = (state:initialState = initialState, action: ActionsType): initialState => {
+
+export const loginReducer = (state:initialState = initialState, action: LoginActionsType): initialState => {
     switch (action.type) {
         case 'login/SET-IS-LOGGED-IN':
             return {...state, isLoggedIn: action.status}
@@ -30,14 +31,9 @@ export const setIsLogoutAC = (status: boolean) => {
         status
     } as const
 }
-//type
-type ActionsType =
-    | ReturnType<typeof setIsLoggedInAC>
-    | ReturnType<typeof setIsLogoutAC>
-
 
 //thunk
-export const isLoginTC = (email:string, password:string,rememberMe:boolean) => (dispatch: Dispatch) => {
+export const isLoginTC = (email:string, password:string,rememberMe:boolean):AppThunk => (dispatch) => {
     api.inLogin(email, password, rememberMe)
         .then((res)=>{
             dispatch(setIsLoggedInAC(true))
@@ -47,7 +43,7 @@ export const isLoginTC = (email:string, password:string,rememberMe:boolean) => (
             dispatch(setAlertList({id: 1, type: 'error', title:  e.response.data.error}))
     })
 }
-export const isLogoutTC = (logout:boolean) => (dispatch: Dispatch) => {
+export const isLogoutTC = (logout:boolean):AppThunk => (dispatch) => {
     api.inLogout()
         .then(()=>{
             dispatch(setIsLogoutAC(logout))
@@ -56,3 +52,9 @@ export const isLogoutTC = (logout:boolean) => (dispatch: Dispatch) => {
         dispatch(setAlertList({id: 1, type: 'error', title:  e.response.data.error}))
     })
 }
+
+//type
+export type LoginActionsType =
+    | ReturnType<typeof setIsLoggedInAC>
+    | ReturnType<typeof setIsLogoutAC>
+type initialState = typeof initialState
