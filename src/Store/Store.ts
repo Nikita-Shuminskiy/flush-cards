@@ -4,7 +4,7 @@ import { RegistrationActionType, registrationReducer } from './Reducers/Registra
 import { profileReducer } from './Reducers/ProfileReducer'
 import thunk, { ThunkAction } from 'redux-thunk';
 import { AppActionType, AppReducer } from './Reducers/AppReducer';
-import { deckReducer } from './Reducers/deckReducer';
+import { deckReducer } from './Reducers/DeckReducer';
 import { cardsReducer } from './Reducers/CardsReducer';
 
 const rootReducer = combineReducers({
