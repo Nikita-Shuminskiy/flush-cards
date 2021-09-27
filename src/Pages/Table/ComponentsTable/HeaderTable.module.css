@@ -1,0 +1,13 @@
+.headerTable {
+    background-color: rgba(18, 57, 139, 0.34);
+    width: 80%;
+    min-hight: 5px;
+    border: 2px solid;
+    display: flex;
+}
+.headerTable div {
+    width: 20%;
+}
+.table {
+
+}

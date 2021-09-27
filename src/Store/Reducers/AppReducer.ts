@@ -87,6 +87,7 @@ export const authMe = ():AppThunk => (dispatch) => {
             dispatch(initialApp())
             dispatch(setAlertList(configAlert('error', `${error}`)))
         })
+
 }
 
 //type

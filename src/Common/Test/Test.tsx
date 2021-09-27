@@ -6,6 +6,7 @@ import {useDispatch, useSelector } from 'react-redux';
 import {AppRootStateType} from "../../Store/Store";
 import {AlertContentType, configAlert, removeAlert, setAlertList} from '../../Store/Reducers/AppReducer';
 import { Alert } from '../Alert/Alert';
+import Table from "../../Pages/Table/Table";
 
 const Test = () => {
     const dispatch = useDispatch()
@@ -49,6 +50,7 @@ const Test = () => {
 
                 <Alert onCloseAlert={onCloseAlert} alertList={alertList}/>
             </>
+           <Table/>
         </div>
     );
 };

@@ -1,0 +1,9 @@
+.table {
+    width: 80%;
+    border-bottom: 2px solid;
+    background-color: rgba(93, 89, 94, 0.199);
+    display: flex;
+}
+.table div {
+    width: 20%
+}
