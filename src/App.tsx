@@ -17,6 +17,7 @@ import { Alert } from './Common/Alert/Alert';
 import { InitialLayout } from './Common/InitialLayout/InitialLayout';
 import {Cards} from './Pages/Cards/Cards';
 import {Deck} from './Pages/Deck/Deck';
+import axios from "axios";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
     useEffect(() => {
         dispatch(authMe())
     }, [])
+
 
     return (
       <>

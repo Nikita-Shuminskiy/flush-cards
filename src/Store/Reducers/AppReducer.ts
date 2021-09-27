@@ -145,4 +145,5 @@ export const authMe = () => (dispatch: Dispatch) => {
             dispatch(initialApp())
             dispatch(setAlertList(configAlert('error', `${error}`)))
         })
+
 }

@@ -32,6 +32,12 @@ export const api = {
         return createInstance.post('auth/me', {}).then(res => res)
     }
 }
+export const apiCart = {
+    getCard(){
+        const promise = createInstance.get('cards/pack?min=3&page=3')
+        return promise
+    }
+}
 
 
 //type
