@@ -2,8 +2,8 @@ import axios from 'axios';
 import {RegistrationFormType} from '../Pages/Registration/Registration';
 
 const createInstance = axios.create({
-     baseURL: 'https://neko-back.herokuapp.com/2.0',
-    //baseURL: 'http://localhost:7542/2.0/',
+    //baseURL: 'https://neko-back.herokuapp.com/2.0',
+    baseURL: 'http://localhost:7542/2.0/',
     withCredentials: true
 })
 
@@ -32,10 +32,15 @@ export const api = {
         return createInstance.post('auth/me', {}).then(res => res)
     }
 }
-export const apiCart = {
-    getCard(){
-        const promise = createInstance.get('cards/pack?min=3&page=3')
-        return promise
+export const apiPack = {
+    getPacks() {
+        return createInstance.get('cards/pack?page=1')
+    },
+    addedPack() {
+        return createInstance.post('cards/pack', {cardsPack: {name: 'NewPack03'}})
+    },
+    deletePack(id: string) {
+        return createInstance.delete(`cards/pack?id=${id}`)
     }
 }
 

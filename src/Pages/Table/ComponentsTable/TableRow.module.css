@@ -7,3 +7,8 @@
 .table div {
     width: 20%
 }
+
+.menu button{
+    background-color: rgba(18, 57, 139, 0.34);
+    border-radius: 10px;
+}
