@@ -26,7 +26,7 @@ const initialState  = {
 
 export type DeckInitStateType = typeof initialState
 
-
+//test
 export const deckReducer = (state = initialState, action: ActionType): DeckInitStateType => {
 
     switch (action.type) {
