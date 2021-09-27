@@ -21,6 +21,7 @@ import axios from "axios";
 
 
 function App() {
+    //test
     const dispatch = useDispatch()
     const alertList = useSelector<AppRootStateType, AlertContentType[]>(state => state.app.alertList)
     const initApp = useSelector<AppRootStateType, boolean>(state => state.app.initialApp)
