@@ -1,0 +1,15 @@
+.container {
+    margin: 0 20px;
+    padding: 20px;
+    width: 80%;
+    border-radius: 5px;
+    background-color: #F9F9FE ;
+}
+
+.header {
+    display: flex;
+    padding-bottom: 20px;
+    flex-direction: row;
+    justify-content: space-around;
+
+}
