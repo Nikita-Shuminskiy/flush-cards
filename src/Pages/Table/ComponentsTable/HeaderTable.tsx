@@ -52,6 +52,7 @@ const addedPack = () => {
             </div>
             {props.data.map((el)=> <TableRow
                 id={el._id}
+                key={el._id}
                 name={el.name}
                 countCard={el.cardsCount}
                 created={el.created.slice(0,10)}

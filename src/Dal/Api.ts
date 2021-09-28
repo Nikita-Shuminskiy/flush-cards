@@ -34,13 +34,16 @@ export const api = {
 }
 export const apiPack = {
     getPacks() {
-        return createInstance.get('cards/pack?page=1')
+        return createInstance.get('cards/pack')
     },
     addedPack() {
         return createInstance.post('cards/pack', {cardsPack: {name: 'NewPack03'}})
     },
     deletePack(id: string) {
         return createInstance.delete(`cards/pack?id=${id}`)
+    },
+    changedPack(name: string, _id: string) {
+        return createInstance.put('cards/pack',{cardsPack: {name,_id}})
     }
 }
 
