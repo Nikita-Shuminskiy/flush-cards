@@ -1,8 +1,6 @@
 import {api, apiPack, packsListHelperUtils} from '../../Dal/Api';
 import {Dispatch} from 'redux';
 import {AppThunk} from '../Store';
-import {api, apiPack} from "../../Dal/Api";
-import {Dispatch} from "redux";
 import {setAlertList} from "./AppReducer";
 
 
