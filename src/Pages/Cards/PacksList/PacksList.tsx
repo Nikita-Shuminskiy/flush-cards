@@ -16,7 +16,7 @@ export const PacksList = React.memo(() => {
             <h3>Packs list</h3>
             <div className={s.header}>
                 <SuperInputText name={'SearchByName'} placeholder={'Search by name'} onChange={handleChangeFindName}/>
-                {/*<SuperInputText/>*/}
+                <SuperInputText/>
                 <SuperButton value={'Add new pack'} onClick={onSubmit}/>
             </div>
             <div>
