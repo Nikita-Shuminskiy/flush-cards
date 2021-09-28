@@ -1,0 +1,17 @@
+.menu {
+    position: absolute;
+    top: calc(50vh - 100px);
+    left: calc(50vw - 150px);
+    width: 300px;
+    height: 200px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    background: rgb(70, 90, 142);
+    border-radius: 80px;
+    z-index: 21;
+}
+.menu h3 {
+    color: white;
+}

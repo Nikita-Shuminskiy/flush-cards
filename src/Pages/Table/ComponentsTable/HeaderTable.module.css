@@ -1,8 +1,9 @@
 .headerTable {
     background-color: rgba(18, 57, 139, 0.34);
     width: 80%;
-    min-hight: 5px;
+    hight: 5px;
     border: 2px solid;
+    border-radius: 5px;
     display: flex;
 }
 .headerTable div {
