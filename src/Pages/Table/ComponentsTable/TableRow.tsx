@@ -1,8 +1,8 @@
-import React, {ChangeEvent, ChangeEventHandler, useState} from 'react';
-import {apiPack} from '../../../Dal/Api';
+import React, {ChangeEvent, useState} from 'react';
 import s from './TableRow.module.css'
 import {useDispatch} from "react-redux";
-import {getCard} from "../../../Store/Reducers/DeckReducer";
+import {changedNamePackTC, deletePacksCardTC} from "../../../Store/Reducers/DeckReducer";
+
 
 type DataCardsProps = {
     name: string
@@ -13,51 +13,34 @@ type DataCardsProps = {
 }
 
 const TableRow = (props: DataCardsProps) => {
-    console.log('rerender')
+    const dispatch = useDispatch()
     const [status, setStatus] = useState<boolean>(false)
     const [value, setValue] = useState<string>(props.name)
+
     const changedValue = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value)
     }
-
-
-    const dispatch = useDispatch()
-    const test = () => {
-        deletePack(props.id)
+    const deletePack = () => {
+        dispatch(deletePacksCardTC(props.id))
     }
-    const deletePack = (id: string) => {
-        apiPack.deletePack(id)
-            .then((res) => {
-                console.log(res)
-                apiPack.getPacks()
-                    .then((res) => {
-                        dispatch(getCard(res.data.cardPacks))
-                    })
-            })
+    const newNamePack = () => {
+        dispatch(changedNamePackTC(value, props.id))
+        setStatus(false)
     }
     const onChangeNamePack = () => {
         setStatus(!status)
+        setValue(props.name)
     }
-
-   const newNamePack = () => {
-        apiPack.changedPack("newPack02", '6152d6253980d4286072665f')
-            .then((res)=>{
-                setStatus(false)
-
-            })
-            .catch((error)=> {
-                setStatus(false)
-            })
-   }
- // const testTwo = () => {
- //     newNamePack(value, props.id)
- // }
-
     return (
         <div>
             <div className={s.table}>
-                {!status ? <div>{value}</div>
-                    : <div><input type="text" value={value}  onChange={changedValue} />
+                {!status
+                    ? <div>
+                        {value !== props.name
+                            ? props.name
+                            : value
+                        }</div>
+                    : <div><input type="text" value={value} onChange={changedValue}/>
                         <button onClick={newNamePack}>Ok</button>
                     </div>
                 }
@@ -68,7 +51,7 @@ const TableRow = (props: DataCardsProps) => {
                     {!status ? <button onClick={onChangeNamePack}>change</button>
                         : <button onClick={onChangeNamePack}>cancel</button>
                     }
-                    <button onClick={test}>delete</button>
+                    <button onClick={deletePack}>delete</button>
                 </div>
             </div>
 

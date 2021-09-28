@@ -34,7 +34,7 @@ export const api = {
 }
 export const apiPack = {
     getPacks() {
-        return createInstance.get('cards/pack')
+        return createInstance.get('cards/pack?&pageCount=6')
     },
     addedPack() {
         return createInstance.post('cards/pack', {cardsPack: {name: 'NewPack03'}})
