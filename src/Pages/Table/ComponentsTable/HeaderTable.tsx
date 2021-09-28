@@ -3,7 +3,7 @@ import s from './HeaderTable.module.css'
 import TableRow from '../ComponentsTable/TableRow';
 import { apiPack} from "../../../Dal/Api";
 import {useDispatch} from "react-redux";
-import {getCard} from "../../../Store/Reducers/DeckReducer";
+import {getPacksCard} from "../../../Store/Reducers/DeckReducer";
 export type testDataProps ={
     data: Array<testObjType>
 }
@@ -30,7 +30,7 @@ const addedPack = () => {
         .then((res)=>{
             apiPack.getPacks()
                 .then((res) => {
-                    dispatch(getCard(res.data.cardPacks))
+                    dispatch(getPacksCard(res.data.cardPacks))
                 })
             console.log(res)
         })
