@@ -1,18 +1,26 @@
-import { Dispatch } from "redux";
-import { api } from "../../Dal/Api";
-import { setAlertList } from "./AppReducer";
-import { AppThunk } from '../Store';
+import {api} from '../../Dal/Api';
+import {setAlertList} from './AppReducer';
+import {AppThunk} from '../Store';
 
 const initialState = {
-    isLoggedIn: false
+    isLoggedIn: false,
+    profileData: {
+        _id:'',
+        email:'',
+        name:'',
+        avatar:'',
+        publicCardPacksCount:null as null | number
+    }
 }
 
-export const loginReducer = (state:initialState = initialState, action: LoginActionsType): initialState => {
+export const loginReducer = (state: InitialState = initialState, action: LoginActionsType): InitialState => {
     switch (action.type) {
         case 'login/SET-IS-LOGGED-IN':
             return {...state, isLoggedIn: action.status}
         case 'login/SET-IS-LOGOUT':
             return {...state, isLoggedIn: action.status}
+        case 'login/SET-PROFILE-DATA':
+            return {...state, profileData: action.payload}
         default:
             return state
     }
@@ -31,25 +39,25 @@ export const setIsLogoutAC = (status: boolean) => {
         status
     } as const
 }
-
+export const setProfileData = (payload:ProfileDataType) => ({type: 'login/SET-PROFILE-DATA', payload} as const)
 //thunk
-export const isLoginTC = (email:string, password:string,rememberMe:boolean):AppThunk => (dispatch) => {
+export const isLoginTC = (email: string, password: string, rememberMe: boolean): AppThunk => (dispatch) => {
     api.inLogin(email, password, rememberMe)
-        .then((res)=>{
+        .then((res) => {
             dispatch(setIsLoggedInAC(true))
-
+            dispatch(setProfileData(res.data))
             //диспач экшена профайла, для получения данных с сервера
         }).catch((e) => {
-            dispatch(setAlertList({id: 1, type: 'error', title:  e.response.data.error}))
+        dispatch(setAlertList({id: 1, type: 'error', title: e.response.data.error}))
     })
 }
-export const isLogoutTC = (logout:boolean):AppThunk => (dispatch) => {
+export const isLogoutTC = (logout: boolean): AppThunk => (dispatch) => {
     api.inLogout()
-        .then(()=>{
+        .then(() => {
             dispatch(setIsLogoutAC(logout))
         }).catch((e) => {
-        console.log('Error: ',  e.response.data.error)
-        dispatch(setAlertList({id: 1, type: 'error', title:  e.response.data.error}))
+        console.log('Error: ', e.response.data.error)
+        dispatch(setAlertList({id: 1, type: 'error', title: e.response.data.error}))
     })
 }
 
@@ -57,4 +65,12 @@ export const isLogoutTC = (logout:boolean):AppThunk => (dispatch) => {
 export type LoginActionsType =
     | ReturnType<typeof setIsLoggedInAC>
     | ReturnType<typeof setIsLogoutAC>
-type initialState = typeof initialState
+    | ReturnType<typeof setProfileData>
+type InitialState = typeof initialState
+ type ProfileDataType = {
+     _id: string
+     email:string
+     name:string
+     avatar:string
+     publicCardPacksCount: null | number
+ }
