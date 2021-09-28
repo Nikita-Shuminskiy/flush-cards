@@ -47,8 +47,11 @@ export const apiPack = {
     }
 }
 export const packsListHelperUtils = {
-    SearchByName(value:string) {
+    searchByName(value:string) {
         return createInstance.get(`cards/pack?packName=${value}`)
+    },
+    getPrivatDeck(user_id:string){
+        return createInstance.get(`cards/pack?&user_id=${user_id}`)
     },
 }
 

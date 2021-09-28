@@ -1,7 +1,7 @@
 import {api, apiPack, packsListHelperUtils} from '../../Dal/Api';
 import {Dispatch} from 'redux';
 import {AppThunk} from '../Store';
-import {setAlertList} from "./AppReducer";
+import {setAlertList} from './AppReducer';
 
 
 export type CardPackType = {
@@ -29,18 +29,19 @@ export type DeckInitStateType = typeof initialState
 export const deckReducer = (state = initialState, action: DeckActionType): DeckInitStateType => {
 
     switch (action.type) {
-        case "GET-CARD": {
+        case 'GET-CARD': {
             return {...state, cardPacks: action.packs}
         }
-        case "DELETE-PACKS-CARD": {
+        case 'DELETE-PACKS-CARD': {
             return {
                 ...state,
                 cardPacks: state.cardPacks.filter(el => el._id !== action.id)
             }
         }
-        case "CHANGE-NAME-PACK":{
-            return {...state,
-                cardPacks: state.cardPacks.map(el=> el._id === action.id ? {...el, name : action.name} : el )
+        case 'CHANGE-NAME-PACK': {
+            return {
+                ...state,
+                cardPacks: state.cardPacks.map(el => el._id === action.id ? {...el, name: action.name} : el)
             }
         }
         default:
@@ -89,10 +90,10 @@ export const deletePacksCardTC = (id: string) => (dispatch: Dispatch) => {
                 .then((res) => {
                     dispatch(getPacksCard(res.data.cardPacks))
                 })
-                .catch((error)=> {
+                .catch((error) => {
                 })
         })
-        .catch((error)=>{
+        .catch((error) => {
             dispatch(setAlertList({id: 1, type: 'error', title: 'Удалять можно только свои колоды'}))
         })
 
@@ -112,9 +113,22 @@ export const changedNamePackTC = (newName: string, id: string) => (dispatch: Dis
 export const searchNameTC = (findByName: string): AppThunk => (dispatch) => {
     api.authMe()
         .then(res => {
-            packsListHelperUtils.SearchByName(findByName)
+            packsListHelperUtils.searchByName(findByName)
                 .then(res => {
                     console.log(res)
+                    dispatch(getPacksCard(res.data.cardPacks))
+                })
+        })
+        .catch((error) => {
+            console.log('bad response')
+        })
+}
+export const setPrivatDecks = (): AppThunk => (dispatch,getState) => {
+    const user_id = getState().login.profileData._id
+    api.authMe()
+        .then(res => {
+            packsListHelperUtils.getPrivatDeck(user_id)
+                .then((res) => {
                     dispatch(getPacksCard(res.data.cardPacks))
                 })
         })
