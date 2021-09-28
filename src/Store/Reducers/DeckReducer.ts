@@ -109,6 +109,18 @@ export const changedNamePackTC = (newName: string, id: string) => (dispatch: Dis
             dispatch(setAlertList({id: 1, type: 'error', title: 'Нельзя изменить чужую колоду'}))
         })
 }
+export const creatingNewPackTC = (name: string) => (dispatch: Dispatch) => {
+    apiPack.addedPack(name)
+        .then((res) => {
+           //
+            apiPack.getPacks()
+                .then((res) => {
+                    dispatch(getPacksCard(res.data.cardPacks))
+                })
+            console.log(res)
+        })
+
+}
 
 export const searchNameTC = (findByName: string): AppThunk => (dispatch) => {
     api.authMe()

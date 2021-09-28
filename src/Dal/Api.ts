@@ -36,8 +36,8 @@ export const apiPack = {
     getPacks() {
         return createInstance.get('cards/pack?&pageCount=6')
     },
-    addedPack() {
-        return createInstance.post('cards/pack', {cardsPack: {name: 'NewPack03'}})
+    addedPack(name:string) {
+        return createInstance.post('cards/pack', {cardsPack: {name}})
     },
     deletePack(id: string) {
         return createInstance.delete(`cards/pack?id=${id}`)
