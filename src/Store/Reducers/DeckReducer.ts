@@ -1,5 +1,4 @@
-import {api, apiPack, packsListHelperUtils} from '../../Dal/Api';
-import {Dispatch} from 'redux';
+import {api, apiPacksCards, packsListHelperUtils} from '../../Dal/Api';
 import {AppThunk} from '../Store';
 import {setAlertList} from './AppReducer';
 
@@ -69,24 +68,24 @@ export type DeckActionType =
     | ChangeNamePackType
 
 //thunk
-export const getPacksCardTC = () => (dispach: Dispatch) => {
+export const getPacksCardTC = ():AppThunk => (dispatch) => {
     api.authMe()
         .then(res => {
-            apiPack.getPacks()
+            apiPacksCards.getPacks()
                 .then((res) => {
-                    dispach(getPacksCard(res.data.cardPacks))
+                    dispatch(getPacksCard(res.data.cardPacks))
                 })
         })
         .catch((error) => {
             console.log('bad response')
         })
 }
-export const deletePacksCardTC = (id: string) => (dispatch: Dispatch) => {
-    apiPack.deletePack(id)
+export const deletePacksCardTC = (id: string):AppThunk => (dispatch) => {
+    apiPacksCards.deletePack(id)
         .then((res) => {
             dispatch(deletePacksCard(id))
             dispatch(setAlertList({id: 1, type: 'success', title: 'Ваша колода удалена'}))
-            apiPack.getPacks()
+            apiPacksCards.getPacks()
                 .then((res) => {
                     dispatch(getPacksCard(res.data.cardPacks))
                 })
@@ -99,8 +98,8 @@ export const deletePacksCardTC = (id: string) => (dispatch: Dispatch) => {
 
 
 }
-export const changedNamePackTC = (newName: string, id: string) => (dispatch: Dispatch) => {
-    apiPack.changedPack(newName, id)
+export const changedNamePackTC = (newName: string, id: string):AppThunk => (dispatch) => {
+    apiPacksCards.changedPack(newName, id)
         .then((res) => {
             dispatch(changeNamePack(id, newName))
 
@@ -109,11 +108,11 @@ export const changedNamePackTC = (newName: string, id: string) => (dispatch: Dis
             dispatch(setAlertList({id: 1, type: 'error', title: 'Нельзя изменить чужую колоду'}))
         })
 }
-export const creatingNewPackTC = (name: string) => (dispatch: Dispatch) => {
-    apiPack.addedPack(name)
+export const creatingNewPackTC = (name: string):AppThunk => (dispatch) => {
+    apiPacksCards.addedPack(name)
         .then((res) => {
            //
-            apiPack.getPacks()
+            apiPacksCards.getPacks()
                 .then((res) => {
                     dispatch(getPacksCard(res.data.cardPacks))
                 })

@@ -1,6 +1,5 @@
 import { RegistrationFormType } from '../../Pages/Registration/Registration';
 import { registerApi } from '../../Dal/Api';
-import { Dispatch } from 'redux';
 import { configAlert, setAlertList, SetAlertListType } from './AppReducer';
 import { AppThunk } from '../Store';
 

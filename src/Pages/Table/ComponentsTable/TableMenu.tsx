@@ -26,7 +26,7 @@ const TableMenu = (props: TableMenuPropsType) => {
         <div className={s.menu}>
             <h3>Введите имя колоды</h3>
             <input type="text" value={value} onChange={changedValue}/>
-            <div>
+            <div >
                 <button onClick={creatingNewPack} >ok</button>
                 <button onClick={cancelCreatingNewPack} >cancel</button>
             </div>

@@ -1,4 +1,3 @@
-import {Dispatch} from "redux";
 import {api} from "../../Dal/Api";
 import {setIsLoggedInAC} from "./LoginReducer";
 import { AppThunk } from '../Store';

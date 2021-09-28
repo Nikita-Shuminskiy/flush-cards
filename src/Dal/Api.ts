@@ -32,9 +32,9 @@ export const api = {
         return createInstance.post('auth/me', {}).then(res => res)
     }
 }
-export const apiPack = {
+export const apiPacksCards = {
     getPacks() {
-        return createInstance.get('cards/pack?&pageCount=6')
+        return createInstance.get('cards/pack?&pageCount=10')
     },
     addedPack(name:string) {
         return createInstance.post('cards/pack', {cardsPack: {name}})

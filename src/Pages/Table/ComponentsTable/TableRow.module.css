@@ -1,20 +1,23 @@
 .table {
-
     width: 80%;
     border-bottom: 2px solid;
     border-left: 2px solid;
     border-right: 2px solid;
-    border-radius: 5px;
     border-color: rgba(18, 57, 139, 0.34);
-    background-color: rgba(93, 89, 94, 0.199);
+    background-color: white;
     display: flex;
 }
 .table div {
     width: 20%
 }
+.table input {
+    max-width: 100%;
+}
 
 .menu button{
-
-    background-color: rgba(18, 57, 139, 0.34);
-    border-radius: 10px;
+    background-color: #3F51B5;
+    font-size: 15px;
+    color: white;
+    width: 50%;
+    border-radius: 5px;
 }
