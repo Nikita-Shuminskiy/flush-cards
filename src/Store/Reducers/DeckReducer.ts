@@ -1,5 +1,6 @@
-import {api, apiPack} from "../../Dal/Api";
-import {Dispatch} from "redux";
+import {api, apiPack, packsListHelperUtils} from '../../Dal/Api';
+import {Dispatch} from 'redux';
+import {AppThunk} from '../Store';
 
 
 export type CardPackType = {
@@ -20,16 +21,15 @@ export type CardPackType = {
     __v: number
 }
 const initialState = {
-    "cardPacks": [] as Array<CardPackType>
+    'cardPacks': [] as Array<CardPackType>,
+    /** search */
 }
-
-
 export type DeckInitStateType = typeof initialState
 
-export const deckReducer = (state = initialState, action: ActionType): DeckInitStateType => {
+export const deckReducer = (state = initialState, action: DeckActionType): DeckInitStateType => {
 
     switch (action.type) {
-        case "GET-CARD": {
+        case 'GET-CARD': {
             return {...state, cardPacks: action.packs}
         }
         default:
@@ -40,13 +40,10 @@ export const deckReducer = (state = initialState, action: ActionType): DeckInitS
 export const getCard = (packs: Array<CardPackType>) => {
     return {type: 'GET-CARD', packs} as const
 }
-
 //type
 type GetCardTypeAC = ReturnType<typeof getCard>
-export type ActionType =
-    |GetCardTypeAC
-
-
+export type DeckActionType =
+    | GetCardTypeAC
 //thunk
 export const testTC = () => (dispach: Dispatch) => {
     api.authMe()
@@ -54,6 +51,19 @@ export const testTC = () => (dispach: Dispatch) => {
             apiPack.getPacks()
                 .then((res) => {
                     dispach(getCard(res.data.cardPacks))
+                })
+        })
+        .catch((error) => {
+            console.log('bad response')
+        })
+}
+export const searchNameTC = (findByName: string): AppThunk => (dispatch) => {
+    api.authMe()
+        .then(res => {
+            packsListHelperUtils.SearchByName(findByName)
+                .then(res => {
+                    console.log(res)
+                    dispatch(getCard(res.data.cardPacks))
                 })
         })
         .catch((error) => {

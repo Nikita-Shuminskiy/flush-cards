@@ -43,8 +43,13 @@ export const apiPack = {
         return createInstance.delete(`cards/pack?id=${id}`)
     },
     changedPack(name: string, _id: string) {
-        return createInstance.put('cards/pack',{cardsPack: {name,_id}})
+        return createInstance.put('cards/pack', {cardsPack: {name, _id}})
     }
+}
+export const packsListHelperUtils = {
+    SearchByName(value:string) {
+        return createInstance.get(`cards/pack?packName=${value}`)
+    },
 }
 
 

@@ -3,13 +3,15 @@ import Table from '../../Table/Table';
 import React, {ChangeEvent, useState} from 'react';
 import SuperButton from '../../../Common/Test/c2-SuperButton/SuperButton';
 import s from './PacksList.module.css'
+import {useDispatch} from 'react-redux';
+import {searchNameTC} from '../../../Store/Reducers/DeckReducer';
 
 export const PacksList = React.memo(() => {
     const [findByName, setFindByName] = useState<string>('')
-
+    const dispatch = useDispatch()
     const handleChangeFindName = (e: ChangeEvent<HTMLInputElement>) => setFindByName(e.currentTarget.value)
     const onSubmit = () => {
-        console.log(findByName)
+        dispatch(searchNameTC(findByName))
     }
     return (
         <div className={s.container}>

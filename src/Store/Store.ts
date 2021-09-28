@@ -1,11 +1,11 @@
-import { applyMiddleware, combineReducers, createStore } from 'redux';
-import { LoginActionsType, loginReducer } from './Reducers/LoginReducer'
-import { RegistrationActionType, registrationReducer } from './Reducers/RegistrationReducer'
-import { profileReducer } from './Reducers/ProfileReducer'
-import thunk, { ThunkAction } from 'redux-thunk';
-import { AppActionType, AppReducer } from './Reducers/AppReducer';
-import { deckReducer } from './Reducers/DeckReducer';
-import { cardsReducer } from './Reducers/CardsReducer';
+import {applyMiddleware, combineReducers, createStore} from 'redux';
+import {LoginActionsType, loginReducer} from './Reducers/LoginReducer'
+import {RegistrationActionType, registrationReducer} from './Reducers/RegistrationReducer'
+import {profileReducer} from './Reducers/ProfileReducer'
+import thunk, {ThunkAction} from 'redux-thunk';
+import {AppActionType, AppReducer} from './Reducers/AppReducer';
+import {DeckActionType, deckReducer} from './Reducers/DeckReducer';
+import {cardsReducer} from './Reducers/CardsReducer';
 
 const rootReducer = combineReducers({
     login: loginReducer,
@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
     profile: profileReducer,
     app: AppReducer,
     deck: deckReducer,
-    cards:cardsReducer,
+    cards: cardsReducer,
 })
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 
@@ -23,9 +23,11 @@ export type AppActionsType =
     | AppActionType
     | LoginActionsType
     | RegistrationActionType
-/*  | CardsActionType
+//    | CardsActionType
     | DeckActionType
-    | ProfileActionType*/ // они пустые. когда будет логика, подключайте)
+  //  | ProfileActionType
+// они пустые. когда будет логика, подключайте)
+
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AppActionsType>
 
 
