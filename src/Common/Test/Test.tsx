@@ -7,6 +7,7 @@ import {AppRootStateType} from "../../Store/Store";
 import {AlertContentType, configAlert, removeAlert, setAlertList} from '../../Store/Reducers/AppReducer';
 import { Alert } from '../Alert/Alert';
 import Table from "../../Pages/Table/Table";
+import { Paginator } from './Paginator/Paginator';
 
 const Test = () => {
     const dispatch = useDispatch()

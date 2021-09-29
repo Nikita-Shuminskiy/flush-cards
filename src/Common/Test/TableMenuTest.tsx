@@ -2,6 +2,7 @@ import React, {ChangeEvent, useState} from 'react';
 import s from '../../Pages/Table/ComponentsTable/TableMenu.module.css'
 import {useDispatch} from "react-redux";
 import {changedNamePackTC, creatingNewPackTC, deletePacksCardTC} from "../../Store/Reducers/DeckReducer";
+import { Paginator } from './Paginator/Paginator';
 
 
 type TableMenuPropsType = {
@@ -32,6 +33,9 @@ const TableMenuTest = (props: TableMenuPropsType) => {
         }
 
     }
+    const pageClickChange = () => {
+
+    }
     return (
 
         <div className={s.menu}>
@@ -50,7 +54,9 @@ const TableMenuTest = (props: TableMenuPropsType) => {
                         <button onClick={cancelCreatingNewPack}>cancel</button>
                     </div>
                 </div>}
-
+        <div>
+            <Paginator pageClickChange={pageClickChange} currentPage={1} pageSize={10} totalCount={3}/>
+        </div>
 
         </div>
 

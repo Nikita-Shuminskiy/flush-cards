@@ -44,6 +44,11 @@ export const apiPacksCards = {
     },
     changedPack(name: string, _id: string) {
         return createInstance.put('cards/pack', {cardsPack: {name, _id}})
+    },
+    getCardsPaginator(currentPage: number, pageSize: number){
+        return createInstance.get(`cards/pack?page=${currentPage}&pageCount=${pageSize}`).then(res => {
+            return res.data
+        })
     }
 }
 export const packsListHelperUtils = {
