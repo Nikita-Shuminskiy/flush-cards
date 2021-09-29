@@ -1,6 +1,6 @@
-import {api, apiPacksCards, packsListHelperUtils} from '../../Dal/Api';
-import {AppThunk} from '../Store';
-import {setAlertList} from './AppReducer';
+import { api, apiPacksCards, packsListHelperUtils } from '../../Dal/Api';
+import { AppThunk } from '../Store';
+import { setAlertList } from './AppReducer';
 
 
 export type CardPackType = {
@@ -23,6 +23,9 @@ export type CardPackType = {
 const initialState = {
     cardPacks: [] as Array<CardPackType>,
     isCheckedMyPacks: false,
+    cardPacksTotalCount: 10,
+    currentPage: 1,
+    pageSize: 10,
 }
 export type DeckInitStateType = typeof initialState
 
@@ -46,6 +49,10 @@ export const deckReducer = (state = initialState, action: DeckActionType): DeckI
         }
         case 'SET-IS-CHECKED-MY-PACKS':
             return {...state, isCheckedMyPacks: action.isChecked}
+        case 'SET/TOTAL-DECK-COUNT':
+            return {...state, cardPacksTotalCount: action.cardPacksTotalCount}
+        case 'SET/CURRENT-PAGES':
+            return {...state, currentPage: action.currentPage}
         default:
             return state
     }
@@ -62,6 +69,18 @@ export const changeNamePack = (id: string, name: string) => {
 }
 export const setIsCheckedMyPacks = (isChecked: boolean) => ({type: 'SET-IS-CHECKED-MY-PACKS', isChecked} as const)
 
+//nick
+export const setCurrentPages = (currentPage: number) => ({type: 'SET/CURRENT-PAGES', currentPage} as const)
+export const setTotalPackCount = (cardPacksTotalCount:number) => ({type: 'SET/TOTAL-DECK-COUNT', cardPacksTotalCount} as const)
+export const getUserThunk = (currentPage: number, pageSize: number): AppThunk => {
+    return (dispatch) => {
+        apiPacksCards.getCardsPaginator(currentPage, pageSize).then(data => {
+            dispatch(setTotalPackCount(data.cardPacksTotalCount))
+            dispatch(setCurrentPages(currentPage))
+        })
+    }
+}
+//
 //type
 type GetCardTypeAC = ReturnType<typeof getPacksCard>
 type DeletePacksCard = ReturnType<typeof deletePacksCard>
@@ -71,6 +90,8 @@ export type DeckActionType =
     | DeletePacksCard
     | ChangeNamePackType
     | ReturnType<typeof setIsCheckedMyPacks>
+    | ReturnType<typeof setTotalPackCount>
+    | ReturnType<typeof setCurrentPages>
 
 //thunk
 export const getPacksCardTC = (): AppThunk => (dispatch) => {
@@ -151,3 +172,4 @@ export const setPrivatPacks = (): AppThunk => (dispatch) => {
             console.log('bad response')
         })
 }
+
