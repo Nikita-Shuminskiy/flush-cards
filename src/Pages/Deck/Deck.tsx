@@ -1,6 +1,6 @@
 import styles from '../Cards/Cards.module.scss';
-import {Sidebar} from '../Cards/Sidebar/Sidebar';
-import {PacksList} from '../Cards/PacksList/PacksList';
+import {Sidebar} from './Sidebar/Sidebar';
+import {PacksList} from './PacksList/PacksList';
 import React from 'react';
 
 export const Deck = () => {
