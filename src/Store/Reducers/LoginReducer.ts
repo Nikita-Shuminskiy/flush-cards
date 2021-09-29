@@ -1,5 +1,5 @@
 import {api} from '../../Dal/Api';
-import {setAlertList} from './AppReducer';
+import { removeAlert, setAlertList } from './AppReducer';
 import {AppThunk} from '../Store';
 
 const initialState = {
@@ -48,7 +48,8 @@ export const isLoginTC = (email: string, password: string, rememberMe: boolean):
             dispatch(setProfileData(res.data))
             //диспач экшена профайла, для получения данных с сервера
         }).catch((e) => {
-        dispatch(setAlertList({id: 1, type: 'error', title: e.response.data.error}))
+            dispatch(setAlertList({id: 2, type: 'error', title: e.response.data.error}))
+            setTimeout(() => dispatch(removeAlert(2)), 2000)
     })
 }
 export const isLogoutTC = (logout: boolean): AppThunk => (dispatch) => {
@@ -56,8 +57,8 @@ export const isLogoutTC = (logout: boolean): AppThunk => (dispatch) => {
         .then(() => {
             dispatch(setIsLogoutAC(logout))
         }).catch((e) => {
-        console.log('Error: ', e.response.data.error)
         dispatch(setAlertList({id: 1, type: 'error', title: e.response.data.error}))
+        setTimeout(() => dispatch(removeAlert(1)), 2000)
     })
 }
 

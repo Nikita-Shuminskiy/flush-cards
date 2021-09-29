@@ -57,6 +57,7 @@ export type SetAlertListType = {
     type: 'app/SET_ALERT',
     payload: AlertContentType
 }
+
 export const setAlertList = (alert: AlertContentType): SetAlertListType => ({
     type: SET_ALERT,
     payload: alert
@@ -84,7 +85,9 @@ export const authMe = ():AppThunk => (dispatch) => {
         })
         .catch(error => {
             dispatch(initialApp())
-            dispatch(setAlertList(configAlert('error', `${error}`)))
+            dispatch(setAlertList({id: 5, type: 'error', title: `${error}`}))
+            setTimeout(() => dispatch(removeAlert(5)), 2000)
+
         })
 
 }
