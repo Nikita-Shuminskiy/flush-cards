@@ -35,12 +35,16 @@ const Test = () => {
     const onCloseAlert = (id: number) => {
         dispatch(removeAlert(id))
     }
+    const pageClickChange = () => {
+
+    }
 
     return (
         <div>
             <SuperInputText/>
             <SuperCheckbox/>
             <SuperButton />
+            <Paginator pageClickChange={pageClickChange} currentPage={1000} pageSize={5} totalCount={100}/>
 
 
             <>
