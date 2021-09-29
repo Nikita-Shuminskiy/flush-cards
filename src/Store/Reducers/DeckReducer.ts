@@ -138,7 +138,7 @@ export const setPrivatDecks = (): AppThunk => (dispatch,getState) => {
     const user_id = getState().login.profileData._id
     api.authMe()
         .then(res => {
-            packsListHelperUtils.getPrivatDeck(user_id)
+            packsListHelperUtils.getPrivatPacks(user_id)
                 .then((res) => {
                     dispatch(getPacksCard(res.data.cardPacks))
                 })

@@ -48,10 +48,10 @@ export const apiPacksCards = {
 }
 export const packsListHelperUtils = {
     searchByName(value:string) {
-        return createInstance.get(`cards/pack?packName=${value}`)
+        return createInstance.get(`cards/pack`,{params: {packName: value, pageCount: 10 }})
     },
-    getPrivatDeck(user_id:string){
-        return createInstance.get(`cards/pack?&user_id=${user_id}`)
+    getPrivatPacks(user_id:string){
+        return createInstance.get(`cards/pack`, {params: {user_id : user_id, pageCount: 10 }})
     },
 }
 
