@@ -1,6 +1,6 @@
-import { api, apiPacksCards, packsListHelperUtils } from '../../Dal/Api';
-import { AppThunk } from '../Store';
-import { setAlertList } from './AppReducer';
+import {api, apiPacksCards, packsListHelperUtils} from '../../Dal/Api';
+import {AppThunk} from '../Store';
+import {setAlertList} from './AppReducer';
 
 
 export type CardPackType = {
@@ -23,17 +23,29 @@ export type CardPackType = {
 const initialState = {
     cardPacks: [] as Array<CardPackType>,
     isCheckedMyPacks: false,
-    cardPacksTotalCount: 10,
+    cardPacksTotalCount: 0,
+    maxCardsCount: 0,
+    minCardsCount: 0,
+    page: 0,
+    pageCount: 10,
     currentPage: 1,
     pageSize: 10,
+
 }
 export type DeckInitStateType = typeof initialState
 
-export const deckReducer = (state = initialState, action: DeckActionType): DeckInitStateType => {
+export const deckReducer = (state:DeckInitStateType = initialState, action: DeckActionType): DeckInitStateType => {
 
     switch (action.type) {
         case 'GET-CARD': {
-            return {...state, cardPacks: action.packs}
+            return {...state,
+                cardPacks: action.packs.cardPacks,
+                cardPacksTotalCount: action.packs.cardPacksTotalCount,
+                maxCardsCount: action.packs.maxCardsCount,
+                minCardsCount: action.packs.minCardsCount,
+                page: action.packs.page,
+                pageCount: action.packs.pageCount,
+            }
         }
         case 'DELETE-PACKS-CARD': {
             return {
@@ -58,7 +70,7 @@ export const deckReducer = (state = initialState, action: DeckActionType): DeckI
     }
 }
 //actions
-export const getPacksCard = (packs: Array<CardPackType>) => {
+export const getPacksCard = (packs: DeckInitStateType) => {
     return {type: 'GET-CARD', packs} as const
 }
 export const deletePacksCard = (id: string) => {
@@ -99,7 +111,8 @@ export const getPacksCardTC = (): AppThunk => (dispatch) => {
         .then(res => {
             apiPacksCards.getPacks()
                 .then((res) => {
-                    dispatch(getPacksCard(res.data.cardPacks))
+                    dispatch(getPacksCard(res.data))
+                    console.log(res.data)
                 })
         })
         .catch((error) => {
@@ -113,7 +126,7 @@ export const deletePacksCardTC = (id: string): AppThunk => (dispatch) => {
             dispatch(setAlertList({id: 1, type: 'success', title: 'Ваша колода удалена'}))
             apiPacksCards.getPacks()
                 .then((res) => {
-                    dispatch(getPacksCard(res.data.cardPacks))
+                    dispatch(getPacksCard(res.data))
                 })
                 .catch((error) => {
                 })
@@ -140,7 +153,7 @@ export const creatingNewPackTC = (name: string): AppThunk => (dispatch) => {
             //
             apiPacksCards.getPacks()
                 .then((res) => {
-                    dispatch(getPacksCard(res.data.cardPacks))
+                    dispatch(getPacksCard(res.data))
                 })
             console.log(res)
         })
@@ -153,19 +166,16 @@ export const searchNameTC = (findByName: string): AppThunk => (dispatch) => {
             packsListHelperUtils.searchByName(findByName)
                 .then(res => {
                     console.log(res)
-                    dispatch(getPacksCard(res.data.cardPacks))
+                    dispatch(getPacksCard(res.data))
                 })
-        })
-        .catch((error) => {
-            console.log('bad response')
-        })
+
 }
 export const setPrivatPacks = (): AppThunk => (dispatch) => {
     api.authMe()
         .then(res => {
             packsListHelperUtils.getPrivatPacks(res.data._id)
                 .then((res) => {
-                    dispatch(getPacksCard(res.data.cardPacks))
+                    dispatch(getPacksCard(res.data))
                 })
         })
         .catch((error) => {

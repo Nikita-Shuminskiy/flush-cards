@@ -63,6 +63,21 @@ export const packsListHelperUtils = {
     },
 }
 
+export const apiCards = {
+    getCards(packId: string){
+        return createInstance.get(`cards/card?cardsPack_id=${packId}`)
+    },
+    addCard(cardsPack_id: string){
+        return createInstance.post('cards/card', {card: {cardsPack_id,}})
+    },
+    deleteCard(packId:string){
+        return createInstance.delete(`cards/card?id=${packId}`,)
+    },
+    changeCard(_id: string,question: string){
+        return createInstance.put('cards/card', {card:{_id,question}})
+    }
+}
+
 
 //type
 type ResponseSetNewPassword = {

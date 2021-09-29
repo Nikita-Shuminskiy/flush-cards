@@ -5,7 +5,7 @@ import {ProfileActionType, profileReducer} from './Reducers/ProfileReducer'
 import thunk, {ThunkAction} from 'redux-thunk';
 import {AppActionType, AppReducer} from './Reducers/AppReducer';
 import {DeckActionType, deckReducer} from './Reducers/DeckReducer';
-import {cardsReducer} from './Reducers/CardsReducer';
+import {CardsActionType, cardsReducer} from './Reducers/CardsReducer';
 
 const rootReducer = combineReducers({
     login: loginReducer,
@@ -23,7 +23,7 @@ export type AppActionsType =
     | AppActionType
     | LoginActionsType
     | RegistrationActionType
-//    | CardsActionType
+   | CardsActionType
     | DeckActionType
     | ProfileActionType
 // они пустые. когда будет логика, подключайте)
