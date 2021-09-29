@@ -14,7 +14,6 @@ const initialState = {
     auth: false,
     userData: null
 }
-//type InitialState = typeof initialState
 // reducer
 export const AppReducer = (state: initialStateType = initialState, action: AppActionType): initialStateType => {
     switch (action.type) {
@@ -69,7 +68,9 @@ export const authMe = (): AppThunk => (dispatch) => {
         })
         .catch(error => {
             dispatch(initialApp())
-            dispatch(setAlertList(configAlert('error', `${error}`)))
+            dispatch(setAlertList({id: 5, type: 'error', title: `${error}`}))
+            setTimeout(() => dispatch(removeAlert(5)), 2000)
+
         })
 
 }
