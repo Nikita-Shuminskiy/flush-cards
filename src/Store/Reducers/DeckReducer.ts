@@ -169,7 +169,7 @@ export const searchNameTC = (findByName: string): AppThunk => (dispatch) => {
                     dispatch(getPacksCard(res.data))
                 })
 
-}
+})}
 export const setPrivatPacks = (): AppThunk => (dispatch) => {
     api.authMe()
         .then(res => {
