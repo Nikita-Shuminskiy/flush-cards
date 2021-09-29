@@ -2,7 +2,7 @@ import SuperInputText from '../../../Common/Test/c1-SuperInputText/SuperInputTex
 import Table from '../../Table/Table';
 import React, {ChangeEvent, useState} from 'react';
 import SuperButton from '../../../Common/Test/c2-SuperButton/SuperButton';
-import s from './PacksList.module.css'
+import s from '../../Deck/PacksList/PacksList.module.css'
 import {useDispatch} from 'react-redux';
 import {searchNameTC} from '../../../Store/Reducers/DeckReducer';
 import TableMenu from "../../Table/ComponentsTable/TableMenu";
