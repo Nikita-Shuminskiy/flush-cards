@@ -15,7 +15,12 @@
     border-radius: 5px;
     background-color: #fff;
     @include boxShadow();
-
+    .profile__info{
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      align-items: center;
+    }
     .profile__avatar {
         img {
           width: 200px;

@@ -1,6 +1,7 @@
-import {api} from "../../Dal/Api";
-import {setIsLoggedInAC} from "./LoginReducer";
-import { AppThunk } from '../Store';
+import {api} from '../../Dal/Api';
+import {setIsLoggedInAC} from './LoginReducer';
+import {AppThunk} from '../Store';
+import {setProfileData} from './ProfileReducer';
 
 const INIT_APP = 'app/INIT'
 const SET_ALERT = 'app/SET_ALERT'
@@ -13,6 +14,7 @@ const initialState = {
     auth: false,
     userData: null
 }
+//type InitialState = typeof initialState
 // reducer
 export const AppReducer = (state: initialStateType = initialState, action: AppActionType): initialStateType => {
     switch (action.type) {
@@ -37,50 +39,33 @@ export const AppReducer = (state: initialStateType = initialState, action: AppAc
                 ...state,
                 initialApp: true
             }
-       default:
+        default:
             return state
     }
 }
 
 // actions
-export type AlertContentType = {
-    id: number
-    type: "error" | "success" | "info" | "warning"
-    title: string
-}
-export const configAlert = (type: "error" | "success" | "info" | "warning", message: string) => ({
+
+export const configAlert = (type: 'error' | 'success' | 'info' | 'warning', message: string) => ({
     id: new Date().getTime(),
     type,
     title: message
 })
-export type SetAlertListType = {
-    type: 'app/SET_ALERT',
-    payload: AlertContentType
-}
-export const setAlertList = (alert: AlertContentType): SetAlertListType => ({
-    type: SET_ALERT,
-    payload: alert
-})
-export const removeAlert = (id: number): RemoveAlertType => ({
-    type: REMOVE_ALERT,
-    payload: id
-})
-const setAuth = (value: boolean, userData: DataUserType): SetAuthType => ({
-    type: AUTH_ME,
-    payload: {status: value, userData}
-})
-const initialApp = (): InitApptype => ({type: INIT_APP})
+export const setAlertList = (alert: AlertContentType) => ({type: SET_ALERT, payload: alert} as const)
+export const removeAlert = (id: number) => ({type: REMOVE_ALERT, payload: id} as const)
+const setAuth = (value: boolean, userData: DataUserType) =>
+    ({type: AUTH_ME, payload: {status: value, userData}} as const)
+const initialApp = () => ({type: INIT_APP} as const)
 
 // thunks
-export const authMe = ():AppThunk => (dispatch) => {
+export const authMe = (): AppThunk => (dispatch) => {
     api.authMe()
         .then(res => {
-            if (res.status === 200) {
-                dispatch(setIsLoggedInAC(true))
-                dispatch(setAuth(true, {email: res.data.email}))
-                dispatch(initialApp())
-                dispatch(setAlertList(configAlert('success', `Пользователь: ${res.data.name}`)))
-            }
+            dispatch(setIsLoggedInAC(true))
+            dispatch(setAuth(true, {email: res.data.email}))
+            dispatch(initialApp())
+            dispatch(setProfileData(res.data))
+            dispatch(setAlertList(configAlert('success', `Пользователь: ${res.data.name}`)))
         })
         .catch(error => {
             dispatch(initialApp())
@@ -90,6 +75,11 @@ export const authMe = ():AppThunk => (dispatch) => {
 }
 
 //type
+export type AlertContentType = {
+    id: number
+    type: 'error' | 'success' | 'info' | 'warning'
+    title: string
+}
 export type initialStateType = {
     initialApp: boolean
     alertList: AlertContentType[]
@@ -100,18 +90,14 @@ export type DataUserType = {
     email: string
     avatar?: string
 }
-type SetAuthType = {
-    type: 'app/AUTH_ME',
-    payload: {
-        status: boolean,
-        userData: DataUserType
-    }
-}
-type RemoveAlertType = {
-    type: 'app/REMOVE_ALERT'
-    payload: number
-}
-type InitApptype = {
-    type: 'app/INIT'
-}
-export type AppActionType = SetAlertListType | RemoveAlertType | SetAuthType | InitApptype
+
+export type SetAuthAT = ReturnType<typeof setAuth>
+export type SetAlertListAT = ReturnType<typeof setAlertList>
+export type RemoveAlertAT = ReturnType<typeof removeAlert>
+export type InitAppAT = ReturnType<typeof initialApp>
+
+export type AppActionType =
+    | SetAlertListAT
+    | RemoveAlertAT
+    | SetAuthAT
+    | InitAppAT

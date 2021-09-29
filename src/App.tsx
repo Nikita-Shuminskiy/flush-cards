@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {Route, Switch} from 'react-router-dom';
 import {Login} from './Pages/Login/Login';
@@ -10,14 +10,13 @@ import Test from './Common/Test/Test';
 import NavBar from './Pages/NavBar/NavBar';
 import {Profile} from './Pages/Profile/Profile';
 import {CheckEmail} from './Pages/PasswordRecovery/CheckEmail/CheckEmail';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppRootStateType } from './Store/Store';
-import { AlertContentType, authMe, removeAlert } from './Store/Reducers/AppReducer';
-import { Alert } from './Common/Alert/Alert';
-import { InitialLayout } from './Common/InitialLayout/InitialLayout';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppRootStateType} from './Store/Store';
+import {AlertContentType, authMe, removeAlert} from './Store/Reducers/AppReducer';
+import {Alert} from './Common/Alert/Alert';
+import {InitialLayout} from './Common/InitialLayout/InitialLayout';
 import {Cards} from './Pages/Cards/Cards';
 import {Deck} from './Pages/Deck/Deck';
-import axios from "axios";
 
 
 function App() {
@@ -29,7 +28,7 @@ function App() {
 
     useEffect(() => {
         dispatch(authMe())
-    }, [])
+    }, [dispatch])
 
 
     return (

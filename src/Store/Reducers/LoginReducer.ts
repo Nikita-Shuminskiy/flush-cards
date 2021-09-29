@@ -1,16 +1,10 @@
 import {api} from '../../Dal/Api';
 import {setAlertList} from './AppReducer';
 import {AppThunk} from '../Store';
+import {setProfileData} from './ProfileReducer';
 
 const initialState = {
     isLoggedIn: false,
-    profileData: {
-        _id:'',
-        email:'',
-        name:'',
-        avatar:'',
-        publicCardPacksCount:null as null | number
-    }
 }
 
 export const loginReducer = (state: InitialState = initialState, action: LoginActionsType): InitialState => {
@@ -19,8 +13,6 @@ export const loginReducer = (state: InitialState = initialState, action: LoginAc
             return {...state, isLoggedIn: action.status}
         case 'login/SET-IS-LOGOUT':
             return {...state, isLoggedIn: action.status}
-        case 'login/SET-PROFILE-DATA':
-            return {...state, profileData: action.payload}
         default:
             return state
     }
@@ -39,7 +31,6 @@ export const setIsLogoutAC = (status: boolean) => {
         status
     } as const
 }
-export const setProfileData = (payload:ProfileDataType) => ({type: 'login/SET-PROFILE-DATA', payload} as const)
 //thunk
 export const isLoginTC = (email: string, password: string, rememberMe: boolean): AppThunk => (dispatch) => {
     api.inLogin(email, password, rememberMe)
@@ -65,12 +56,5 @@ export const isLogoutTC = (logout: boolean): AppThunk => (dispatch) => {
 export type LoginActionsType =
     | ReturnType<typeof setIsLoggedInAC>
     | ReturnType<typeof setIsLogoutAC>
-    | ReturnType<typeof setProfileData>
+
 type InitialState = typeof initialState
- type ProfileDataType = {
-     _id: string
-     email:string
-     name:string
-     avatar:string
-     publicCardPacksCount: null | number
- }

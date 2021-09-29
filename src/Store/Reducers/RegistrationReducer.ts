@@ -1,6 +1,6 @@
 import { RegistrationFormType } from '../../Pages/Registration/Registration';
 import { registerApi } from '../../Dal/Api';
-import { configAlert, setAlertList, SetAlertListType } from './AppReducer';
+import { configAlert, setAlertList, SetAlertListAT } from './AppReducer';
 import { AppThunk } from '../Store';
 
 
@@ -83,7 +83,7 @@ export type RegistrationActionType =
     | ReturnType<typeof setNewPasswordAC>
     | ReturnType<typeof registrationAC>
     | ReturnType<typeof setEmailAC>
-    | SetAlertListType
+    | SetAlertListAT
 type adedUserType = {
     _id: string
     email: string
