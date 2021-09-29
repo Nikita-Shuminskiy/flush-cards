@@ -2,6 +2,7 @@ import { RegistrationFormType } from '../../Pages/Registration/Registration';
 import { registerApi } from '../../Dal/Api';
 import { configAlert, setAlertList, SetAlertListAT } from './AppReducer';
 import { AppThunk } from '../Store';
+import { setIsLoggedInAC } from './LoginReducer';
 
 
 const initialState = {
@@ -54,6 +55,7 @@ export const setNewPasswordTC = (password: string, resetPasswordToken: string): 
         .then((res) => {
             console.log(res.data.info)
             dispatch(setNewPasswordAC(true))
+            dispatch(setIsLoggedInAC(true))
         })
         .catch((error: string) => {
             dispatch(setAlertList(configAlert('error', `${error}`)))

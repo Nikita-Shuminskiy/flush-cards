@@ -74,3 +74,7 @@ export const Login = () => {
 
     );
 }
+
+function setEditModeRecoveryPassword(arg0: boolean): any {
+    throw new Error('Function not implemented.');
+}
