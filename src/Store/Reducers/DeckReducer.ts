@@ -21,7 +21,8 @@ export type CardPackType = {
     __v: number
 }
 const initialState = {
-    cardPacks: [] as Array<CardPackType>
+    cardPacks: [] as Array<CardPackType>,
+    isCheckedMyPacks: false,
 }
 export type DeckInitStateType = typeof initialState
 
@@ -43,6 +44,8 @@ export const deckReducer = (state = initialState, action: DeckActionType): DeckI
                 cardPacks: state.cardPacks.map(el => el._id === action.id ? {...el, name: action.name} : el)
             }
         }
+        case 'SET-IS-CHECKED-MY-PACKS':
+            return {...state, isCheckedMyPacks: action.isChecked}
         default:
             return state
     }
@@ -57,6 +60,7 @@ export const deletePacksCard = (id: string) => {
 export const changeNamePack = (id: string, name: string) => {
     return {type: 'CHANGE-NAME-PACK', id, name} as const
 }
+export const setIsCheckedMyPacks = (isChecked: boolean) => ({type: 'SET-IS-CHECKED-MY-PACKS', isChecked} as const)
 
 //type
 type GetCardTypeAC = ReturnType<typeof getPacksCard>
@@ -66,9 +70,10 @@ export type DeckActionType =
     | GetCardTypeAC
     | DeletePacksCard
     | ChangeNamePackType
+    | ReturnType<typeof setIsCheckedMyPacks>
 
 //thunk
-export const getPacksCardTC = ():AppThunk => (dispatch) => {
+export const getPacksCardTC = (): AppThunk => (dispatch) => {
     api.authMe()
         .then(res => {
             apiPacksCards.getPacks()
@@ -80,7 +85,7 @@ export const getPacksCardTC = ():AppThunk => (dispatch) => {
             console.log('bad response')
         })
 }
-export const deletePacksCardTC = (id: string):AppThunk => (dispatch) => {
+export const deletePacksCardTC = (id: string): AppThunk => (dispatch) => {
     apiPacksCards.deletePack(id)
         .then((res) => {
             dispatch(deletePacksCard(id))
@@ -98,7 +103,7 @@ export const deletePacksCardTC = (id: string):AppThunk => (dispatch) => {
 
 
 }
-export const changedNamePackTC = (newName: string, id: string):AppThunk => (dispatch) => {
+export const changedNamePackTC = (newName: string, id: string): AppThunk => (dispatch) => {
     apiPacksCards.changedPack(newName, id)
         .then((res) => {
             dispatch(changeNamePack(id, newName))
@@ -108,10 +113,10 @@ export const changedNamePackTC = (newName: string, id: string):AppThunk => (disp
             dispatch(setAlertList({id: 1, type: 'error', title: 'Нельзя изменить чужую колоду'}))
         })
 }
-export const creatingNewPackTC = (name: string):AppThunk => (dispatch) => {
+export const creatingNewPackTC = (name: string): AppThunk => (dispatch) => {
     apiPacksCards.addedPack(name)
         .then((res) => {
-           //
+            //
             apiPacksCards.getPacks()
                 .then((res) => {
                     dispatch(getPacksCard(res.data.cardPacks))
@@ -134,11 +139,10 @@ export const searchNameTC = (findByName: string): AppThunk => (dispatch) => {
             console.log('bad response')
         })
 }
-export const setPrivatDecks = (): AppThunk => (dispatch,getState) => {
-    const user_id = getState().login.profileData._id
+export const setPrivatPacks = (): AppThunk => (dispatch) => {
     api.authMe()
         .then(res => {
-            packsListHelperUtils.getPrivatPacks(user_id)
+            packsListHelperUtils.getPrivatPacks(res.data._id)
                 .then((res) => {
                     dispatch(getPacksCard(res.data.cardPacks))
                 })
