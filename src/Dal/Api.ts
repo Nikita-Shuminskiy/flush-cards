@@ -30,7 +30,10 @@ export const api = {
     },
     authMe() {
         return createInstance.post('auth/me', {}).then(res => res)
-    }
+    },
+    changeNameOrAvatar(payload:{name:string, avatar: string} ) {
+        return createInstance.put(`auth/me`, payload)
+    },
 }
 export const apiPacksCards = {
     getPacks() {
