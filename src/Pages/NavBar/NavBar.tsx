@@ -4,6 +4,7 @@ import s from './Navbar.module.css'
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from '../../Store/Store';
 import {isLogoutTC} from '../../Store/Reducers/LoginReducer';
+import SuperButton from '../../Common/Test/c2-SuperButton/SuperButton';
 
 const NavBar = () => {
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
@@ -45,7 +46,7 @@ const NavBar = () => {
                                                                    to={'/deck'}>Deck</NavLink></div>
                 <div className={s.item + ' ' + s.setting}><NavLink activeClassName={s.active}
                                                                    to={'/cards'}>Cards</NavLink></div>
-                {isLoggedIn && <button onClick={logoutHandler}>LOGOUT</button>}
+                {isLoggedIn && <SuperButton onClick={logoutHandler} value={'Logout'}/>}
             </div>
         </div>
     );
