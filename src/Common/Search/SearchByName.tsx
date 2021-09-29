@@ -11,7 +11,6 @@ export const SearchByName = (props: SearchByNamePropsType) => {
     const onEnterHandler = () => {
         const validate = findByName.trim()
         props.searchName(validate)
-        // dispatch(searchNameTC(validate))
         setFindByName('')
     }
     return (
