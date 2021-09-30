@@ -49,17 +49,24 @@ export const apiPacksCards = {
         return createInstance.put('cards/pack', {cardsPack: {name, _id}})
     },
     getPackPaginator(currentPage: number, pageSize: number){
+
         return createInstance.get(`cards/pack?page=${currentPage}&pageCount=${pageSize}`).then(res => {
+            return res.data
+        })
+    },
+    getPackPrivatePaginatod(currentPage: number, pageSize: number,user_id:string){
+        return createInstance.get(`cards/pack?page=${currentPage}&pageCount=${pageSize}`,{params: {user_id : user_id, pageCount: 10 }} ).then(res => {
             return res.data
         })
     }
 }
+
 export const packsListHelperUtils = {
     searchByName(value:string) {
-        return createInstance.get(`cards/pack`,{params: {packName: value, pageCount: 10 }})
+        return createInstance.get(`cards/pack`,{params: {packName: value, pageCount: 4 }})
     },
     getPrivatPacks(user_id:string){
-        return createInstance.get(`cards/pack`, {params: {user_id : user_id, pageCount: 10 }})
+        return createInstance.get(`cards/pack`, {params: {user_id : user_id, pageCount: 4 }})
     },
 }
 
