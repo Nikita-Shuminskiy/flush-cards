@@ -54,7 +54,7 @@ export const setAlertList = (alert: AlertContentType) => ({type: SET_ALERT, payl
 export const removeAlert = (id: number) => ({type: REMOVE_ALERT, payload: id} as const)
 const setAuth = (value: boolean, userData: DataUserType) =>
     ({type: AUTH_ME, payload: {status: value, userData}} as const)
-const initialApp = () => ({type: INIT_APP} as const)
+export const initialApp = () => ({type: INIT_APP} as const)
 
 // thunks
 export const authMe = (): AppThunk => (dispatch) => {

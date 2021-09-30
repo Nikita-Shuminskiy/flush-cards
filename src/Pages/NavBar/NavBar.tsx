@@ -35,8 +35,6 @@ const NavBar = () => {
                 <div className={s.item}><NavLink activeClassName={s.active} to={'/test'}>test</NavLink></div>
                 <div className={s.item + ' ' + s.setting}><NavLink activeClassName={s.active}
                                                                    to={'/deck'}>Deck</NavLink></div>
-                <div className={s.item + ' ' + s.setting}><NavLink activeClassName={s.active}
-                                                                   to={'/cards'}>Cards</NavLink></div>
                 {isLoggedIn && <SuperButton onClick={logoutHandler} value={'Logout'}/>}
             </div>
         </div>

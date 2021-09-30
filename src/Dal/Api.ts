@@ -75,8 +75,8 @@ export const apiCards = {
     getCards(packId: string) {
         return createInstance.get(`cards/card?cardsPack_id=${packId}&pageCount=10`)
     },
-    addCard(cardsPack_id: string) {
-        return createInstance.post('cards/card', {card: {cardsPack_id, answer: 'Ответ', question: 'Вопрос'}})
+    addCard(cardsPack_id: string,question:string , answer: string) {
+        return createInstance.post('cards/card', {card: {cardsPack_id, question, answer}})
     },
     deleteCard(packId: string) {
         return createInstance.delete(`cards/card?id=${packId}`,)

@@ -2,7 +2,7 @@ import React, {ChangeEvent, useState} from 'react';
 import s from './TableRow.module.css'
 import {useDispatch} from "react-redux";
 import {changedNamePackTC, deletePacksCardTC} from "../../../Store/Reducers/DeckReducer";
-import { getCardsTC } from '../../../Store/Reducers/CardsReducer';
+import {getCardsTC} from '../../../Store/Reducers/CardsReducer';
 
 
 type DataCardsProps = {
@@ -40,18 +40,18 @@ const TableRow = (props: DataCardsProps) => {
         <div>
             <div className={s.table}>
                 <div>
-                    <a href="#/cards" onClick={showPacksCard}>
-                        {!status
-                            ? <div>
-                                {value !== props.name
-                                    ? props.name
-                                    : value
-                                }</div>
-                            : <div><input type="text" value={value} onChange={changedValue}/>
-                                <button onClick={newNamePack}>Ok</button>
-                            </div>
-                        }
-                    </a>
+
+                    {!status
+                        ? <div><a href="#/cards" onClick={showPacksCard}>
+                            {value !== props.name
+                                ? props.name
+                                : value
+                            } </a></div>
+                        : <div><input type="text" value={value} onChange={changedValue}/>
+                            <button onClick={newNamePack}>Ok</button>
+                        </div>
+                    }
+
                 </div>
                 <div>{props.countCard}</div>
                 <div>{props.created}</div>

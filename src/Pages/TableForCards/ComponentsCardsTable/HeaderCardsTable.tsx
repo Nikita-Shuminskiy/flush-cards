@@ -1,6 +1,6 @@
 import React from 'react';
-import s from './HeaderTableFC.module.css'
-import TableRowFC from './TableRowFC';
+import s from './HeaderCardsTable.module.css'
+import CardsTableRow from './CardsTableRow';
 
 export type testDataProps = {
     data: Array<testObjType>
@@ -16,19 +16,18 @@ export type testObjType = {
 }
 
 
-const HeaderTableFC = (props: testDataProps) => {
-debugger
+const HeaderCardsTable = (props: testDataProps) => {
     return (
         <div>
             <div>
                 <div className={s.headerTable}>
-                    <div>Answer</div>
                     <div>Question</div>
+                    <div>Answer</div>
                     <div>Update</div>
                     <div>Rating</div>
                     <div>Actions</div>
                 </div>
-                {props.data.map((el) => <TableRowFC
+                {props.data.map((el) => <CardsTableRow
                     id={el._id}
                     key={el._id}
                     question={el.question}
@@ -41,4 +40,4 @@ debugger
 
     );
 };
-export default HeaderTableFC;
+export default HeaderCardsTable;

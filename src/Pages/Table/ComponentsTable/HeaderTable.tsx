@@ -17,7 +17,6 @@ export type testObjType = {
 
 
 const HeaderTable = (props: testDataProps) => {
-
     return (
         <div>
             <div>

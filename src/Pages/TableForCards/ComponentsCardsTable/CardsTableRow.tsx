@@ -1,8 +1,7 @@
 import React, {ChangeEvent, useState} from 'react';
-import s from './TableRowFC.module.css'
+import s from './CardsTableRow.module.css'
 import {useDispatch} from "react-redux";
-import {changedNamePackTC, deletePacksCardTC} from "../../../Store/Reducers/DeckReducer";
-import {changeCardsTC, deleteCardsTC } from '../../../Store/Reducers/CardsReducer';
+import {changeCardsTC, deleteCardsTC} from '../../../Store/Reducers/CardsReducer';
 
 
 type DataCardsProps = {
@@ -13,7 +12,7 @@ type DataCardsProps = {
     id: string
 }
 
-const TableRowFC = (props: DataCardsProps) => {
+const CardsTableRow = (props: DataCardsProps) => {
     const dispatch = useDispatch()
     const [status, setStatus] = useState<boolean>(false)
     const [valueAn, setValueAn] = useState<string>(props.answer)
@@ -34,20 +33,21 @@ const TableRowFC = (props: DataCardsProps) => {
     }
     const onChangeNamePack = () => {
         setStatus(!status)
-        setValueAn(props.question)
+        setValueQu(props.question)
+        setValueAn(props.answer)
     }
     return (
         <div>
             <div className={s.table}>
                 <div>
-                        {!status
-                            ? <div>
-                                {props.question
-                                }</div>
-                            : <div><input type="text" value={valueQu} onChange={changedValueQu}/>
-                                <button onClick={newNamePack}>Ok</button>
-                            </div>
-                        }
+                    {!status
+                        ? <div>
+                            {props.question
+                            }</div>
+                        : <div><input type="text" value={valueQu} onChange={changedValueQu}/>
+                            <button onClick={newNamePack}>Ok</button>
+                        </div>
+                    }
                 </div>
                 <div>
                     {!status
@@ -73,4 +73,4 @@ const TableRowFC = (props: DataCardsProps) => {
     );
 };
 
-export default TableRowFC;
+export default CardsTableRow;

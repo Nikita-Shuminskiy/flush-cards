@@ -125,7 +125,7 @@ export const deletePacksCardTC = (id: string): AppThunk => (dispatch, getState) 
     apiPacksCards.deletePack(id)
         .then((res) => {
             dispatch(deletePacksCard(id))
-            dispatch(setAlertList({id: 1, type: 'success', title: 'Ваша колода удалена'}))
+            dispatch(setAlertList({id: 1, type: 'success', title: 'Your deck has been successfully removed'}))
             if (!status) {
                 apiPacksCards.getPacks()
                     .then((res) => {
@@ -138,7 +138,7 @@ export const deletePacksCardTC = (id: string): AppThunk => (dispatch, getState) 
             }
         })
         .catch((error) => {
-            dispatch(setAlertList({id: 1, type: 'error', title: 'Удалять можно только свои колоды'}))
+            dispatch(setAlertList({id: 1, type: 'error', title: 'You can only delete your own decks'}))
         })
 
 
@@ -149,7 +149,7 @@ export const changedNamePackTC = (newName: string, id: string): AppThunk => (dis
             dispatch(changeNamePack(id, newName))
         })
         .catch((error) => {
-            dispatch(setAlertList({id: 1, type: 'error', title: 'Нельзя изменить чужую колоду'}))
+            dispatch(setAlertList({id: 1, type: 'error', title: 'Can not change someone else deck'}))
         })
 }
 export const creatingNewPackTC = (name: string): AppThunk => (dispatch, getState) => {
@@ -174,8 +174,11 @@ export const searchNameTC = (findByName: string): AppThunk => (dispatch) => {
                 .then(res => {
                     console.log(res)
                     dispatch(getPacksCardData(res.data))
-                    dispatch(setAlertList({id: 1, type: 'success', title: `Найдено ${res.data.cardPacksTotalCount} колод с таким именим`}))
-
+                    dispatch(setAlertList({
+                        id: 1,
+                        type: 'success',
+                        title: `Found ${res.data.cardPacksTotalCount} decks with this name`
+                    }))
                 })
         })
 }

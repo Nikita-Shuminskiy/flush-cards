@@ -3,7 +3,7 @@
     top: calc(50vh - 100px);
     left: calc(50vw - 150px);
     width: 300px;
-    height: 200px;
+    height: 300px;
     display: flex;
     flex-flow: column;
     align-items: center;

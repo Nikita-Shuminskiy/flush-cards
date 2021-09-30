@@ -1,18 +1,17 @@
 import React from 'react'
 import { useSelector} from 'react-redux';
 import {AppRootStateType} from '../../Store/Store';
-import s from './TableForCards.module.css'
+import s from './CardsTable.module.css'
 import { CardInitStateType} from "../../Store/Reducers/CardsReducer";
-import HeaderTableFC from './ComponentsTableFC/HeaderTableFC';
+import HeaderCardsTable from './ComponentsCardsTable/HeaderCardsTable';
 
 
-const TableForCards = () => {
+const CardsTable = () => {
 const {cards} = useSelector<AppRootStateType,CardInitStateType>(state=> state.cards)
-    console.log(cards)
     return (
         <div className={s.table}>
-            <HeaderTableFC data={cards}/>
+            <HeaderCardsTable data={cards}/>
         </div>
     )
 }
-export default TableForCards
+export default CardsTable
