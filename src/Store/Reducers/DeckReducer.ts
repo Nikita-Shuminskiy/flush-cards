@@ -84,9 +84,10 @@ export const setCurrentPages = (currentPage: number) => ({type: 'SET/CURRENT-PAG
 export const setTotalPackCount = (cardPacksTotalCount:number) => ({type: 'SET/TOTAL-DECK-COUNT', cardPacksTotalCount} as const)
 export const getUserThunk = (currentPage: number, pageCount: number): AppThunk => {
     return (dispatch) => {
-        apiPacksCards.getCardsPaginator(currentPage, pageCount).then(data => {
+        apiPacksCards.getPackPaginator(currentPage, pageCount).then(data => {
             dispatch(setTotalPackCount(data.cardPacksTotalCount))
             dispatch(setCurrentPages(currentPage))
+            dispatch(getPacksCard(data))
         })
     }
 }
