@@ -1,0 +1,11 @@
+.headerTable {
+    background-color: rgba(18, 57, 139, 0.34);
+    width: 80%;
+    border:  rgba(18, 57, 139, 0.34) 2px solid;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    display: flex;
+}
+.headerTable div {
+    width: 20%;
+}

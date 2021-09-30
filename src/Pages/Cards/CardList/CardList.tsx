@@ -6,6 +6,8 @@ import s from '../../Deck/PacksList/PacksList.module.css'
 import {useDispatch} from 'react-redux';
 import {searchNameTC} from '../../../Store/Reducers/DeckReducer';
 import TableMenu from "../../Table/ComponentsTable/TableMenu";
+import TableForCards from "../../TableForCards/TableForCards";
+import MenuAddCard from '../../TableForCards/ComponentsTableFC/MenuAddCard';
 
 export const CardList = React.memo(() => {
 
@@ -29,23 +31,22 @@ export const CardList = React.memo(() => {
         setStatus(true)
     }
     return (
-
         <div className={s.container}>
-            <h3>Packs list</h3>
+            <h3>Cards list</h3>
             <div className={s.header}>
                 <SuperInputText name={'SearchByName'} placeholder={'Search by name (onEnter)'}
                                 onEnter={onEnterHandler} onChange={handleChangeFindName}
                                 style={{width:'400px'}}
                 />
-                <SuperButton value={'Add new pack'} onClick={onSubmit}/>
+                <SuperButton value={'Add new card'} onClick={onSubmit}/>
             </div>
             <div>
-                <Table/>
+                <TableForCards/>
             </div>
             <div>
                 Pagination
             </div>
-            {status && <TableMenu clearMenu={clearMenu}/>}
+            {status && <MenuAddCard clearMenu={clearMenu}/>}
         </div>
     );
 });

@@ -73,16 +73,16 @@ export const packsListHelperUtils = {
 
 export const apiCards = {
     getCards(packId: string) {
-        return createInstance.get(`cards/card?cardsPack_id=${packId}`)
+        return createInstance.get(`cards/card?cardsPack_id=${packId}&pageCount=10`)
     },
     addCard(cardsPack_id: string) {
-        return createInstance.post('cards/card', {card: {cardsPack_id,}})
+        return createInstance.post('cards/card', {card: {cardsPack_id, answer: 'Ответ', question: 'Вопрос'}})
     },
     deleteCard(packId: string) {
         return createInstance.delete(`cards/card?id=${packId}`,)
     },
-    changeCard(_id: string, question: string) {
-        return createInstance.put('cards/card', {card: {_id, question}})
+    changeCard(_id: string, question: string, answer: string) {
+        return createInstance.put('cards/card', {card: {_id, question, answer}})
     }
 }
 
