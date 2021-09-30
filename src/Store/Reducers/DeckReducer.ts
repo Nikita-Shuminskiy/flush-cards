@@ -35,7 +35,7 @@ export type DeckInitStateType = typeof initialState
 export const deckReducer = (state: DeckInitStateType = initialState, action: DeckActionType): DeckInitStateType => {
 
     switch (action.type) {
-        case 'GET-CARD': {
+        case 'DECK/GET-CARD-DATA': {
             return {
                 ...state,
                 cardPacks: action.packs.cardPacks,
@@ -46,18 +46,18 @@ export const deckReducer = (state: DeckInitStateType = initialState, action: Dec
                 pageCount: action.packs.pageCount,
             }
         }
-        case "GET-ONLY-PACKS": {
+        case "DECK/GET-ONLY-PACKS": {
             return {
                 ...state, cardPacks: action.packs
             }
         }
-        case 'DELETE-PACKS-CARD': {
+        case 'DECK/DELETE-PACKS-CARD': {
             return {
                 ...state,
                 cardPacks: state.cardPacks.filter(el => el._id !== action.id)
             }
         }
-        case 'CHANGE-NAME-PACK': {
+        case 'DECK/CHANGE-NAME-PACK': {
             return {
                 ...state,
                 cardPacks: state.cardPacks.map(el => el._id === action.id ? {...el, name: action.name} : el)
@@ -74,68 +74,35 @@ export const deckReducer = (state: DeckInitStateType = initialState, action: Dec
     }
 }
 //actions
-export const getPacksCard = (packs: DeckInitStateType) => {
-    return {type: 'GET-CARD', packs} as const
+export const getPacksCardData = (packs: DeckInitStateType) => {
+    return {type: 'DECK/GET-CARD-DATA', packs} as const
 }
 export const getOnlyPacks = (packs: Array<CardPackType>) => {
-    return {type: 'GET-ONLY-PACKS', packs} as const
+    return {type: 'DECK/GET-ONLY-PACKS', packs} as const
 }
 export const deletePacksCard = (id: string) => {
-    return {type: 'DELETE-PACKS-CARD', id} as const
+    return {type: 'DECK/DELETE-PACKS-CARD', id} as const
 }
 export const changeNamePack = (id: string, name: string) => {
-    return {type: 'CHANGE-NAME-PACK', id, name} as const
+    return {type: 'DECK/CHANGE-NAME-PACK', id, name} as const
 }
-export const setIsCheckedMyPacks = (isChecked: boolean) => ({type: 'SET-IS-CHECKED-MY-PACKS', isChecked} as const)
-
-//nick
-export const setCurrentPages = (currentPage: number) => ({type: 'SET/CURRENT-PAGES', currentPage} as const)
-export const setTotalPackCount = (cardPacksTotalCount: number) => ({
-    type: 'SET/TOTAL-DECK-COUNT',
-    cardPacksTotalCount
-} as const)
-
-
-export const getUserThunk = (currentPage: number, pageCount: number): AppThunk => (dispatch, getState) => {
-    const status = getState().deck.isCheckedMyPacks
-    if (!status) {
-        apiPacksCards.getPackPaginator(currentPage, pageCount).then(data => {
-
-            dispatch(setTotalPackCount(data.cardPacksTotalCount))
-            dispatch(setCurrentPages(currentPage))
-            dispatch(getPacksCard(data))
-        })
-    } else {
-        api.authMe()
-            .then(res => {
-                apiPacksCards.getPackPrivatePaginatod(currentPage, pageCount, res.data._id)
-                    .then((data) => {
-                        dispatch(setTotalPackCount(data.cardPacksTotalCount))
-                        dispatch(setCurrentPages(currentPage))
-                        // dispatch(getOnlyPacks(data.cardPacks))
-                        dispatch(getPacksCard(data))
-                    })
-            })
-            .catch((error) => {
-                console.log('bad response')
-            })
-    }
-
-
+export const setTotalPackCount = (cardPacksTotalCount: number) => {
+    return {type: 'SET/TOTAL-DECK-COUNT', cardPacksTotalCount} as const
+}
+export const setIsCheckedMyPacks = (isChecked: boolean) => {
+    return {type: 'SET-IS-CHECKED-MY-PACKS', isChecked} as const
+}
+export const setCurrentPages = (currentPage: number) => {
+    return {type: 'SET/CURRENT-PAGES', currentPage} as const
 }
 
 
-//
 //type
-type GetCardTypeAC = ReturnType<typeof getPacksCard>
-type DeletePacksCard = ReturnType<typeof deletePacksCard>
-type ChangeNamePackType = ReturnType<typeof changeNamePack>
-type GetOnlyPacks = ReturnType<typeof getOnlyPacks>
 export type DeckActionType =
-    | GetCardTypeAC
-    | DeletePacksCard
-    | ChangeNamePackType
-    | GetOnlyPacks
+    | ReturnType<typeof getPacksCardData>
+    | ReturnType<typeof deletePacksCard>
+    | ReturnType<typeof changeNamePack>
+    | ReturnType<typeof getOnlyPacks>
     | ReturnType<typeof setIsCheckedMyPacks>
     | ReturnType<typeof setTotalPackCount>
     | ReturnType<typeof setCurrentPages>
@@ -146,27 +113,13 @@ export const getPacksCardTC = (): AppThunk => (dispatch) => {
         .then(res => {
             apiPacksCards.getPacks()
                 .then((res) => {
-                    dispatch(getPacksCard(res.data))
-                    console.log(res.data)
+                    dispatch(getPacksCardData(res.data))
                 })
         })
         .catch((error) => {
-            console.log('bad response')
         })
 }
-export const getOnlyPacksTC = (): AppThunk => (dispatch) => {
-    api.authMe()
-        .then(res => {
-            apiPacksCards.getPacks()
-                .then((res) => {
-                    dispatch(getOnlyPacks(res.data.cardPacks))
-                    console.log(res.data)
-                })
-        })
-        .catch((error) => {
-            console.log('bad response')
-        })
-}
+
 export const deletePacksCardTC = (id: string): AppThunk => (dispatch, getState) => {
     const status = getState().deck.isCheckedMyPacks
     apiPacksCards.deletePack(id)
@@ -183,7 +136,6 @@ export const deletePacksCardTC = (id: string): AppThunk => (dispatch, getState) 
             } else {
                 dispatch(setPrivatPacks())
             }
-
         })
         .catch((error) => {
             dispatch(setAlertList({id: 1, type: 'error', title: 'Удалять можно только свои колоды'}))
@@ -195,7 +147,6 @@ export const changedNamePackTC = (newName: string, id: string): AppThunk => (dis
     apiPacksCards.changedPack(newName, id)
         .then((res) => {
             dispatch(changeNamePack(id, newName))
-
         })
         .catch((error) => {
             dispatch(setAlertList({id: 1, type: 'error', title: 'Нельзя изменить чужую колоду'}))
@@ -213,10 +164,7 @@ export const creatingNewPackTC = (name: string): AppThunk => (dispatch, getState
             } else {
                 dispatch(setPrivatPacks())
             }
-
-            console.log(res)
         })
-
 }
 
 export const searchNameTC = (findByName: string): AppThunk => (dispatch) => {
@@ -225,9 +173,10 @@ export const searchNameTC = (findByName: string): AppThunk => (dispatch) => {
             packsListHelperUtils.searchByName(findByName)
                 .then(res => {
                     console.log(res)
-                    dispatch(getPacksCard(res.data))
-                })
+                    dispatch(getPacksCardData(res.data))
+                    dispatch(setAlertList({id: 1, type: 'success', title: `Найдено ${res.data.cardPacksTotalCount} колод с таким именим`}))
 
+                })
         })
 }
 export const setPrivatPacks = (): AppThunk => (dispatch) => {
@@ -235,12 +184,33 @@ export const setPrivatPacks = (): AppThunk => (dispatch) => {
         .then(res => {
             packsListHelperUtils.getPrivatPacks(res.data._id)
                 .then((res) => {
-                    dispatch(getPacksCard(res.data))
-                    debugger
+                    dispatch(getPacksCardData(res.data))
                 })
         })
         .catch((error) => {
-            console.log('bad response')
         })
+}
+export const getUserThunk = (currentPage: number, pageCount: number): AppThunk => (dispatch, getState) => {
+    const status = getState().deck.isCheckedMyPacks
+    if (!status) {
+        apiPacksCards.getPackPaginator(currentPage, pageCount)
+            .then(data => {
+                dispatch(setTotalPackCount(data.data.cardPacksTotalCount))
+                dispatch(setCurrentPages(currentPage))
+                dispatch(getPacksCardData(data.data))
+            })
+    } else {
+        api.authMe()
+            .then(res => {
+                apiPacksCards.getPackPrivatePaginatod(currentPage, pageCount, res.data._id)
+                    .then((data) => {
+                        dispatch(setTotalPackCount(data.data.cardPacksTotalCount))
+                        dispatch(setCurrentPages(currentPage))
+                        dispatch(getPacksCardData(data.data))
+                    })
+            })
+            .catch((error) => {
+            })
+    }
 }
 
