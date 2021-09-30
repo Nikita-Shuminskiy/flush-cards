@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {addedCardsTC, CardInitStateType, changeCardsTC, deleteCardsTC, getCardsTC} from '../../Store/Reducers/CardsReducer';
 import {DeckInitStateType, getPacksCardTC} from '../../Store/Reducers/DeckReducer';
 import {AppRootStateType} from "../../Store/Store";
+import TableMenuTest from './TableMenuTest';
 
 const Test = () => {
     const dispatch = useDispatch()
@@ -26,10 +27,8 @@ const Test = () => {
 
 
     }, [])*/
-
     return (
         <div>
-
 
         </div>
     );

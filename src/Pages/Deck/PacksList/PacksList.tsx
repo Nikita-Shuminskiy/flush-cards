@@ -1,21 +1,28 @@
 import Table from '../../Table/Table';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import SuperButton from '../../../Common/Test/c2-SuperButton/SuperButton';
 import s from './PacksList.module.css'
-import {useDispatch} from 'react-redux';
-import {searchNameTC} from '../../../Store/Reducers/DeckReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { DeckInitStateType, getUserThunk, searchNameTC } from '../../../Store/Reducers/DeckReducer';
+import { SearchByName } from '../../../Common/Search/SearchByName';
+import { AppRootStateType } from '../../../Store/Store';
+import { Paginator } from '../../../Common/Test/Paginator/Paginator';
 import TableMenu from '../../Table/ComponentsTable/TableMenu';
-import {SearchByName} from '../../../Common/Search/SearchByName';
 
 export const PacksList = React.memo(() => {
+    const dispatch = useDispatch()
+    const {cardPacksTotalCount, pageCount, cardPacks, page}
+        = useSelector<AppRootStateType, DeckInitStateType>(state => state.deck)
     const [status, setStatus] = useState<boolean>(false)
     const clearMenu = () => {
         setStatus(false)
     }
-    const dispatch = useDispatch()
-      const handlerSearchName = (name:string) => dispatch(searchNameTC(name))
+    const handlerSearchName = (name: string) => dispatch(searchNameTC(name))
     const onSubmit = () => {
         setStatus(true)
+    }
+    const pageClickChange = (page: number) => {
+        dispatch(getUserThunk(page, pageCount))
     }
     return (
 
@@ -29,7 +36,8 @@ export const PacksList = React.memo(() => {
                 <Table/>
             </div>
             <div>
-                Pagination
+                <Paginator pageClickChange={pageClickChange} currentPage={page} pageSize={pageCount}
+                           totalCount={cardPacksTotalCount}/>
             </div>
             {status && <TableMenu clearMenu={clearMenu}/>}
         </div>

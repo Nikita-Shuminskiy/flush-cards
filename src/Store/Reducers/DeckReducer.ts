@@ -28,8 +28,6 @@ const initialState = {
     minCardsCount: 0,
     page: 0,
     pageCount: 10,
-    currentPage: 1,
-    pageSize: 10,
 
 }
 export type DeckInitStateType = typeof initialState
@@ -64,7 +62,7 @@ export const deckReducer = (state:DeckInitStateType = initialState, action: Deck
         case 'SET/TOTAL-DECK-COUNT':
             return {...state, cardPacksTotalCount: action.cardPacksTotalCount}
         case 'SET/CURRENT-PAGES':
-            return {...state, currentPage: action.currentPage}
+            return {...state, page: action.currentPage}
         default:
             return state
     }
@@ -84,9 +82,9 @@ export const setIsCheckedMyPacks = (isChecked: boolean) => ({type: 'SET-IS-CHECK
 //nick
 export const setCurrentPages = (currentPage: number) => ({type: 'SET/CURRENT-PAGES', currentPage} as const)
 export const setTotalPackCount = (cardPacksTotalCount:number) => ({type: 'SET/TOTAL-DECK-COUNT', cardPacksTotalCount} as const)
-export const getUserThunk = (currentPage: number, pageSize: number): AppThunk => {
+export const getUserThunk = (currentPage: number, pageCount: number): AppThunk => {
     return (dispatch) => {
-        apiPacksCards.getCardsPaginator(currentPage, pageSize).then(data => {
+        apiPacksCards.getCardsPaginator(currentPage, pageCount).then(data => {
             dispatch(setTotalPackCount(data.cardPacksTotalCount))
             dispatch(setCurrentPages(currentPage))
         })
