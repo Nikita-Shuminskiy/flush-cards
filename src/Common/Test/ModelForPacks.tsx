@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useState} from 'react';
-import s from './TableMenuTest.module.css'
+import s from './ModelForPacks.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {changedNamePackTC, creatingNewPackTC, deletePacksCardTC} from '../../Store/Reducers/DeckReducer';
 import {changeModeModal, ModelType} from "../../Store/Reducers/AppReducer";
@@ -10,12 +10,9 @@ type TableMenuPropsType = {
     clearMenu: () => void
     model: ModelType
 }
-type testType = {
-    name: string
-    mode: ModelType
-}
 
-const TableMenuTest = (props: TableMenuPropsType) => {
+
+const ModelForPacks = (props: TableMenuPropsType) => {
     const packID = useSelector<AppRootStateType, string>(state=>state.deck.currentPack)
     const dispatch = useDispatch()
     const test = [
@@ -82,4 +79,4 @@ const TableMenuTest = (props: TableMenuPropsType) => {
 
     );
 };
-export default TableMenuTest;
+export default ModelForPacks;

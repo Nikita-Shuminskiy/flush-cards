@@ -7,7 +7,7 @@ import { DeckInitStateType, getUserThunk, searchNameTC } from '../../../Store/Re
 import { SearchByName } from '../../../Common/Search/SearchByName';
 import { AppRootStateType } from '../../../Store/Store';
 import { Paginator } from '../../../Common/Test/Paginator/Paginator';
-import TableMenuTest from '../../../Common/Test/TableMenuTest';
+import ModelForPacks from '../../../Common/Test/ModelForPacks';
 import {changeModeModal, ModelType } from '../../../Store/Reducers/AppReducer';
 
 export const PacksList = React.memo(() => {
@@ -22,7 +22,7 @@ export const PacksList = React.memo(() => {
     }
     const handlerSearchName = (name: string) => dispatch(searchNameTC(name))
     const onSubmit = () => {
-       dispatch(changeModeModal('change'))
+       dispatch(changeModeModal('add'))
     }
     const pageClickChange = (page: number) => {
         dispatch(getUserThunk(page, pageCount))
@@ -42,7 +42,7 @@ export const PacksList = React.memo(() => {
                 <Paginator pageClickChange={pageClickChange} currentPage={page} pageSize={pageCount}
                            totalCount={cardPacksTotalCount}/>
             </div>
-            {modeModel !== 'notShow' && <TableMenuTest clearMenu={clearMenu} model={modeModel}/>}
+            {modeModel !== 'notShow' && <ModelForPacks clearMenu={clearMenu} model={modeModel}/>}
         </div>
     );
 });
