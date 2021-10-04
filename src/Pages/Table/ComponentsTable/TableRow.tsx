@@ -1,8 +1,9 @@
-import React, {ChangeEvent, useState} from 'react';
+import React from 'react';
 import s from './TableRow.module.css'
 import {useDispatch} from "react-redux";
-import {changedNamePackTC, deletePacksCardTC} from "../../../Store/Reducers/DeckReducer";
+import { setCurrentPack} from "../../../Store/Reducers/DeckReducer";
 import {getCardsTC} from '../../../Store/Reducers/CardsReducer';
+import {changeModeModal} from "../../../Store/Reducers/AppReducer";
 
 
 type DataCardsProps = {
@@ -15,55 +16,32 @@ type DataCardsProps = {
 
 const TableRow = (props: DataCardsProps) => {
     const dispatch = useDispatch()
-    const [status, setStatus] = useState<boolean>(false)
-    const [value, setValue] = useState<string>(props.name)
-
-    const changedValue = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.currentTarget.value)
-    }
     const deletePack = () => {
-        dispatch(deletePacksCardTC(props.id))
-    }
-    const newNamePack = () => {
-        dispatch(changedNamePackTC(value, props.id))
-        setStatus(false)
+        dispatch(changeModeModal('delete'))
+        dispatch(setCurrentPack(props.id))
     }
     const onChangeNamePack = () => {
-        setStatus(!status)
-        setValue(props.name)
+        dispatch(changeModeModal('change'))
+        dispatch(setCurrentPack(props.id))
     }
     const showPacksCard = () => {
         dispatch(getCardsTC(props.id))
-        console.log(props.id)
     }
     return (
         <div>
             <div className={s.table}>
                 <div>
-
-                    {!status
-                        ? <div><a href="#/cards" onClick={showPacksCard}>
-                            {value !== props.name
-                                ? props.name
-                                : value
-                            } </a></div>
-                        : <div><input type="text" value={value} onChange={changedValue}/>
-                            <button onClick={newNamePack}>Ok</button>
-                        </div>
-                    }
-
+                    <a href="#/cards" onClick={showPacksCard}>
+                    {props.name} </a>
                 </div>
                 <div>{props.countCard}</div>
                 <div>{props.created}</div>
                 <div>{props.rating}</div>
                 <div className={s.menu}>
-                    {!status ? <button onClick={onChangeNamePack}>change</button>
-                        : <button onClick={onChangeNamePack}>cancel</button>
-                    }
+                    <button onClick={onChangeNamePack}>change</button>
                     <button onClick={deletePack}>delete</button>
                 </div>
             </div>
-
         </div>
     );
 };

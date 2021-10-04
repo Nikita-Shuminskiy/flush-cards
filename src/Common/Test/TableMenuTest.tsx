@@ -1,66 +1,84 @@
 import React, {ChangeEvent, useState} from 'react';
-import s from '../../Pages/Table/ComponentsTable/TableMenu.module.css'
-import { useDispatch, useSelector } from 'react-redux';
-import {
-    changedNamePackTC,
-    creatingNewPackTC,
-    DeckInitStateType,
-    deletePacksCardTC, getUserThunk
-} from '../../Store/Reducers/DeckReducer';
-import { Paginator } from './Paginator/Paginator';
-import { AppRootStateType } from '../../Store/Store';
+import s from './TableMenuTest.module.css'
+import {useDispatch, useSelector} from "react-redux";
+import {changedNamePackTC, creatingNewPackTC, deletePacksCardTC} from '../../Store/Reducers/DeckReducer';
+import {changeModeModal, ModelType} from "../../Store/Reducers/AppReducer";
+import {AppRootStateType} from "../../Store/Store";
 
 
 type TableMenuPropsType = {
     clearMenu: () => void
-    title: string
-    mode: 'delete' | 'changed'
-    id: string
+    model: ModelType
+}
+type testType = {
+    name: string
+    mode: ModelType
 }
 
-
 const TableMenuTest = (props: TableMenuPropsType) => {
+    const packID = useSelector<AppRootStateType, string>(state=>state.deck.currentPack)
     const dispatch = useDispatch()
+    const test = [
+        {
+            name: 'Имя для новой колоды',
+            mode: 'add'
+        },
+        {
+            name: "Введите новое имя",
+            mode: 'change'
+        },
+        {
+            name: "Вы уверены что хотите удалить колоду?",
+            mode: 'delete'
+        }]
+    const currentData = test.find(el => el.mode === props.model)
     const [value, setValue] = useState<string>('')
 
     const cancelCreatingNewPack = () => {
-        props.clearMenu()
+        dispatch(changeModeModal('notShow'))
     }
     const changedValue = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value)
     }
     const creatingNewPack = () => {
-        if (props.mode === 'changed') {
-            dispatch(changedNamePackTC(value, props.id))
-            props.clearMenu()
-        } else if (props.mode === 'delete') {
-            dispatch(deletePacksCardTC(props.id))
-            props.clearMenu()
+        if (props.model === 'add') {
+            dispatch(creatingNewPackTC(value))
+        } else if (props.model === 'change') {
+            dispatch(changedNamePackTC(value, packID))
+        } else if(props.model=== 'delete') {
+            dispatch(deletePacksCardTC(packID))
         }
-
+        dispatch(changeModeModal('notShow'))
     }
     return (
-
-        <div className={s.menu}>
-            <h3>{props.title}</h3>
-            {props.mode === 'changed'
-                ? <div><input type="text" value={value} onChange={changedValue}/>
-                    <div>
-                        <button onClick={creatingNewPack}>ok</button>
-                        <button onClick={cancelCreatingNewPack}>cancel</button>
-                    </div>
-                </div>
-                : <div>
-                    <p>Вы уверены что хотите удалить свою колоду?</p>
-                    <div>
-                        <button onClick={creatingNewPack}>delete</button>
-                        <button onClick={cancelCreatingNewPack}>cancel</button>
-                    </div>
-                </div>}
         <div>
+            <div>
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: '0px',
+                        left: '0px',
+                        width: '100vw',
+                        height: '100vh',
+                        background: 'black',
+                        opacity: 0.35,
+                        zIndex: 20,
+                    }}
+                    onClick={() => {
+                    }
+                    }
+                />
+            </div>
+            <div className={s.menu}>
+                {currentData && <h3>{currentData.name}</h3>}
+                {props.model !== 'delete' && <input type="text" value={value} onChange={changedValue}/>}
+                <div>
+                    <button onClick={creatingNewPack}>ok</button>
+                    <button onClick={cancelCreatingNewPack}>cancel</button>
+                </div>
+            </div>
         </div>
 
-        </div>
 
     );
 };

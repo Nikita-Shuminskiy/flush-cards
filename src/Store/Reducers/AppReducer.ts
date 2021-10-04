@@ -8,11 +8,12 @@ const SET_ALERT = 'app/SET_ALERT'
 const REMOVE_ALERT = 'app/REMOVE_ALERT'
 const AUTH_ME = 'app/AUTH_ME'
 
-const initialState = {
+const initialState: initialStateType = {
     initialApp: false,
     alertList: [],
     auth: false,
-    userData: null
+    userData: null,
+    model: 'notShow'
 }
 // reducer
 export const AppReducer = (state: initialStateType = initialState, action: AppActionType): initialStateType => {
@@ -21,6 +22,10 @@ export const AppReducer = (state: initialStateType = initialState, action: AppAc
             return {
                 ...state,
                 alertList: [...state.alertList, action.payload]
+            }
+        case "CHANGED-MODE-MODAL":
+            return{
+                ...state, model: action.model
             }
         case REMOVE_ALERT:
             return {
@@ -55,6 +60,8 @@ export const removeAlert = (id: number) => ({type: REMOVE_ALERT, payload: id} as
 const setAuth = (value: boolean, userData: DataUserType) =>
     ({type: AUTH_ME, payload: {status: value, userData}} as const)
 export const initialApp = () => ({type: INIT_APP} as const)
+export const changeModeModal = (model: ModelType) => ({type: 'CHANGED-MODE-MODAL', model} as const)
+
 
 // thunks
 export const authMe = (): AppThunk => (dispatch) => {
@@ -81,11 +88,16 @@ export type AlertContentType = {
     type: 'error' | 'success' | 'info' | 'warning'
     title: string
 }
+export type ModelType = 'add' | 'delete' | 'change' | 'notShow'
+
+
 export type initialStateType = {
     initialApp: boolean
     alertList: AlertContentType[]
     auth: boolean
     userData: DataUserType | null
+    model: ModelType
+
 }
 export type DataUserType = {
     email: string
@@ -96,9 +108,11 @@ export type SetAuthAT = ReturnType<typeof setAuth>
 export type SetAlertListAT = ReturnType<typeof setAlertList>
 export type RemoveAlertAT = ReturnType<typeof removeAlert>
 export type InitAppAT = ReturnType<typeof initialApp>
+export type ChangeModeModelType = ReturnType<typeof changeModeModal>
 
 export type AppActionType =
     | SetAlertListAT
     | RemoveAlertAT
     | SetAuthAT
     | InitAppAT
+    | ChangeModeModelType

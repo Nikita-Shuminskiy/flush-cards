@@ -23,14 +23,36 @@ const TableMenu = (props: TableMenuPropsType) => {
         props.clearMenu()
     }
     return (
-        <div className={s.menu}>
-            <h3>Введите имя колоды</h3>
-            <input type="text" value={value} onChange={changedValue}/>
-            <div >
-                <button onClick={creatingNewPack} >ok</button>
-                <button onClick={cancelCreatingNewPack} >cancel</button>
+        <div>
+            <div>
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: '0px',
+                        left: '0px',
+                        width: '100vw',
+                        height: '100vh',
+
+                        background: 'black',
+                        opacity: 0.35,
+                        zIndex: 20,
+
+                    }}
+                    onClick={()=>{
+                    }
+                    }
+                />
+            </div>
+            <div className={s.menu}>
+                <h3>Введите имя колоды</h3>
+                <input type="text" value={value} onChange={changedValue}/>
+                <div >
+                    <button onClick={creatingNewPack} >ok</button>
+                    <button onClick={cancelCreatingNewPack} >cancel</button>
+                </div>
             </div>
         </div>
+
 
     );
 };

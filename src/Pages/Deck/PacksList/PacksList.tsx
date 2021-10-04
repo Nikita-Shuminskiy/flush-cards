@@ -7,9 +7,12 @@ import { DeckInitStateType, getUserThunk, searchNameTC } from '../../../Store/Re
 import { SearchByName } from '../../../Common/Search/SearchByName';
 import { AppRootStateType } from '../../../Store/Store';
 import { Paginator } from '../../../Common/Test/Paginator/Paginator';
-import TableMenu from '../../Table/ComponentsTable/TableMenu';
+import TableMenuTest from '../../../Common/Test/TableMenuTest';
+import {changeModeModal, ModelType } from '../../../Store/Reducers/AppReducer';
 
 export const PacksList = React.memo(() => {
+    const modeModel = useSelector<AppRootStateType, ModelType>(state=> state.app.model)
+    const[mode, setMode] = useState(modeModel)
     const dispatch = useDispatch()
     const {cardPacksTotalCount, pageCount, cardPacks, page}
         = useSelector<AppRootStateType, DeckInitStateType>(state => state.deck)
@@ -19,7 +22,7 @@ export const PacksList = React.memo(() => {
     }
     const handlerSearchName = (name: string) => dispatch(searchNameTC(name))
     const onSubmit = () => {
-        setStatus(true)
+       dispatch(changeModeModal('change'))
     }
     const pageClickChange = (page: number) => {
         dispatch(getUserThunk(page, pageCount))
@@ -39,7 +42,7 @@ export const PacksList = React.memo(() => {
                 <Paginator pageClickChange={pageClickChange} currentPage={page} pageSize={pageCount}
                            totalCount={cardPacksTotalCount}/>
             </div>
-            {status && <TableMenu clearMenu={clearMenu}/>}
+            {modeModel !== 'notShow' && <TableMenuTest clearMenu={clearMenu} model={modeModel}/>}
         </div>
     );
 });

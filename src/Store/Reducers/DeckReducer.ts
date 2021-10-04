@@ -28,7 +28,7 @@ const initialState = {
     minCardsCount: 0,
     page: 0,
     pageCount: 10,
-
+    currentPack: ''
 }
 export type DeckInitStateType = typeof initialState
 
@@ -63,6 +63,8 @@ export const deckReducer = (state: DeckInitStateType = initialState, action: Dec
                 cardPacks: state.cardPacks.map(el => el._id === action.id ? {...el, name: action.name} : el)
             }
         }
+        case "DECK/CURRENT-PACK":
+            return {...state, currentPack: action.id}
         case 'SET-IS-CHECKED-MY-PACKS':
             return {...state, isCheckedMyPacks: action.isChecked}
         case 'SET/TOTAL-DECK-COUNT':
@@ -95,6 +97,9 @@ export const setIsCheckedMyPacks = (isChecked: boolean) => {
 export const setCurrentPages = (currentPage: number) => {
     return {type: 'SET/CURRENT-PAGES', currentPage} as const
 }
+export const setCurrentPack = (id: string) => {
+    return {type: 'DECK/CURRENT-PACK', id} as const
+}
 
 
 //type
@@ -106,6 +111,7 @@ export type DeckActionType =
     | ReturnType<typeof setIsCheckedMyPacks>
     | ReturnType<typeof setTotalPackCount>
     | ReturnType<typeof setCurrentPages>
+|ReturnType<typeof setCurrentPack>
 
 //thunk
 export const getPacksCardTC = (): AppThunk => (dispatch) => {
