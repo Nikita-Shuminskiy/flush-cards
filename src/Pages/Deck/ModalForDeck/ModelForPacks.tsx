@@ -1,13 +1,12 @@
 import React, {ChangeEvent, useState} from 'react';
 import s from './ModelForPacks.module.css'
 import {useDispatch, useSelector} from "react-redux";
-import {changedNamePackTC, creatingNewPackTC, deletePacksCardTC} from '../../Store/Reducers/DeckReducer';
-import {changeModeModal, ModelType} from "../../Store/Reducers/AppReducer";
-import {AppRootStateType} from "../../Store/Store";
+import {changedNamePackTC, creatingNewPackTC, deletePacksCardTC} from '../../../Store/Reducers/DeckReducer';
+import {changeModeModal, ModelType} from "../../../Store/Reducers/AppReducer";
+import {AppRootStateType} from "../../../Store/Store";
 
 
 type TableMenuPropsType = {
-    clearMenu: () => void
     model: ModelType
 }
 

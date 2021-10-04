@@ -1,23 +1,19 @@
-import React, { useState} from 'react';
+import React from 'react';
 import SuperButton from '../../../Common/Test/c2-SuperButton/SuperButton';
 import s from '../../Deck/PacksList/PacksList.module.css'
 import CardsTable from "../../TableForCards/CardsTable";
-import MenuAddCard from '../../TableForCards/ComponentsCardsTable/MenuAddCard';
 import {NavLink} from "react-router-dom";
 import style from "../../Login/Login.module.css";
+import ModelForCards from '../ModalForCards/ModelForCards';
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "../../../Store/Store";
+import {changeModeModal, ModelType} from "../../../Store/Reducers/AppReducer";
 
 export const CardList = React.memo(() => {
-
-
-  /**  Что бы было легче переделать */
-
-
-    const [status, setStatus] = useState<boolean>(false)
-    const clearMenu = () => {
-        setStatus(false)
-    }
+    const dispatch = useDispatch()
+    const modeModel = useSelector<AppRootStateType, ModelType>(state => state.app.model)
     const onSubmit = () => {
-        setStatus(true)
+        dispatch(changeModeModal('add'))
     }
     return (
         <div className={s.container}>
@@ -32,7 +28,7 @@ export const CardList = React.memo(() => {
             <div>
                 Pagination
             </div>
-            {status && <MenuAddCard clearMenu={clearMenu}/>}
+            {modeModel !== 'notShow' && <ModelForCards model={modeModel}/>}
         </div>
     );
 });

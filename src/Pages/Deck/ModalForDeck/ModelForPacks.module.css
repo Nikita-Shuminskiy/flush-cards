@@ -2,8 +2,8 @@
     position: absolute;
     top: calc(50vh - 100px);
     left: calc(50vw - 150px);
-    width: 300px;
-    height: 200px;
+    min-width: 35%;
+    min-height: 30%;
     display: flex;
     flex-flow: column;
     align-items: center;
@@ -12,6 +12,8 @@
     border-radius: 80px;
     z-index: 21;
 }
+
 .menu h3 {
     color: white;
+    align-items: center;
 }

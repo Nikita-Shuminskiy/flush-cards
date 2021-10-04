@@ -1,5 +1,5 @@
 import Table from '../../Table/Table';
-import React, { useState } from 'react';
+import React  from 'react';
 import SuperButton from '../../../Common/Test/c2-SuperButton/SuperButton';
 import s from './PacksList.module.css'
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,19 +7,14 @@ import { DeckInitStateType, getUserThunk, searchNameTC } from '../../../Store/Re
 import { SearchByName } from '../../../Common/Search/SearchByName';
 import { AppRootStateType } from '../../../Store/Store';
 import { Paginator } from '../../../Common/Test/Paginator/Paginator';
-import ModelForPacks from '../../../Common/Test/ModelForPacks';
+import ModelForPacks from '../ModalForDeck/ModelForPacks';
 import {changeModeModal, ModelType } from '../../../Store/Reducers/AppReducer';
 
 export const PacksList = React.memo(() => {
     const modeModel = useSelector<AppRootStateType, ModelType>(state=> state.app.model)
-    const[mode, setMode] = useState(modeModel)
     const dispatch = useDispatch()
     const {cardPacksTotalCount, pageCount, cardPacks, page}
         = useSelector<AppRootStateType, DeckInitStateType>(state => state.deck)
-    const [status, setStatus] = useState<boolean>(false)
-    const clearMenu = () => {
-        setStatus(false)
-    }
     const handlerSearchName = (name: string) => dispatch(searchNameTC(name))
     const onSubmit = () => {
        dispatch(changeModeModal('add'))
@@ -42,7 +37,7 @@ export const PacksList = React.memo(() => {
                 <Paginator pageClickChange={pageClickChange} currentPage={page} pageSize={pageCount}
                            totalCount={cardPacksTotalCount}/>
             </div>
-            {modeModel !== 'notShow' && <ModelForPacks clearMenu={clearMenu} model={modeModel}/>}
+            {modeModel !== 'notShow' && <ModelForPacks  model={modeModel}/>}
         </div>
     );
 });
