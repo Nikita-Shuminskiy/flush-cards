@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import s from './TableRow.module.css'
-import {useDispatch} from "react-redux";
-import { setCurrentPack} from "../../../Store/Reducers/DeckReducer";
+import {useDispatch, useSelector} from "react-redux";
+import { CardPackType, setCurrentPack} from "../../../Store/Reducers/DeckReducer";
 import {getCardsTC} from '../../../Store/Reducers/CardsReducer';
 import {changeModeModal} from "../../../Store/Reducers/AppReducer";
+import { Raiting } from '../../../Common/Raiting/Raiting';
+import { AppRootStateType } from '../../../Store/Store';
 
 
 type DataCardsProps = {
@@ -15,6 +17,10 @@ type DataCardsProps = {
 }
 
 const TableRow = (props: DataCardsProps) => {
+    const cardPack = useSelector<AppRootStateType, CardPackType[]>( state => state.deck.cardPacks)
+    const grade = cardPack.filter(i => i.grade)
+    const [value,setValue] = useState(props.rating)
+    
     const dispatch = useDispatch()
     const deletePack = () => {
         dispatch(changeModeModal('delete'))
@@ -36,7 +42,7 @@ const TableRow = (props: DataCardsProps) => {
                 </div>
                 <div>{props.countCard}</div>
                 <div>{props.created}</div>
-                <div>{props.rating}</div>
+                <div><Raiting value={value} setValue={setValue}/></div>
                 <div className={s.menu}>
                     <button onClick={onChangeNamePack}>change</button>
                     <button onClick={deletePack}>delete</button>

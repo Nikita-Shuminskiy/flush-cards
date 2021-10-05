@@ -1,6 +1,6 @@
-import {api, apiPacksCards, packsListHelperUtils} from '../../Dal/Api';
-import {AppThunk} from '../Store';
-import {setAlertList} from './AppReducer';
+import { api, apiCards, apiPacksCards, packsListHelperUtils } from '../../Dal/Api';
+import { AppThunk } from '../Store';
+import { setAlertList } from './AppReducer';
 
 
 export type CardPackType = {
@@ -101,8 +101,9 @@ export const setCurrentPack = (id: string) => {
     debugger
     return {type: 'DECK/CURRENT-PACK', id} as const
 }
-
-
+export const updateRaiting = (id: string, grade: number) => {
+    return {type: 'DECK/UPDATE-RAITING', id, grade} as const
+}
 //type
 export type DeckActionType =
     | ReturnType<typeof getPacksCardData>
@@ -112,9 +113,20 @@ export type DeckActionType =
     | ReturnType<typeof setIsCheckedMyPacks>
     | ReturnType<typeof setTotalPackCount>
     | ReturnType<typeof setCurrentPages>
-|ReturnType<typeof setCurrentPack>
+    | ReturnType<typeof setCurrentPack>
+    | ReturnType<typeof updateRaiting>
 
 //thunk
+export const updateRaitingTC = (id: string, grade: number): AppThunk => (dispatch) => {
+    apiCards.updRaiting(id, grade)
+        .then(res => {
+               dispatch(updateRaiting(res.data.cardsPack_id, res.data.grade))
+        })
+        .catch((error) => {
+            alert(error)
+        })
+}
+
 export const getPacksCardTC = (): AppThunk => (dispatch) => {
     api.authMe()
         .then(res => {
