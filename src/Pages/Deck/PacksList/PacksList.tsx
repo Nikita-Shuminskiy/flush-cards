@@ -8,10 +8,11 @@ import { SearchByName } from '../../../Common/Search/SearchByName';
 import { AppRootStateType } from '../../../Store/Store';
 import { Paginator } from '../../../Common/Test/Paginator/Paginator';
 import ModelForPacks from '../ModalForDeck/ModelForPacks';
-import {changeModeModal, ModelType } from '../../../Store/Reducers/AppReducer';
+import {AppInitStateType, changeModeModal, ModelType } from '../../../Store/Reducers/AppReducer';
+import ModelForLearn from '../ModelForLearn/ModelForLearn';
 
 export const PacksList = React.memo(() => {
-    const modeModel = useSelector<AppRootStateType, ModelType>(state=> state.app.model)
+    const {model,statusTraining} = useSelector<AppRootStateType, AppInitStateType>(state=> state.app)
     const dispatch = useDispatch()
     const {cardPacksTotalCount, pageCount, cardPacks, page}
         = useSelector<AppRootStateType, DeckInitStateType>(state => state.deck)
@@ -37,7 +38,8 @@ export const PacksList = React.memo(() => {
                 <Paginator pageClickChange={pageClickChange} currentPage={page} pageSize={pageCount}
                            totalCount={cardPacksTotalCount}/>
             </div>
-            {modeModel !== 'notShow' && <ModelForPacks  model={modeModel}/>}
+            {model !== 'notShow' && <ModelForPacks  model={model}/>}
+            {statusTraining  && <ModelForLearn  />}
         </div>
     );
 });

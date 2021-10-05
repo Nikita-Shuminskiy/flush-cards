@@ -3,7 +3,7 @@ import s from './TableRow.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import { CardPackType, setCurrentPack} from "../../../Store/Reducers/DeckReducer";
 import {getCardsTC} from '../../../Store/Reducers/CardsReducer';
-import {changeModeModal} from "../../../Store/Reducers/AppReducer";
+import {changeModeModal, setStatusTraining} from "../../../Store/Reducers/AppReducer";
 import { Raiting } from '../../../Common/Raiting/Raiting';
 import { AppRootStateType } from '../../../Store/Store';
 
@@ -22,6 +22,10 @@ const TableRow = (props: DataCardsProps) => {
     const deletePack = () => {
         dispatch(changeModeModal('delete'))
         dispatch(setCurrentPack(props.id))
+    }
+    const changedStatusTraining = () => {
+        dispatch(setStatusTraining(true))
+    
     }
     const onChangeNamePack = () => {
         dispatch(changeModeModal('change'))
@@ -43,7 +47,7 @@ const TableRow = (props: DataCardsProps) => {
                 <div className={s.menu}>
                     <button onClick={onChangeNamePack}>change</button>
                     <button onClick={deletePack}>delete</button>
-                    <button onClick={deletePack}>lern</button>
+                    <button onClick={changedStatusTraining}>lern</button>
                 </div>
             </div>
         </div>

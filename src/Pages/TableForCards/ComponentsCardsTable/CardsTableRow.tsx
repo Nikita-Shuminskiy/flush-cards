@@ -27,6 +27,7 @@ const CardsTableRow = (props: DataCardsProps) => {
         dispatch(setCurrentCard(props.id))
         dispatch(changeModeModal('change'))
     }
+    
     return (
         <div>
             <div className={s.table}>

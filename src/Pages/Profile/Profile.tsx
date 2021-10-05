@@ -6,12 +6,12 @@ import {AppRootStateType} from '../../Store/Store';
 import Table from '../Table/Table';
 import SuperInputText from '../../Common/Test/c1-SuperInputText/SuperInputText';
 import {ProfileDataType} from '../../Store/Reducers/ProfileReducer';
+import { Deck } from '../Deck/Deck';
 
 export const Profile = () => {
     const userData = useSelector<AppRootStateType, ProfileDataType>(state => state.profile.profileData)
 
     return (
-
         <section className={styles.profile}>
             <div className={'container'}>
                 <div className={styles.profile__inner}>
@@ -24,31 +24,8 @@ export const Profile = () => {
                             <p>{userData?.name}</p>
                             <p>Your cards: {userData?.publicCardPacksCount}</p>
                         </div>
-                        <div>
-                            Number of cards
-                        </div>
-                        <div>
-                            555
-                        </div>
-                        <input type="range" name="range" min="0" max="100" value="99"/>
                     </div>
-                    <div>
-                        <div>
-                            <div>
-                                Packs list Petr’s
-                            </div>
-                            <SuperInputText/>
-                        </div>
-                        <div>
-                            <Table/>
-                        </div>
-                        <div>
-                            Pagination
-                        </div>
-                    </div>
-
                 </div>
-
             </div>
         </section>
 

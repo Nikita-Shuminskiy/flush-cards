@@ -3,42 +3,44 @@ import {setIsLoggedInAC} from './LoginReducer';
 import {AppThunk} from '../Store';
 import {setProfileData} from './ProfileReducer';
 
-const INIT_APP = 'app/INIT'
-const SET_ALERT = 'app/SET_ALERT'
-const REMOVE_ALERT = 'app/REMOVE_ALERT'
-const AUTH_ME = 'app/AUTH_ME'
 
-const initialState: initialStateType = {
+const initialState: AppInitStateType = {
     initialApp: false,
     alertList: [],
     auth: false,
     userData: null,
-    model: 'notShow'
+    model: 'notShow',
+    statusTraining: false
 }
 // reducer
-export const AppReducer = (state: initialStateType = initialState, action: AppActionType): initialStateType => {
+export const AppReducer = (state: AppInitStateType = initialState, action: AppActionType): AppInitStateType => {
     switch (action.type) {
-        case SET_ALERT:
+        case 'SET_ALERT':
             return {
                 ...state,
                 alertList: [...state.alertList, action.payload]
             }
         case "CHANGED-MODE-MODAL":
-            return{
+            return {
                 ...state, model: action.model
             }
-        case REMOVE_ALERT:
+        case "APP/STATUS-TRAINING": {
+            return {
+                ...state, statusTraining: action.status
+            }
+        }
+        case "REMOVE_ALERT":
             return {
                 ...state,
                 alertList: state.alertList.filter(el => el.id !== action.payload)
             }
-        case AUTH_ME:
+        case 'AUTH_ME':
             return {
                 ...state,
                 auth: action.payload.status,
                 userData: {...action.payload.userData}
             }
-        case INIT_APP:
+        case 'INIT_APP':
             return {
                 ...state,
                 initialApp: true
@@ -49,18 +51,27 @@ export const AppReducer = (state: initialStateType = initialState, action: AppAc
 }
 
 // actions
-
-export const configAlert = (type: 'error' | 'success' | 'info' | 'warning', message: string) => ({
-    id: new Date().getTime(),
-    type,
-    title: message
-})
-export const setAlertList = (alert: AlertContentType) => ({type: SET_ALERT, payload: alert} as const)
-export const removeAlert = (id: number) => ({type: REMOVE_ALERT, payload: id} as const)
-const setAuth = (value: boolean, userData: DataUserType) =>
-    ({type: AUTH_ME, payload: {status: value, userData}} as const)
-export const initialApp = () => ({type: INIT_APP} as const)
-export const changeModeModal = (model: ModelType) => ({type: 'CHANGED-MODE-MODAL', model} as const)
+export const configAlert = (type: AlertType, message: string) => {
+    return {id: new Date().getTime(), type, title: message}
+}
+export const setAlertList = (alert: AlertContentType) => {
+    return {type: 'SET_ALERT', payload: alert} as const
+}
+export const removeAlert = (id: number) => {
+    return {type: 'REMOVE_ALERT', payload: id} as const
+}
+const setAuth = (value: boolean, userData: DataUserType) => {
+    return {type: 'AUTH_ME', payload: {status: value, userData}} as const
+}
+export const initialApp = () => {
+    return {type: 'INIT_APP'} as const
+}
+export const changeModeModal = (model: ModelType) => {
+    return {type: 'CHANGED-MODE-MODAL', model} as const
+}
+export const setStatusTraining = (status: boolean) => {
+    return {type: 'APP/STATUS-TRAINING', status} as const
+}
 
 
 // thunks
@@ -71,48 +82,39 @@ export const authMe = (): AppThunk => (dispatch) => {
             dispatch(setAuth(true, {email: res.data.email}))
             dispatch(initialApp())
             dispatch(setProfileData(res.data))
-            dispatch(setAlertList(configAlert('success', `Пользователь: ${res.data.name}`)))
         })
         .catch(error => {
             dispatch(initialApp())
-            dispatch(setAlertList({id: 5, type: 'error', title: `${error}`}))
             setTimeout(() => dispatch(removeAlert(5)), 2000)
-
         })
 
 }
 
 //type
+type AlertType = 'error' | 'success' | 'info' | 'warning'
 export type AlertContentType = {
     id: number
-    type: 'error' | 'success' | 'info' | 'warning'
+    type: AlertType
     title: string
 }
 export type ModelType = 'add' | 'delete' | 'change' | 'notShow'
-
-
-export type initialStateType = {
+export type AppInitStateType = {
     initialApp: boolean
     alertList: AlertContentType[]
     auth: boolean
     userData: DataUserType | null
     model: ModelType
-
+    statusTraining: boolean
 }
 export type DataUserType = {
     email: string
     avatar?: string
 }
-
-export type SetAuthAT = ReturnType<typeof setAuth>
 export type SetAlertListAT = ReturnType<typeof setAlertList>
-export type RemoveAlertAT = ReturnType<typeof removeAlert>
-export type InitAppAT = ReturnType<typeof initialApp>
-export type ChangeModeModelType = ReturnType<typeof changeModeModal>
-
 export type AppActionType =
     | SetAlertListAT
-    | RemoveAlertAT
-    | SetAuthAT
-    | InitAppAT
-    | ChangeModeModelType
+    | ReturnType<typeof removeAlert>
+    | ReturnType<typeof setAuth>
+    | ReturnType<typeof initialApp>
+    | ReturnType<typeof changeModeModal>
+    | ReturnType<typeof setStatusTraining>
