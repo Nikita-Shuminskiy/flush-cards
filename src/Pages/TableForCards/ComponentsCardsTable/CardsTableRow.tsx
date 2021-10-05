@@ -1,8 +1,8 @@
 import React from 'react';
 import s from './CardsTableRow.module.css'
 import {useDispatch} from "react-redux";
-import { changeCurrentPack} from '../../../Store/Reducers/CardsReducer';
 import {changeModeModal} from "../../../Store/Reducers/AppReducer";
+import { setCurrentCard } from '../../../Store/Reducers/CardsReducer';
 
 
 type DataCardsProps = {
@@ -17,12 +17,12 @@ const CardsTableRow = (props: DataCardsProps) => {
     const dispatch = useDispatch()
 
     const deleteCard = () => {
-        dispatch(changeCurrentPack(props.id))
+        dispatch(setCurrentCard(props.id))
         dispatch(changeModeModal('delete'))
     }
 
     const onChangeNamePack = () => {
-        dispatch(changeCurrentPack(props.id))
+        dispatch(setCurrentCard(props.id))
         dispatch(changeModeModal('change'))
     }
     return (

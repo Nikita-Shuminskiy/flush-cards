@@ -1,6 +1,7 @@
 import {apiCards} from "../../Dal/Api";
 import {AppThunk} from "../Store";
 import {initialApp, setAlertList} from "./AppReducer";
+import { setCurrentPack } from "./DeckReducer";
 
 
 type CardType = {
@@ -27,7 +28,7 @@ const initialState = {
     page: 0,
     pageCount: 0,
     packUserId: '',
-    currentPack: ''
+    currentCard: ''
 }
 
 export type CardInitStateType = typeof initialState
@@ -56,9 +57,9 @@ export const cardsReducer = (state: CardInitStateType = initialState, action: Ca
                 } : el)
             }
         }
-        case "CARDS/CHANGE-CURRENT-PACK": {
+        case "CARDS/SET-CURRENT-CARD": {
             return {
-                ...state, currentPack: action.id
+                ...state, currentCard: action.id
             }
         }
         case "CARDS/DELETE-CARD": {
@@ -76,7 +77,7 @@ export const cardsReducer = (state: CardInitStateType = initialState, action: Ca
 export type CardsActionType =
     | ReturnType<typeof changeValueCard>
     | ReturnType<typeof deleteCard>
-    | ReturnType<typeof changeCurrentPack>
+    | ReturnType<typeof setCurrentCard>
     | ReturnType<typeof getCards>
 
 //actions
@@ -89,8 +90,9 @@ const changeValueCard = (id: string, question: string, answer: string) => {
 export const deleteCard = (id: string) => {
     return {type: 'CARDS/DELETE-CARD', id} as const
 }
-export const changeCurrentPack = (id: string) => {
-    return {type: 'CARDS/CHANGE-CURRENT-PACK', id} as const
+export const setCurrentCard = (id: string) => {
+    debugger
+    return {type: 'CARDS/SET-CURRENT-CARD', id} as const
 }
 
 //thunks
@@ -100,7 +102,7 @@ export const getCardsTC = (id: string): AppThunk => (dispatch) => {
         .then((res) => {
             dispatch(initialApp())
             dispatch(getCards(res.data))
-            dispatch(changeCurrentPack(id))
+            dispatch(setCurrentPack(id))
         })
 }
 export const addedCardsTC = (id: string, question: string, answer: string): AppThunk => (dispatch) => {
@@ -110,6 +112,7 @@ export const addedCardsTC = (id: string, question: string, answer: string): AppT
         })
 }
 export const deleteCardsTC = (id: string): AppThunk => (dispatch) => {
+    debugger
     apiCards.deleteCard(id)
         .then((res) => {
             dispatch(deleteCard(id))

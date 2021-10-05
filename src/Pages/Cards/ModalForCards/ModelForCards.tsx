@@ -11,7 +11,8 @@ type TableMenuPropsType = {
 }
 
 const ModelForCards = (props: TableMenuPropsType) => {
-    const cardID = useSelector<AppRootStateType, string>(state => state.cards.currentPack)
+    const packID = useSelector<AppRootStateType, string>(state=>state.deck.currentPack)
+    const cardID = useSelector<AppRootStateType, string>(state => state.cards.currentCard)
     const dispatch = useDispatch()
     const data = [
         {
@@ -44,7 +45,7 @@ const ModelForCards = (props: TableMenuPropsType) => {
 
     const creatingNewPack = () => {
         if (props.model === 'add') {
-            dispatch(addedCardsTC(cardID, valueQu, valueAn))
+            dispatch(addedCardsTC(packID, valueQu, valueAn))
         } else if (props.model === 'change') {
             dispatch(changeCardsTC(cardID, valueQu, valueAn))
         } else if (props.model === 'delete') {
