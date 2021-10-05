@@ -111,7 +111,7 @@ export const setCurrentCard = (id: string) => {
 export const updateRaitingTC = (grade: number,id:string): AppThunk => (dispatch) => {
     apiCards.updRaiting(grade, id)
         .then(res => {
-            dispatch(changeCurrentPack(res.data.card_id))
+            dispatch(setCurrentCard(res.data.card_id))
             dispatch(updateRaiting(res.data.updatedGrade.grade,res.data.updatedGrade.card_id))
         })
         .catch((error) => {

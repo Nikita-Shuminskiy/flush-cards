@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {changeModeModal, ModelType} from "../../../Store/Reducers/AppReducer";
 import {addedCardsTC, CardInitStateType, changeCardsTC, deleteCardsTC} from '../../../Store/Reducers/CardsReducer';
 import {AppRootStateType} from "../../../Store/Store";
+import {useEffect} from 'react';
 
 
 type TableMenuPropsType = {
@@ -14,26 +15,19 @@ type testType = {
     question: string
 }
 const ModelForCards = (props: TableMenuPropsType) => {
-    const packID = useSelector<AppRootStateType, string>(state=>state.deck.currentPack)
+    const packID = useSelector<AppRootStateType, string>(state => state.deck.currentPack)
     const {currentCardID, cards} = useSelector<AppRootStateType, CardInitStateType>(state => state.cards)
     const dispatch = useDispatch()
-    const currentCard = cards.find(el=>el._id === currentCardID)
-
+    const currentCard = cards.find(el => el._id === currentCardID)
+    useEffect(() => {
+        if (currentCard && currentCard.answer !== valueAn) {
+            setValueAn(currentCard.answer)
+            setValueQu(currentCard.question)
+        }
+    }, [])
     const [valueAn, setValueAn] = useState<string>('')
     const [valueQu, setValueQu] = useState<string>('')
-    const [testQ, setTest] = useState<testType>({
-        answer: '',
-        question: ''
-    })
 
-    if ( currentCard && currentCard.answer !== testQ.answer) {
-        setValueAn(currentCard.answer)
-        setValueQu(currentCard.question)
-    }
-    // if ( currentCard && currentCard.answer !== valueAn) {
-    //     setValueAn(currentCard.answer)
-    //     setValueQu(currentCard.question)
-    // }
     const data = [
         {
             name: 'Создание карты',
@@ -50,7 +44,7 @@ const ModelForCards = (props: TableMenuPropsType) => {
     const currentData = data.find(el => el.mode === props.model)
 
 
-    const changedValueAn = (e: ChangeEvent<HTMLInputElement>) => {
+    const changedValueAn = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setValueAn(e.currentTarget.value)
     }
 
@@ -97,7 +91,7 @@ const ModelForCards = (props: TableMenuPropsType) => {
                     <p>Вопрос</p>
                     <input type="text" value={valueQu} onChange={changedValueQu}/>
                     <p>Ответ</p>
-                    <input type="text" value={valueAn} onChange={changedValueAn}/>
+                    <textarea   value={valueAn} className={s.answer} onChange={changedValueAn} ></textarea>
                 </div>}
                 <div>
                     <button onClick={creatingNewPack}>ok</button>

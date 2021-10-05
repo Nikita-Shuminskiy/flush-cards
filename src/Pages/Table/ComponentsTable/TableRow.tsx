@@ -43,6 +43,7 @@ const TableRow = (props: DataCardsProps) => {
                 <div className={s.menu}>
                     <button onClick={onChangeNamePack}>change</button>
                     <button onClick={deletePack}>delete</button>
+                    <button onClick={deletePack}>lern</button>
                 </div>
             </div>
         </div>
