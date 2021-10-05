@@ -7,7 +7,7 @@ import { AppRootStateType } from '../../Store/Store';
 
 const Test = () => {
    const test = useSelector<AppRootStateType,CardInitStateType>(state=> state.cards)
-    const cardID = useSelector<AppRootStateType, string>(state => state.cards.currentCard)
+    const cardID = useSelector<AppRootStateType, string>(state => state.cards.currentCardID)
  const a = test.cards.find(el=>el._id === cardID)
     if(a){
         const b = a.answer

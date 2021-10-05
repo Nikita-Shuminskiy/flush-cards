@@ -60,9 +60,7 @@ const ModelForPacks = (props: TableMenuPropsType) => {
                         opacity: 0.35,
                         zIndex: 20,
                     }}
-                    onClick={() => {
-                    }
-                    }
+                    onClick={cancelCreatingNewPack}
                 />
             </div>
             <div className={s.menu}>

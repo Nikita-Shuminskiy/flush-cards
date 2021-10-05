@@ -28,7 +28,7 @@ const initialState = {
     page: 0,
     pageCount: 0,
     packUserId: '',
-    currentCard: ''
+    currentCardID: ''
 }
 
 export type CardInitStateType = typeof initialState
@@ -57,9 +57,9 @@ export const cardsReducer = (state: CardInitStateType = initialState, action: Ca
                 } : el)
             }
         }
-        case "CARDS/SET-CURRENT-CARD": {
+        case "CARDS/SET-CURRENT-CARD-ID": {
             return {
-                ...state, currentCard: action.id
+                ...state, currentCardID: action.id
             }
         }
         case "CARDS/DELETE-CARD": {
@@ -91,8 +91,7 @@ export const deleteCard = (id: string) => {
     return {type: 'CARDS/DELETE-CARD', id} as const
 }
 export const setCurrentCard = (id: string) => {
-    debugger
-    return {type: 'CARDS/SET-CURRENT-CARD', id} as const
+    return {type: 'CARDS/SET-CURRENT-CARD-ID', id} as const
 }
 
 //thunks
@@ -116,7 +115,6 @@ export const deleteCardsTC = (id: string): AppThunk => (dispatch) => {
     apiCards.deleteCard(id)
         .then((res) => {
             dispatch(deleteCard(id))
-
             dispatch(setAlertList({id: 1, type: 'success', title: '  Your card has been successfully deleted'}))
         })
         .catch((error) => {

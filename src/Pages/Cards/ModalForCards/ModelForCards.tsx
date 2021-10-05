@@ -2,18 +2,38 @@ import React, {ChangeEvent, useState} from 'react';
 import s from '../../Deck/ModalForDeck/ModelForPacks.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {changeModeModal, ModelType} from "../../../Store/Reducers/AppReducer";
-import {addedCardsTC,  changeCardsTC, deleteCardsTC} from '../../../Store/Reducers/CardsReducer';
+import {addedCardsTC, CardInitStateType, changeCardsTC, deleteCardsTC} from '../../../Store/Reducers/CardsReducer';
 import {AppRootStateType} from "../../../Store/Store";
 
 
 type TableMenuPropsType = {
     model: ModelType
 }
-
+type testType = {
+    answer: string,
+    question: string
+}
 const ModelForCards = (props: TableMenuPropsType) => {
     const packID = useSelector<AppRootStateType, string>(state=>state.deck.currentPack)
-    const cardID = useSelector<AppRootStateType, string>(state => state.cards.currentCard)
+    const {currentCardID, cards} = useSelector<AppRootStateType, CardInitStateType>(state => state.cards)
     const dispatch = useDispatch()
+    const currentCard = cards.find(el=>el._id === currentCardID)
+
+    const [valueAn, setValueAn] = useState<string>('')
+    const [valueQu, setValueQu] = useState<string>('')
+    const [testQ, setTest] = useState<testType>({
+        answer: '',
+        question: ''
+    })
+
+    if ( currentCard && currentCard.answer !== testQ.answer) {
+        setValueAn(currentCard.answer)
+        setValueQu(currentCard.question)
+    }
+    // if ( currentCard && currentCard.answer !== valueAn) {
+    //     setValueAn(currentCard.answer)
+    //     setValueQu(currentCard.question)
+    // }
     const data = [
         {
             name: 'Создание карты',
@@ -28,8 +48,7 @@ const ModelForCards = (props: TableMenuPropsType) => {
             mode: 'delete'
         }]
     const currentData = data.find(el => el.mode === props.model)
-    const [valueAn, setValueAn] = useState<string>('')
-    const [valueQu, setValueQu] = useState<string>('')
+
 
     const changedValueAn = (e: ChangeEvent<HTMLInputElement>) => {
         setValueAn(e.currentTarget.value)
@@ -47,9 +66,9 @@ const ModelForCards = (props: TableMenuPropsType) => {
         if (props.model === 'add') {
             dispatch(addedCardsTC(packID, valueQu, valueAn))
         } else if (props.model === 'change') {
-            dispatch(changeCardsTC(cardID, valueQu, valueAn))
+            dispatch(changeCardsTC(currentCardID, valueQu, valueAn))
         } else if (props.model === 'delete') {
-            dispatch(deleteCardsTC(cardID))
+            dispatch(deleteCardsTC(currentCardID))
         }
         dispatch(changeModeModal('notShow'))
     }

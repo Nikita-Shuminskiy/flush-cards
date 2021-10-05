@@ -98,7 +98,6 @@ export const setCurrentPages = (currentPage: number) => {
     return {type: 'SET/CURRENT-PAGES', currentPage} as const
 }
 export const setCurrentPack = (id: string) => {
-    debugger
     return {type: 'DECK/CURRENT-PACK', id} as const
 }
 export const updateRaiting = (id: string, grade: number) => {
