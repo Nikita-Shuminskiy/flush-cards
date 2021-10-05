@@ -84,8 +84,8 @@ export const apiCards = {
     changeCard(_id: string, question: string, answer: string) {
         return createInstance.put('cards/card', {card: {_id, question, answer}})
     },
-    updRaiting(id: string,grade: number) {
-        return createInstance.put<UpdatedGradeType>('cards/grade')
+    updRaiting(grade: number, card_id: string) {
+        return createInstance.put<any>('cards/grade', {grade , card_id})
     }
 }
 

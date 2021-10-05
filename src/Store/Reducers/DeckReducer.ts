@@ -18,7 +18,7 @@ export type CardPackType = {
     created: string,
     updated: string,
     more_id: string,
-    __v: number
+    __v: number,
 }
 const initialState = {
     cardPacks: [] as Array<CardPackType>,
@@ -30,6 +30,7 @@ const initialState = {
     pageCount: 10,
     currentPack: ''
 }
+console.log(initialState.cardPacks)
 export type DeckInitStateType = typeof initialState
 
 export const deckReducer = (state: DeckInitStateType = initialState, action: DeckActionType): DeckInitStateType => {
@@ -100,9 +101,7 @@ export const setCurrentPages = (currentPage: number) => {
 export const setCurrentPack = (id: string) => {
     return {type: 'DECK/CURRENT-PACK', id} as const
 }
-export const updateRaiting = (id: string, grade: number) => {
-    return {type: 'DECK/UPDATE-RAITING', id, grade} as const
-}
+
 //type
 export type DeckActionType =
     | ReturnType<typeof getPacksCardData>
@@ -113,18 +112,9 @@ export type DeckActionType =
     | ReturnType<typeof setTotalPackCount>
     | ReturnType<typeof setCurrentPages>
     | ReturnType<typeof setCurrentPack>
-    | ReturnType<typeof updateRaiting>
 
 //thunk
-export const updateRaitingTC = (id: string, grade: number): AppThunk => (dispatch) => {
-    apiCards.updRaiting(id, grade)
-        .then(res => {
-               dispatch(updateRaiting(res.data.cardsPack_id, res.data.grade))
-        })
-        .catch((error) => {
-            alert(error)
-        })
-}
+
 
 export const getPacksCardTC = (): AppThunk => (dispatch) => {
     api.authMe()

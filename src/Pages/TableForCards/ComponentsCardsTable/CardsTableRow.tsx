@@ -1,8 +1,9 @@
 import React from 'react';
 import s from './CardsTableRow.module.css'
-import {useDispatch} from "react-redux";
-import { changeCurrentPack} from '../../../Store/Reducers/CardsReducer';
-import {changeModeModal} from "../../../Store/Reducers/AppReducer";
+import { useDispatch } from 'react-redux';
+import { changeCurrentPack } from '../../../Store/Reducers/CardsReducer';
+import { changeModeModal } from '../../../Store/Reducers/AppReducer';
+import { Raiting } from '../../../Common/Raiting/Raiting';
 
 
 type DataCardsProps = {
@@ -11,6 +12,7 @@ type DataCardsProps = {
     update: string
     rating: number
     id: string
+    grade:number
 }
 
 const CardsTableRow = (props: DataCardsProps) => {
@@ -31,7 +33,7 @@ const CardsTableRow = (props: DataCardsProps) => {
                 <div>{props.question}</div>
                 <div>{props.answer}</div>
                 <div>{props.update}</div>
-                <div>{props.rating}</div>
+                <div><Raiting grade={props.grade} id={props.id}/></div>
                 <div className={s.menu}>
                     <button onClick={onChangeNamePack}>change</button>
                     <button onClick={deleteCard}>delete</button>

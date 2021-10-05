@@ -1,11 +1,11 @@
-import {applyMiddleware, combineReducers, createStore} from 'redux';
-import {LoginActionsType, loginReducer} from './Reducers/LoginReducer'
-import {RegistrationActionType, registrationReducer} from './Reducers/RegistrationReducer'
-import {ProfileActionType, profileReducer} from './Reducers/ProfileReducer'
-import thunk, {ThunkAction} from 'redux-thunk';
-import {AppActionType, AppReducer} from './Reducers/AppReducer';
-import {DeckActionType, deckReducer} from './Reducers/DeckReducer';
-import {CardsActionType, cardsReducer} from './Reducers/CardsReducer';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
+import { LoginActionsType, loginReducer } from './Reducers/LoginReducer'
+import { RegistrationActionType, registrationReducer } from './Reducers/RegistrationReducer'
+import { ProfileActionType, profileReducer } from './Reducers/ProfileReducer'
+import thunk, { ThunkAction } from 'redux-thunk';
+import { AppActionType, AppReducer } from './Reducers/AppReducer';
+import { DeckActionType, deckReducer } from './Reducers/DeckReducer';
+import { CardsActionType, cardsReducer } from './Reducers/CardsReducer';
 
 const rootReducer = combineReducers({
     login: loginReducer,
