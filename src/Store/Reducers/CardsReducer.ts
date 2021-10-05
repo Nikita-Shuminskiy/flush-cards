@@ -47,6 +47,15 @@ export const cardsReducer = (state: CardInitStateType = initialState, action: Ca
                 packUserId: action.data.packUserId,
             }
         }
+        case 'DECK/UPDATE-RAITING':{
+            return {
+                ...state,
+                cards: state.cards.map(el => el._id === action.id ? {
+                    ...el,
+                    grade: action.grade
+                } : el)
+            }
+        }
         case "CARDS/CHANGE-VALUE-CARD": {
             return {
                 ...state,
@@ -79,8 +88,12 @@ export type CardsActionType =
     | ReturnType<typeof deleteCard>
     | ReturnType<typeof setCurrentCard>
     | ReturnType<typeof getCards>
+    | ReturnType<typeof updateRaiting>
 
 //actions
+export const updateRaiting = (grade: number, id:string) => {
+    return {type: 'DECK/UPDATE-RAITING', grade, id} as const
+}
 const getCards = (data: CardInitStateType) => {
     return {type: 'CARDS/GET-CARDS', data} as const
 }
@@ -95,6 +108,16 @@ export const setCurrentCard = (id: string) => {
 }
 
 //thunks
+export const updateRaitingTC = (grade: number,id:string): AppThunk => (dispatch) => {
+    apiCards.updRaiting(grade, id)
+        .then(res => {
+            dispatch(changeCurrentPack(res.data.card_id))
+            dispatch(updateRaiting(res.data.updatedGrade.grade,res.data.updatedGrade.card_id))
+        })
+        .catch((error) => {
+            alert(error)
+        })
+}
 export const getCardsTC = (id: string): AppThunk => (dispatch) => {
     dispatch(initialApp())
     apiCards.getCards(id)

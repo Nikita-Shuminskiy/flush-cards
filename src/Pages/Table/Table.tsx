@@ -1,13 +1,12 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import HeaderTable from './ComponentsTable/HeaderTable'
-import {useDispatch, useSelector} from 'react-redux';
-import {AppRootStateType} from '../../Store/Store';
-import {DeckInitStateType, getPacksCardTC, setPrivatPacks} from '../../Store/Reducers/DeckReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppRootStateType } from '../../Store/Store';
+import { CardPackType, getPacksCardTC, setPrivatPacks } from '../../Store/Reducers/DeckReducer';
 import s from './Table.module.css'
 
 
 const Table = () => {
-    const {cardPacks} = useSelector<AppRootStateType, DeckInitStateType>(state => state.deck)
     const dispatch = useDispatch()
     const isCheckedMyPacks = useSelector<AppRootStateType, boolean>(state => state.deck.isCheckedMyPacks)
 
@@ -20,7 +19,7 @@ const Table = () => {
     }, [isCheckedMyPacks])
     return (
         <div className={s.table}>
-            <HeaderTable data={cardPacks}/>
+            <HeaderTable/>
         </div>
     )
 }

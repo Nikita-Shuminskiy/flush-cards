@@ -1,32 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import starEmpty from '../../Images/StarEmpty.png';
 import starFull from '../../Images/StarFull.png';
+import { updateRaitingTC } from '../../Store/Reducers/CardsReducer';
 
 export type RaitingType = {
-    setValue: (value: number) => void
-    value: number
+    id: string
+    grade: number
 }
-
-
 export const Raiting: React.FC<RaitingType> = (props) => {
+    console.log(props.grade)
     return (
         <div>
-            <Star selected={props.value >= 1} setValue={() => props.setValue(1)}/>
-            <Star selected={props.value >= 2} setValue={() => props.setValue(2)}/>
-            <Star selected={props.value >= 3} setValue={() => props.setValue(3)}/>
-            <Star selected={props.value >= 4} setValue={() => props.setValue(4)}/>
-            <Star selected={props.value >= 5} setValue={() => props.setValue(5)}/>
+            <Star id={props.id} value={1} on={props.grade >= 1}/>
+            <Star id={props.id} value={2} on={props.grade >= 2}/>
+            <Star id={props.id} value={3} on={props.grade >= 3}/>
+            <Star id={props.id} value={4} on={props.grade >= 4}/>
+            <Star id={props.id} value={5} on={props.grade >= 5}/>
         </div>
     );
 };
 export type StarType = {
-    selected: boolean
-    setValue: () => void
+    on: boolean
+    id:string
+    value:number
+}
+const Star = (props: StarType) => {
+    const dispatch = useDispatch()
+
+    const changeRaiting = () => {
+        dispatch(updateRaitingTC(props.value, props.id))
+        console.log(props.value)
+    }
+
+    return <>
+        <span onClick={changeRaiting}>{props.on ?
+            <img src={starFull} alt="star"/>
+            : <img src={starEmpty} alt="star"/>}
+        </span>
+    </>
 }
 
-const Star = (props: StarType) => {
-    return <span onClick={() => {
-        props.setValue()
-    }}>{props.selected ? <img src={starFull} alt="star"/> : <img src={starEmpty} alt="star"/>}</span>
-}
+
 

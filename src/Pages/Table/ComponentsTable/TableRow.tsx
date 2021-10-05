@@ -14,13 +14,10 @@ type DataCardsProps = {
     created: string
     rating: number
     id: string
+    grade:number
 }
 
 const TableRow = (props: DataCardsProps) => {
-    const cardPack = useSelector<AppRootStateType, CardPackType[]>( state => state.deck.cardPacks)
-    const grade = cardPack.filter(i => i.grade)
-    const [value,setValue] = useState(props.rating)
-    
     const dispatch = useDispatch()
     const deletePack = () => {
         dispatch(changeModeModal('delete'))
@@ -42,7 +39,7 @@ const TableRow = (props: DataCardsProps) => {
                 </div>
                 <div>{props.countCard}</div>
                 <div>{props.created}</div>
-                <div><Raiting value={value} setValue={setValue}/></div>
+                <div><Raiting grade={props.grade} id={props.id}/></div>
                 <div className={s.menu}>
                     <button onClick={onChangeNamePack}>change</button>
                     <button onClick={deletePack}>delete</button>
