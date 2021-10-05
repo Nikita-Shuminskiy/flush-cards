@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {RegistrationFormType} from '../Pages/Registration/Registration';
+import { RegistrationFormType } from '../Pages/Registration/Registration';
 
 const createInstance = axios.create({
     // baseURL: 'https://neko-back.herokuapp.com/2.0/',
@@ -75,7 +75,7 @@ export const apiCards = {
     getCards(packId: string) {
         return createInstance.get(`cards/card?cardsPack_id=${packId}&pageCount=10`)
     },
-    addCard(cardsPack_id: string,question:string , answer: string) {
+    addCard(cardsPack_id: string, question: string, answer: string) {
         return createInstance.post('cards/card', {card: {cardsPack_id, question, answer}})
     },
     deleteCard(packId: string) {
@@ -83,6 +83,9 @@ export const apiCards = {
     },
     changeCard(_id: string, question: string, answer: string) {
         return createInstance.put('cards/card', {card: {_id, question, answer}})
+    },
+    updRaiting(id: string,grade: number) {
+        return createInstance.put<UpdatedGradeType>('cards/grade')
     }
 }
 
@@ -91,4 +94,12 @@ export const apiCards = {
 type ResponseSetNewPassword = {
     info: string
     error: string
+}
+type UpdatedGradeType = {
+    _id: string
+    cardsPack_id: string
+    card_id: string
+    user_id: string
+    grade: number
+    shots: number
 }
