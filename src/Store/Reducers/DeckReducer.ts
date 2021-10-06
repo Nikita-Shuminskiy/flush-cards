@@ -192,8 +192,8 @@ export const creatingNewPackTC = (name: string): AppThunk => (dispatch, getState
 
 export const searchNameTC = (findByName: string): AppThunk => (dispatch, getState) => {
     const {isCheckedMyPacks, minCardsCount, page, pageCount} = getState().deck
-    api.authMe()
-        .then(res => {
+    const userID = getState().profile.profileData._id
+            if (!isCheckedMyPacks) {
             apiPacksCards.getPacksTest(findByName, page, pageCount, minCardsCount)
                 .then(res => {
                     debugger
@@ -204,44 +204,48 @@ export const searchNameTC = (findByName: string): AppThunk => (dispatch, getStat
                         type: 'success',
                         title: `Found ${res.data.cardPacksTotalCount} decks with this name`
                     }))
-                })
-        })
+                }) } else {
+                apiPacksCards.getPacksTest(findByName, page, pageCount, minCardsCount, userID)
+                    .then(res => {
+                        debugger
+                        dispatch(searchName(findByName))
+                        dispatch(getPacksCardData(res.data))
+                        dispatch(setAlertList({
+                            id: 1,
+                            type: 'success',
+                            title: `Found ${res.data.cardPacksTotalCount} decks with this name`
+                        }))
+                    })
+            }
 }
+
 export const setPrivatPacks = (): AppThunk => (dispatch, getState) => {
-    const {isCheckedMyPacks, minCardsCount, page, pageCount} = getState().deck
-    api.authMe()
-        .then(res => {
-            apiPacksCards.getPackPrivatePaginatod(res.data._id, page, pageCount, minCardsCount)
+    const userID = getState().profile.profileData._id
+    const {isCheckedMyPacks, minCardsCount, page, pageCount,searchName} = getState().deck
+            apiPacksCards.getPacksTest(searchName, page, pageCount, minCardsCount,userID)
                 .then((res) => {
                     dispatch(getPacksCardData(res.data))
                 })
-        })
-        .catch((error) => {
-        })
+
 }
+
 export const getUserThunk = (currentPage: number, pageCount: number): AppThunk => (dispatch, getState) => {
     const {isCheckedMyPacks, minCardsCount,searchName} = getState().deck
-    console.log(searchName)
+    const userID = getState().profile.profileData._id
     if (!isCheckedMyPacks) {
         apiPacksCards.getPacksTest(searchName, currentPage, pageCount, minCardsCount)
             .then(data => {
-
                 dispatch(setTotalPackCount(data.data.cardPacksTotalCount))
                 dispatch(setCurrentPages(currentPage))
                 dispatch(getPacksCardData(data.data))
             })
     } else {
-        api.authMe()
-            .then(res => {
-                apiPacksCards.getPackPrivatePaginatod(res.data._id, currentPage, pageCount, minCardsCount)
+                apiPacksCards.getPacksTest(searchName, currentPage, pageCount, minCardsCount,userID)
                     .then((data) => {
                         dispatch(setTotalPackCount(data.data.cardPacksTotalCount))
                         dispatch(setCurrentPages(currentPage))
                         dispatch(getPacksCardData(data.data))
                     })
-            })
-            .catch((error) => {
-            })
     }
 }
 

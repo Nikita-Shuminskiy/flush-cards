@@ -36,10 +36,8 @@ export const api = {
     },
 }
 export const apiPacksCards = {
-    getPacks(min?: number) {
-        return createInstance.get(`cards/pack?&pageCount=10&min=${min}`)
-    },getPacksTest(value?: string,currentPage?:number, pageCount?: number ,min?: number,userID?: string) {
-        return createInstance.get(`cards/pack?page=${currentPage}&pageCount=${pageCount}&min=${min}`, {params: {packName: value}})
+   getPacksTest(value?: string,currentPage?:number, pageCount?: number ,min?: number,userID?: string) {
+        return createInstance.get(`cards/pack?page=${currentPage}&pageCount=${pageCount}&min=${min}`, {params: {packName: value,user_id: userID}})
     },
     addedPack(name: string) {
         return createInstance.post('cards/pack', {cardsPack: {name}})
@@ -49,13 +47,6 @@ export const apiPacksCards = {
     },
     changedPack(name: string, _id: string) {
         return createInstance.put('cards/pack', {cardsPack: {name, _id}})
-    },
-    getPackPrivatePaginatod(user_id: string,currentPage?:number, pageCount?: number ,min?: number) {
-        return createInstance.get(`cards/pack?page=${currentPage}&pageCount=${pageCount}&min=${min}`, {
-            params: {
-                user_id: user_id,
-            }
-        })
     },
 }
 

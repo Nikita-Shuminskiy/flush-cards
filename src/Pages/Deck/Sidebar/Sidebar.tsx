@@ -19,13 +19,10 @@ export const Sidebar = () => {
     const [value, setValue] = useState(minCardsCount)
     const chagnedValue = (value: number) => {
         setValue(value)
-
     }
-    const filter = (value: number) => {
+   
+    const setFilterValue = () => {
         dispatch(filterPacksByCardsTC(value))
-    }
-    const test = () => {
-        filter(value)
     }
     return (
         <div className={s.main}>
@@ -33,8 +30,7 @@ export const Sidebar = () => {
             <div>
                 Minim card {value}
             </div>
-            <RangeInput chagnedValue={chagnedValue}/>
-            <button onClick={test}>filter</button>
+            <RangeInput chagnedValue={chagnedValue}  setFilterValue={setFilterValue} value={value} max={100} min={0}/>
         </div>
     );
 }
