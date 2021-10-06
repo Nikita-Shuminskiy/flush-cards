@@ -9,7 +9,6 @@ export type RaitingType = {
     grade: number
 }
 export const Raiting: React.FC<RaitingType> = (props) => {
-    console.log(props.grade)
     return (
         <div>
             <Star id={props.id} value={1} on={props.grade >= 1}/>

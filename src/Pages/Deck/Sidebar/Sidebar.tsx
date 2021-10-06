@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
     changeMinCardCount,
     DeckInitStateType,
+    filterPacksByCardsTC,
     getOnlyPacks,
     getPacksCardData
 } from '../../../Store/Reducers/DeckReducer';
@@ -18,9 +19,10 @@ export const Sidebar = () => {
     const [value, setValue] = useState(minCardsCount)
     const chagnedValue = (value: number) => {
         setValue(value)
+
     }
     const filter = (value: number) => {
-        dispatch(changeMinCardCount(value))
+        dispatch(filterPacksByCardsTC(value))
     }
     const test = () => {
         filter(value)

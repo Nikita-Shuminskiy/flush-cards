@@ -17,7 +17,7 @@ export const SearchByName = (props: SearchByNamePropsType) => {
         <>
             <SuperInputText name={'SearchByName'} placeholder={'Search name (onEnter)'}
                             onEnter={onEnterHandler} onChange={handleChangeFindName}
-                            style={{width: '400px'}}
+                            style={{width: '400px'}} value={findByName}
             />
         </>
     );

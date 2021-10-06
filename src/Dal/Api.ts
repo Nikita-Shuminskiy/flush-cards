@@ -38,8 +38,8 @@ export const api = {
 export const apiPacksCards = {
     getPacks(min?: number) {
         return createInstance.get(`cards/pack?&pageCount=10&min=${min}`)
-    },getPacksTest(currentPage?:number, pageCount?: number ,min?: number,userID?: string) {
-        return createInstance.get(`cards/pack?page=${currentPage}&pageCount=${pageCount}&min=${min}`)
+    },getPacksTest(value?: string,currentPage?:number, pageCount?: number ,min?: number,userID?: string) {
+        return createInstance.get(`cards/pack?page=${currentPage}&pageCount=${pageCount}&min=${min}`, {params: {packName: value}})
     },
     addedPack(name: string) {
         return createInstance.post('cards/pack', {cardsPack: {name}})
@@ -56,15 +56,15 @@ export const apiPacksCards = {
                 user_id: user_id,
             }
         })
+    },
+    searchByName(value: string,currentPage?:number, pageCount?: number ,min?: number,userID?: string) {
+        return createInstance.get(`cards/pack?page=${currentPage}&pageCount=${pageCount}&min=${min}`, {params: {packName: value}})
     }
 }
 
 export const packsListHelperUtils = {
     searchByName(value: string) {
         return createInstance.get(`cards/pack`, {params: {packName: value, pageCount: 13}})
-    },
-    getPrivatPacks(user_id: string) {
-        return createInstance.get(`cards/pack`, {params: {user_id: user_id, pageCount: 4}})
     },
 }
 
