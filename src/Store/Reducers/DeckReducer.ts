@@ -27,14 +27,12 @@ const initialState = {
     maxCardsCount: 0,
     minCardsCount: 0,
     page: 0,
-    pageCount: 10,
+    pageCount: 7,
     currentPack: ''
 }
-console.log(initialState.cardPacks)
 export type DeckInitStateType = typeof initialState
 
 export const deckReducer = (state: DeckInitStateType = initialState, action: DeckActionType): DeckInitStateType => {
-
     switch (action.type) {
         case 'DECK/GET-CARD-DATA': {
             return {
@@ -42,10 +40,14 @@ export const deckReducer = (state: DeckInitStateType = initialState, action: Dec
                 cardPacks: action.packs.cardPacks,
                 cardPacksTotalCount: action.packs.cardPacksTotalCount,
                 maxCardsCount: action.packs.maxCardsCount,
-                minCardsCount: action.packs.minCardsCount,
                 page: action.packs.page,
-                pageCount: action.packs.pageCount,
             }
+        }
+        case "DECK/CHANGE-MIN-CARD-COUNT":
+            debugger
+        return {
+            ...state,
+            minCardsCount: action.count
         }
         case "DECK/GET-ONLY-PACKS": {
             return {
@@ -101,6 +103,9 @@ export const setCurrentPages = (currentPage: number) => {
 export const setCurrentPack = (id: string) => {
     return {type: 'DECK/CURRENT-PACK', id} as const
 }
+export const changeMinCardCount = (count: number) => {
+    return {type: 'DECK/CHANGE-MIN-CARD-COUNT', count} as const
+}
 
 //type
 export type DeckActionType =
@@ -112,14 +117,15 @@ export type DeckActionType =
     | ReturnType<typeof setTotalPackCount>
     | ReturnType<typeof setCurrentPages>
     | ReturnType<typeof setCurrentPack>
-
+    | ReturnType<typeof changeMinCardCount>
 //thunk
 
 
-export const getPacksCardTC = (): AppThunk => (dispatch) => {
+export const getPacksCardTC = (): AppThunk => (dispatch,getState) => {
+    const {minCardsCount,page,pageCount} = getState().deck
     api.authMe()
         .then(res => {
-            apiPacksCards.getPacks()
+            apiPacksCards.getPacksTest(page,pageCount,minCardsCount)
                 .then((res) => {
                     dispatch(getPacksCardData(res.data))
                 })
@@ -129,15 +135,15 @@ export const getPacksCardTC = (): AppThunk => (dispatch) => {
 }
 
 export const deletePacksCardTC = (id: string): AppThunk => (dispatch, getState) => {
-    const status = getState().deck.isCheckedMyPacks
+    const {isCheckedMyPacks,minCardsCount,page,pageCount} = getState().deck
     apiPacksCards.deletePack(id)
         .then((res) => {
             dispatch(deletePacksCard(id))
             dispatch(setAlertList({id: 1, type: 'success', title: 'Your deck has been successfully removed'}))
-            if (!status) {
-                apiPacksCards.getPacks()
+            if (!isCheckedMyPacks) {
+                apiPacksCards.getPacksTest(page,pageCount,minCardsCount)
                     .then((res) => {
-                        dispatch(getOnlyPacks(res.data.cardPacks))
+                        dispatch(getPacksCardData(res.data))
                     })
                     .catch((error) => {
                     })
@@ -161,13 +167,13 @@ export const changedNamePackTC = (newName: string, id: string): AppThunk => (dis
         })
 }
 export const creatingNewPackTC = (name: string): AppThunk => (dispatch, getState) => {
-    const status = getState().deck.isCheckedMyPacks
+    const {isCheckedMyPacks,minCardsCount,page,pageCount} = getState().deck
     apiPacksCards.addedPack(name)
         .then((res) => {
-            if (!status) {
-                apiPacksCards.getPacks()
+            if (!isCheckedMyPacks) {
+                apiPacksCards.getPacksTest(page,pageCount,minCardsCount)
                     .then((res) => {
-                        dispatch(getOnlyPacks(res.data.cardPacks))
+                        dispatch(getPacksCardData(res.data))
                     })
             } else {
                 dispatch(setPrivatPacks())
@@ -202,10 +208,11 @@ export const setPrivatPacks = (): AppThunk => (dispatch) => {
         })
 }
 export const getUserThunk = (currentPage: number, pageCount: number): AppThunk => (dispatch, getState) => {
-    const status = getState().deck.isCheckedMyPacks
-    if (!status) {
-        apiPacksCards.getPackPaginator(currentPage, pageCount)
+    const {isCheckedMyPacks,minCardsCount} = getState().deck
+    if (!isCheckedMyPacks) {
+        apiPacksCards.getPacksTest(currentPage, pageCount, minCardsCount)
             .then(data => {
+                debugger
                 dispatch(setTotalPackCount(data.data.cardPacksTotalCount))
                 dispatch(setCurrentPages(currentPage))
                 dispatch(getPacksCardData(data.data))
@@ -213,7 +220,7 @@ export const getUserThunk = (currentPage: number, pageCount: number): AppThunk =
     } else {
         api.authMe()
             .then(res => {
-                apiPacksCards.getPackPrivatePaginatod(currentPage, pageCount, res.data._id)
+                apiPacksCards.getPackPrivatePaginatod(res.data._id, currentPage, pageCount, minCardsCount )
                     .then((data) => {
                         dispatch(setTotalPackCount(data.data.cardPacksTotalCount))
                         dispatch(setCurrentPages(currentPage))
