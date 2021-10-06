@@ -89,7 +89,6 @@ export const apiCards = {
     }
 }
 
-
 //type
 type ResponseSetNewPassword = {
     info: string

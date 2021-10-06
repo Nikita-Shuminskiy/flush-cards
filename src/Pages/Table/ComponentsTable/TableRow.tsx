@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import s from './TableRow.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import { CardPackType, setCurrentPack} from "../../../Store/Reducers/DeckReducer";
-import {getCardsTC} from '../../../Store/Reducers/CardsReducer';
+import {getCardsTC, getCardsUserTC} from '../../../Store/Reducers/CardsReducer';
 import {changeModeModal, setStatusTraining} from "../../../Store/Reducers/AppReducer";
 import { Raiting } from '../../../Common/Raiting/Raiting';
 import { AppRootStateType } from '../../../Store/Store';
+import ModelForLearn from '../../Deck/ModelForLearn/ModelForLearn';
 
 
 type DataCardsProps = {
@@ -18,6 +19,7 @@ type DataCardsProps = {
 }
 
 const TableRow = (props: DataCardsProps) => {
+    const cardsPack = useSelector((store:AppRootStateType) => store.deck.cardPacks)
     const dispatch = useDispatch()
     const deletePack = () => {
         dispatch(changeModeModal('delete'))
@@ -25,7 +27,7 @@ const TableRow = (props: DataCardsProps) => {
     }
     const changedStatusTraining = () => {
         dispatch(setStatusTraining(true))
-    
+        dispatch(getCardsUserTC(props.id))
     }
     const onChangeNamePack = () => {
         dispatch(changeModeModal('change'))

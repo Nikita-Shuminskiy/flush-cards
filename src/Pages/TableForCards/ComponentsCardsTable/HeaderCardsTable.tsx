@@ -22,7 +22,6 @@ export type testObjType = {
 
 
 const HeaderCardsTable = (props: testDataProps) => {
-/*    const cardPacks = useSelector<AppRootStateType, CardPackType[]>(state => state.deck.cardPacks)*/
     return (
         <div>
             <div>

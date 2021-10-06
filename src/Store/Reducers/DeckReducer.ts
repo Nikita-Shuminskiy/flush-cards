@@ -28,9 +28,8 @@ const initialState = {
     minCardsCount: 0,
     page: 0,
     pageCount: 10,
-    currentPack: ''
+    currentPack: '',
 }
-console.log(initialState.cardPacks)
 export type DeckInitStateType = typeof initialState
 
 export const deckReducer = (state: DeckInitStateType = initialState, action: DeckActionType): DeckInitStateType => {
