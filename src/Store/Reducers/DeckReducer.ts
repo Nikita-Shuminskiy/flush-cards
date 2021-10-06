@@ -34,6 +34,7 @@ const initialState = {
 export type DeckInitStateType = typeof initialState
 
 export const deckReducer = (state: DeckInitStateType = initialState, action: DeckActionType): DeckInitStateType => {
+
     switch (action.type) {
         case 'DECK/GET-CARD-DATA': {
             return {
@@ -162,6 +163,8 @@ export const deletePacksCardTC = (id: string): AppThunk => (dispatch, getState) 
         .catch((error) => {
             dispatch(setAlertList({id: 1, type: 'error', title: 'You can only delete your own decks'}))
         })
+
+
 }
 export const changedNamePackTC = (newName: string, id: string): AppThunk => (dispatch) => {
     apiPacksCards.changedPack(newName, id)

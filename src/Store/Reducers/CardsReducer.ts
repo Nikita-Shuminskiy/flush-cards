@@ -4,7 +4,7 @@ import {initialApp, setAlertList} from "./AppReducer";
 import { setCurrentPack } from "./DeckReducer";
 
 
-type CardType = {
+export type CardType = {
     answer: string
     cardsPack_id: string
     comments: string
@@ -28,7 +28,8 @@ const initialState = {
     page: 0,
     pageCount: 0,
     packUserId: '',
-    currentCardID: ''
+    currentCardID: '',
+    learnCards: [] as Array<CardType>
 }
 
 export type CardInitStateType = typeof initialState
@@ -45,6 +46,12 @@ export const cardsReducer = (state: CardInitStateType = initialState, action: Ca
                 page: action.data.page,
                 pageCount: action.data.pageCount,
                 packUserId: action.data.packUserId,
+            }
+        }
+        case "CARDS/LEARN-GET-CARDS": {
+            return {
+                ...state,
+                learnCards: action.data,
             }
         }
         case 'DECK/UPDATE-RAITING':{
@@ -89,13 +96,17 @@ export type CardsActionType =
     | ReturnType<typeof setCurrentCard>
     | ReturnType<typeof getCards>
     | ReturnType<typeof updateRaiting>
+    | ReturnType<typeof getLearnCards>
 
 //actions
 export const updateRaiting = (grade: number, id:string) => {
     return {type: 'DECK/UPDATE-RAITING', grade, id} as const
 }
-const getCards = (data: CardInitStateType) => {
+export const getCards = (data: CardInitStateType) => {
     return {type: 'CARDS/GET-CARDS', data} as const
+}
+export const getLearnCards = (data: CardType[]) => {
+    return {type: 'CARDS/LEARN-GET-CARDS', data} as const
 }
 const changeValueCard = (id: string, question: string, answer: string) => {
     return {type: 'CARDS/CHANGE-VALUE-CARD', id, question, answer} as const
@@ -116,6 +127,12 @@ export const updateRaitingTC = (grade: number,id:string): AppThunk => (dispatch)
         })
         .catch((error) => {
             alert(error)
+        })
+}
+export const getCardsUserTC = (id: string): AppThunk => (dispatch) => {
+    apiCards.getCards(id)
+        .then((res) => {
+            dispatch(getLearnCards(res.data.cards))
         })
 }
 export const getCardsTC = (id: string): AppThunk => (dispatch) => {

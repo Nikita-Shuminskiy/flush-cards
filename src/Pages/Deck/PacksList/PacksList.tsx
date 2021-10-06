@@ -3,16 +3,18 @@ import React  from 'react';
 import SuperButton from '../../../Common/Test/c2-SuperButton/SuperButton';
 import s from './PacksList.module.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { DeckInitStateType, getUserThunk, searchNameTC } from '../../../Store/Reducers/DeckReducer';
+import { CardPackType, DeckInitStateType, getUserThunk, searchNameTC } from '../../../Store/Reducers/DeckReducer';
 import { SearchByName } from '../../../Common/Search/SearchByName';
 import { AppRootStateType } from '../../../Store/Store';
 import { Paginator } from '../../../Common/Test/Paginator/Paginator';
 import ModelForPacks from '../ModalForDeck/ModelForPacks';
 import {AppInitStateType, changeModeModal, ModelType } from '../../../Store/Reducers/AppReducer';
 import ModelForLearn from '../ModelForLearn/ModelForLearn';
+import { CardType } from '../../../Store/Reducers/CardsReducer';
 
 export const PacksList = React.memo(() => {
     const {model,statusTraining} = useSelector<AppRootStateType, AppInitStateType>(state=> state.app)
+    const learnCard = useSelector<AppRootStateType, CardType[]>(state=> state.cards.learnCards)
     const dispatch = useDispatch()
     const {cardPacksTotalCount, pageCount, cardPacks, page}
         = useSelector<AppRootStateType, DeckInitStateType>(state => state.deck)
@@ -23,6 +25,15 @@ export const PacksList = React.memo(() => {
     const pageClickChange = (page: number) => {
         dispatch(getUserThunk(page, pageCount))
     }
+    const modal = learnCard.map((i)=> {
+        return <ModelForLearn
+            key={i._id}
+            id={i._id}
+            answer={i.answer}
+            question={i.question}
+            cardPaskId={i.cardsPack_id}
+        />
+    })
     return (
 
         <div className={s.container}>
@@ -39,7 +50,7 @@ export const PacksList = React.memo(() => {
                            totalCount={cardPacksTotalCount}/>
             </div>
             {model !== 'notShow' && <ModelForPacks  model={model}/>}
-            {statusTraining  && <ModelForLearn  />}
+            {statusTraining  && modal}
         </div>
     );
 });
