@@ -1,4 +1,4 @@
-import {api, apiCards, apiPacksCards, packsListHelperUtils} from '../../Dal/Api';
+import {api, apiCards, apiPacksCards} from '../../Dal/Api';
 import {AppThunk} from '../Store';
 import {setAlertList} from './AppReducer';
 
@@ -132,8 +132,8 @@ export type DeckActionType =
 
 
 export const getPacksCardTC = (): AppThunk => (dispatch, getState) => {
-    const {minCardsCount, page, pageCount} = getState().deck
-    apiPacksCards.getPacksTest(undefined, page, pageCount, minCardsCount)
+    const {minCardsCount, page, pageCount,searchName} = getState().deck
+    apiPacksCards.getPacksTest(searchName, page, pageCount, minCardsCount)
         .then((res) => {
             dispatch(getPacksCardData(res.data))
         })
@@ -144,13 +144,13 @@ export const filterPacksByCardsTC = (value: number): AppThunk => (dispatch, getS
 }
 
 export const deletePacksCardTC = (id: string): AppThunk => (dispatch, getState) => {
-    const {isCheckedMyPacks, minCardsCount, page, pageCount} = getState().deck
+    const {isCheckedMyPacks, minCardsCount, page, pageCount,searchName} = getState().deck
     apiPacksCards.deletePack(id)
         .then((res) => {
             dispatch(deletePacksCard(id))
             dispatch(setAlertList({id: 1, type: 'success', title: 'Your deck has been successfully removed'}))
             if (!isCheckedMyPacks) {
-                apiPacksCards.getPacksTest(undefined, page, pageCount, minCardsCount)
+                apiPacksCards.getPacksTest(searchName, page, pageCount, minCardsCount)
                     .then((res) => {
                         dispatch(getPacksCardData(res.data))
                     })
@@ -176,11 +176,11 @@ export const changedNamePackTC = (newName: string, id: string): AppThunk => (dis
         })
 }
 export const creatingNewPackTC = (name: string): AppThunk => (dispatch, getState) => {
-    const {isCheckedMyPacks, minCardsCount, page, pageCount} = getState().deck
+    const {isCheckedMyPacks, minCardsCount, page, pageCount,searchName} = getState().deck
     apiPacksCards.addedPack(name)
         .then((res) => {
             if (!isCheckedMyPacks) {
-                apiPacksCards.getPacksTest(undefined, page, pageCount, minCardsCount)
+                apiPacksCards.getPacksTest(searchName, page, pageCount, minCardsCount)
                     .then((res) => {
                         dispatch(getPacksCardData(res.data))
                     })
