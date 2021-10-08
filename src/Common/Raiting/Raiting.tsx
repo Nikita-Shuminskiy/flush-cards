@@ -26,12 +26,10 @@ export type StarType = {
 }
 const Star = (props: StarType) => {
     const dispatch = useDispatch()
-
     const changeRaiting = () => {
         dispatch(updateRaitingTC(props.value, props.id))
         console.log(props.value)
     }
-
     return <>
         <span onClick={changeRaiting}>{props.on ?
             <img src={starFull} alt="star"/>

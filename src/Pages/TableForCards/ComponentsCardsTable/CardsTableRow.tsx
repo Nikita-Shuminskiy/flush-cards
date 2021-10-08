@@ -17,7 +17,6 @@ type DataCardsProps = {
 
 const CardsTableRow = (props: DataCardsProps) => {
     const dispatch = useDispatch()
-
     const deleteCard = () => {
         dispatch(setCurrentCard(props.id))
         dispatch(changeModeModal('delete'))

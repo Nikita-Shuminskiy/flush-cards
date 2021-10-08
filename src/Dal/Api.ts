@@ -34,6 +34,14 @@ export const api = {
     changeNameOrAvatar(payload: { name: string, avatar: string }) {
         return createInstance.put(`auth/me`, payload)
     },
+    updPhoto(image: File) {
+        const formData = new FormData()
+        formData.append('myFile', image, image.name)
+        return axios.post('https://dry-forest-56016.herokuapp.com/file', formData)
+    },
+    getPhotoAvatar() {
+        return axios.get('https://dry-forest-56016.herokuapp.com/file')
+    },
 }
 export const apiPacksCards = {
    getPacksTest(value?: string,currentPage?:number, pageCount?: number ,min?: number,userID?: string) {
