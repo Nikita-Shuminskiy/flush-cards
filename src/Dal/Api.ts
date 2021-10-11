@@ -40,7 +40,7 @@ export const api = {
         return axios.post('https://dry-forest-56016.herokuapp.com/file', formData)
     },
     getPhotoAvatar() {
-        return axios.get('https://dry-forest-56016.herokuapp.com/file')
+        return axios.get('https://dry-forest-56016.herokuapp.com/file', {responseType: 'blob'})
     },
 }
 export const apiPacksCards = {

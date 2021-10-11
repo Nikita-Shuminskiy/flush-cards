@@ -7,7 +7,7 @@ const initialState = {
         _id: '',
         email: '',
         name: '',
-        avatar: '',
+        avatar: '' as any,
         publicCardPacksCount: null as null | number
     }
 }
@@ -17,7 +17,6 @@ export const profileReducer = (state: InitStateType = initialState, action: Prof
         case 'profile/SET-PROFILE-DATA':
             return {...state, profileData: action.payload}
         case 'profile/SET-IMAGE':
-            debugger
             return {...state, profileData: {...state.profileData, avatar: action.img}}
         default:
             return state
@@ -26,7 +25,7 @@ export const profileReducer = (state: InitStateType = initialState, action: Prof
 // export const changeNameOrAvatar = (payload: { name: string, avatar: string }) =>
 //     ({type: 'profile/CHANGE-NAME-OR-AVATAR', payload} as const)
 export const setProfileData = (payload: ProfileDataType) => ({type: 'profile/SET-PROFILE-DATA', payload} as const)
-export const setImage = (img: string) => ({type: 'profile/SET-IMAGE', img} as const)
+export const setImage = (img: any) => ({type: 'profile/SET-IMAGE', img} as const)
 
 
 export type ProfileDataType = {
@@ -40,24 +39,16 @@ export type ProfileActionType =
     | ReturnType<typeof setProfileData>
     | ReturnType<typeof setImage>
     // | ReturnType<typeof changeNameOrAvatar>
-
 export const profileUpdateFhotoTC = (image: File): AppThunk => (dispatch) => {
-    api.updPhoto(image)
-        .then(res => {
-            dispatch(getprofileFhotoTC())
-        })
-        .catch(error => {
-            dispatch(initialApp())
-            setTimeout(() => dispatch(removeAlert(5)), 2000)
-        })
-}
+    api.updPhoto(image).then(res => {
+        dispatch(getprofileFhotoTC())
+    });
+};
 export const getprofileFhotoTC = (): AppThunk => (dispatch) => {
     api.getPhotoAvatar()
-        .then(res => {
-            dispatch(setImage(res.data))
-        })
-        .catch(error => {
-            dispatch(initialApp())
-            setTimeout(() => dispatch(removeAlert(5)), 2000)
+        .then(({data}) => {
+            const blob = new Blob([data], {type : 'image/png'});
+            const url = window.URL.createObjectURL(blob)
+            dispatch(setImage(url))
         })
 }
